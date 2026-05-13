@@ -83,17 +83,18 @@ body {
 .breadcrumb {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
 }
 
 .bc-link {
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--purple);
   text-decoration: none;
   transition: opacity 0.15s;
+  line-height: 1;
 }
 
 [data-theme="dark"] .bc-link { color: #c4a6f0; }
@@ -102,12 +103,12 @@ body {
 .bc-sep {
   color: var(--text-tertiary);
   font-weight: 300;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
-  margin: 0 1px;
 }
 
 .bc-current {
+  font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.06em;
   color: var(--text-tertiary);

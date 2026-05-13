@@ -89,12 +89,21 @@ body {
   font-size: 12px;
 }
 
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
 .bc-link {
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--purple);
   text-decoration: none;
   transition: opacity 0.15s;
+  line-height: 1;
 }
 
 [data-theme="dark"] .bc-link { color: #c4a6f0; }
@@ -103,23 +112,24 @@ body {
 .bc-sep {
   color: var(--text-tertiary);
   font-weight: 300;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
-  margin: 0 1px;
 }
 
 .bc-mid {
+  font-size: 12px;
   font-weight: 400;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--text-secondary);
   text-decoration: none;
-  transition: opacity 0.15s;
   text-transform: uppercase;
+  transition: opacity 0.15s;
 }
 .bc-mid:hover { opacity: 0.7; }
 
 .bc-current {
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 400;
   letter-spacing: 0.06em;
   color: var(--text-tertiary);
   text-transform: uppercase;

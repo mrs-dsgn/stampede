@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stampede — Scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!--
+  ── SIMPLE ANALYTICS ──────────────────────────────────────────────────────────
+  Para activar analytics, descomenta las dos líneas de abajo.
+  Crea cuenta gratis en: https://simpleanalytics.com
+  Sin cookies, sin GDPR, un solo script.
+
+  <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  ──────────────────────────────────────────────────────────────────────────────
+
+  ── FIREBASE — USUARIOS EN VIVO ───────────────────────────────────────────────
+  Instrucciones en stampede_v5.html (Tag). Misma integración aplica aquí.
+  Elementos listos: #liveCount y #liveDot en el header.
+  ──────────────────────────────────────────────────────────────────────────────
+-->
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #34275f;
+  --purple-mid: #4a3880;
+  --orange: #df6f40;
+  --orange-light: #e8845a;
+  --bg: #f2f1ee;
+  --surface: #ffffff;
+  --surface-2: #f7f6f4;
+  --surface-3: #eeece8;
+  --border: rgba(0,0,0,0.08);
+  --border-mid: rgba(0,0,0,0.12);
+  --text-primary: #111010;
+  --text-secondary: #5a5855;
+  --text-tertiary: #9a9895;
+  --text-placeholder: #c5c3be;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-pill: 100px;
+}
+
+[data-theme="dark"] {
+  --bg: #111013;
+  --surface: #1c1b20;
+  --surface-2: #232229;
+  --surface-3: #2a2930;
+  --border: rgba(255,255,255,0.07);
+  --border-mid: rgba(255,255,255,0.12);
+  --text-primary: #f0eef8;
+  --text-secondary: #9a98a8;
+  --text-tertiary: #5a5868;
+  --text-placeholder: #3a3848;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-left { display: flex; align-items: center; gap: 14px; }
+
+.brand-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--purple);
+  text-decoration: none;
+  line-height: 1;
+}
+
+[data-theme="dark"] .brand-name { color: #c4a6f0; }
+
+.header-sep { width: 1px; height: 16px; background: var(--border-mid); }
+
+.header-tool {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+.btn-icon {
+  width: 34px; height: 34px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-mid);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover { background: var(--surface-3); color: var(--text-primary); }
+
+/* ── PAGE ── */
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+/* ── INTRO ── */
+.page-intro { margin-bottom: 2rem; }
+
+.page-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.page-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.page-title span {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--purple) 0%, #7b5ea7 50%, var(--orange) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.card-title-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--orange));
+  flex-shrink: 0;
+}
+
+/* ── DPI CONTROLS ── */
+.dpi-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.dpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.dpi-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.dpi-preset {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.dpi-preset:hover { border-color: var(--border-mid); color: var(--text-primary); }
+
+.dpi-preset.active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+
+[data-theme="dark"] .dpi-preset.active { background: #5a3a9a; border-color: #5a3a9a; }
+
+.dpi-custom-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dpi-custom-wrap input {
+  width: 72px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: center;
+}
+
+.dpi-custom-wrap input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(52,39,95,0.1);
+}
+
+.dpi-custom-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* ── COLOR MODE ── */
+.mode-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.75rem;
+}
+
+.mode-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.mode-toggle {
+  display: flex;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  gap: 2px;
+}
+
+.mode-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--radius-pill) - 3px);
+  padding: 5px 16px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.mode-btn.active {
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.mode-hint {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* ── UNIT GRID ── */
+.units-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+.unit-field { display: flex; flex-direction: column; gap: 8px; }
+.unit-field.full { grid-column: 1 / -1; }
+
+.unit-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.unit-label-name { color: var(--text-primary); font-size: 12px; }
+
+.unit-input-wrap { position: relative; display: flex; }
+
+.unit-input {
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 60px 14px 18px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.unit-input::placeholder {
+  color: var(--text-placeholder);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.unit-input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(52,39,95,0.1);
+  background: var(--surface);
+}
+
+.unit-input.active-field {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(223,111,64,0.12);
+}
+
+[data-theme="dark"] .unit-input:focus {
+  box-shadow: 0 0 0 3px rgba(123,94,167,0.2);
+}
+
+.unit-suffix {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+/* ── RESET ── */
+.btn-reset {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-pill);
+  padding: 11px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.18s;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
+}
+
+.btn-reset:hover { color: var(--text-primary); background: var(--surface-2); }
+
+/* ── INFO CARD ── */
+.info-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-row:first-child { padding-top: 0; }
+
+.info-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.info-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.info-val.highlight {
+  color: var(--orange);
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 2rem 0 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+}
+
+.footer-mamut {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 580px) {
+  .header { padding: 0 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+  .card { padding: 1.25rem; }
+  .units-grid { grid-template-columns: 1fr; }
+  .unit-field.full { grid-column: 1; }
+  .page-title { font-size: 22px; }
+  .header-sep, .header-tool { display: none; }
+  .dpi-row { gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <a href="../index.html" class="brand-name">Stampede</a>
+    <div class="header-sep"></div>
+    <span class="header-tool">Scale</span>
+  </div>
+  <div class="header-right">
+    <button class="btn-icon" id="darkToggle" title="Modo oscuro">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="display:none">
+        <circle cx="7.5" cy="7.5" r="2.8"/>
+        <line x1="7.5" y1="1" x2="7.5" y2="2.5"/>
+        <line x1="7.5" y1="12.5" x2="7.5" y2="14"/>
+        <line x1="1" y1="7.5" x2="2.5" y2="7.5"/>
+        <line x1="12.5" y1="7.5" x2="14" y2="7.5"/>
+        <line x1="3" y1="3" x2="4.1" y2="4.1"/>
+        <line x1="10.9" y1="10.9" x2="12" y2="12"/>
+        <line x1="12" y1="3" x2="10.9" y2="4.1"/>
+        <line x1="4.1" y1="10.9" x2="3" y2="12"/>
+      </svg>
+      <svg id="iconMoon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M12 9A6 6 0 0 1 5 2a6 6 0 1 0 7 7z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="page-intro">
+    <div class="page-eyebrow">// unit converter</div>
+    <h1 class="page-title">Convierte <span>sin calculadora.</span></h1>
+  </div>
+
+  <!-- CONFIGURACIÓN -->
+  <div class="card">
+    <div class="card-title">
+      <span class="card-title-dot"></span>
+      Configuración
+    </div>
+
+    <!-- DPI -->
+    <div class="dpi-row">
+      <span class="dpi-label">DPI / PPI</span>
+      <div class="dpi-presets">
+        <button class="dpi-preset" data-dpi="72">72</button>
+        <button class="dpi-preset active" data-dpi="150">150</button>
+        <button class="dpi-preset" data-dpi="300">300</button>
+      </div>
+      <div class="dpi-custom-wrap">
+        <input type="number" id="dpiCustom" placeholder="custom" min="1" max="2400" />
+        <span class="dpi-custom-label">dpi</span>
+      </div>
+    </div>
+
+    <!-- MODO DE COLOR -->
+    <div class="mode-row">
+      <span class="mode-label">Modo</span>
+      <div class="mode-toggle">
+        <button class="mode-btn active" data-mode="rgb">RGB</button>
+        <button class="mode-btn" data-mode="cmyk">CMYK</button>
+      </div>
+      <span class="mode-hint" id="modeHint">Pantalla · web · video</span>
+    </div>
+
+  </div>
+
+  <!-- CONVERSIÓN -->
+  <div class="card">
+    <div class="card-title">
+      <span class="card-title-dot"></span>
+      Conversión — edita cualquier campo
+    </div>
+
+    <div class="units-grid">
+
+      <div class="unit-field">
+        <div class="unit-label">
+          <span>px</span>
+          <span class="unit-label-name">Píxeles</span>
+        </div>
+        <div class="unit-input-wrap">
+          <input class="unit-input" type="number" id="val-px" placeholder="0" min="0" step="1" />
+          <span class="unit-suffix">px</span>
+        </div>
+      </div>
+
+      <div class="unit-field">
+        <div class="unit-label">
+          <span>pt</span>
+          <span class="unit-label-name">Puntos</span>
+        </div>
+        <div class="unit-input-wrap">
+          <input class="unit-input" type="number" id="val-pt" placeholder="0" min="0" step="0.01" />
+          <span class="unit-suffix">pt</span>
+        </div>
+      </div>
+
+      <div class="unit-field">
+        <div class="unit-label">
+          <span>mm</span>
+          <span class="unit-label-name">Milímetros</span>
+        </div>
+        <div class="unit-input-wrap">
+          <input class="unit-input" type="number" id="val-mm" placeholder="0" min="0" step="0.01" />
+          <span class="unit-suffix">mm</span>
+        </div>
+      </div>
+
+      <div class="unit-field">
+        <div class="unit-label">
+          <span>cm</span>
+          <span class="unit-label-name">Centímetros</span>
+        </div>
+        <div class="unit-input-wrap">
+          <input class="unit-input" type="number" id="val-cm" placeholder="0" min="0" step="0.001" />
+          <span class="unit-suffix">cm</span>
+        </div>
+      </div>
+
+      <div class="unit-field full">
+        <div class="unit-label">
+          <span>in</span>
+          <span class="unit-label-name">Pulgadas</span>
+        </div>
+        <div class="unit-input-wrap">
+          <input class="unit-input" type="number" id="val-in" placeholder="0" min="0" step="0.0001" />
+          <span class="unit-suffix">in</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESET -->
+  <button class="btn-reset" id="btnReset">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="1,4 4,1 7,4"/>
+      <path d="M4 1v7a4 4 0 0 0 8 0V6"/>
+    </svg>
+    Limpiar
+  </button>
+
+  <!-- INFO CONTEXTUAL -->
+  <div class="info-card">
+    <div class="info-row">
+      <span class="info-key">Resolución activa</span>
+      <span class="info-val highlight" id="infoDpi">150 dpi</span>
+    </div>
+    <div class="info-row">
+      <span class="info-key">Modo de color</span>
+      <span class="info-val" id="infoMode">RGB — Pantalla · web · video</span>
+    </div>
+    <div class="info-row">
+      <span class="info-key">Recomendación</span>
+      <span class="info-val" id="infoRec">Perfil sRGB · exportar a 72–150 dpi</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>Stampede · Scale · v1</div>
+    <div class="footer-mamut">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-tertiary)">
+        <ellipse cx="7" cy="8" rx="4.5" ry="3.5"/>
+        <path d="M2.5 8C1.5 7.5 1 6.5 1.5 5.5S3.5 4.5 4 5"/>
+        <path d="M11.5 8C12.5 7.5 13 6.5 12.5 5.5S10.5 4.5 10 5"/>
+        <path d="M4.5 5C4 3.5 4.5 2 6 1.5"/><path d="M9.5 5C10 3.5 9.5 2 8 1.5"/>
+        <line x1="5.5" y1="1.5" x2="4.5" y2="0.5"/><line x1="8.5" y1="1.5" x2="9.5" y2="0.5"/>
+      </svg>
+      Hecho a mano por alguien que también odia abrir la calculadora.
+    </div>
+  </div>
+
+</div>
+
+<script>
+var currentDpi = 150;
+var currentMode = 'rgb';
+var isUpdating = false;
+
+var units = ['px','pt','mm','cm','in'];
+
+var modeData = {
+  rgb:  { hint: 'Pantalla · web · video',    rec: 'Perfil sRGB · exportar a 72–150 dpi' },
+  cmyk: { hint: 'Impresión · print · offset', rec: 'Perfil CMYK · mínimo 300 dpi para print' }
+};
+
+/* ── CONVERSIÓN ── */
+// Base: todo convierte a pulgadas primero, luego de pulgadas al destino
+function toInches(val, unit, dpi) {
+  val = parseFloat(val);
+  if (isNaN(val)) return null;
+  switch(unit) {
+    case 'px': return val / dpi;
+    case 'pt': return val / 72;
+    case 'mm': return val / 25.4;
+    case 'cm': return val / 2.54;
+    case 'in': return val;
+  }
+}
+
+function fromInches(inches, unit, dpi) {
+  switch(unit) {
+    case 'px': return inches * dpi;
+    case 'pt': return inches * 72;
+    case 'mm': return inches * 25.4;
+    case 'cm': return inches * 2.54;
+    case 'in': return inches;
+  }
+}
+
+function round(val, unit) {
+  switch(unit) {
+    case 'px': return Math.round(val);
+    case 'pt': return parseFloat(val.toFixed(2));
+    case 'mm': return parseFloat(val.toFixed(2));
+    case 'cm': return parseFloat(val.toFixed(3));
+    case 'in': return parseFloat(val.toFixed(4));
+  }
+}
+
+function updateFrom(sourceUnit) {
+  if (isUpdating) return;
+  isUpdating = true;
+
+  var sourceEl = document.getElementById('val-' + sourceUnit);
+  var val = sourceEl.value;
+
+  // Highlight active field
+  units.forEach(function(u) {
+    var el = document.getElementById('val-' + u);
+    el.classList.toggle('active-field', u === sourceUnit);
+  });
+
+  if (val === '' || val === null) {
+    units.forEach(function(u) {
+      if (u !== sourceUnit) document.getElementById('val-' + u).value = '';
+    });
+    isUpdating = false;
+    return;
+  }
+
+  var inches = toInches(val, sourceUnit, currentDpi);
+  if (inches === null || isNaN(inches)) { isUpdating = false; return; }
+
+  units.forEach(function(u) {
+    if (u !== sourceUnit) {
+      var converted = fromInches(inches, u, currentDpi);
+      document.getElementById('val-' + u).value = round(converted, u);
+    }
+  });
+
+  isUpdating = false;
+}
+
+function recalcAll() {
+  // Find which field has a value and recalculate from it
+  var sourceUnit = null;
+  units.forEach(function(u) {
+    var v = document.getElementById('val-' + u).value;
+    if (v !== '' && document.getElementById('val-' + u).classList.contains('active-field')) {
+      sourceUnit = u;
+    }
+  });
+  if (!sourceUnit) {
+    // fallback: first non-empty
+    units.forEach(function(u) {
+      if (!sourceUnit && document.getElementById('val-' + u).value !== '') sourceUnit = u;
+    });
+  }
+  if (sourceUnit) updateFrom(sourceUnit);
+}
+
+/* ── DPI PRESETS ── */
+document.querySelectorAll('.dpi-preset').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    currentDpi = parseInt(this.getAttribute('data-dpi'));
+    document.querySelectorAll('.dpi-preset').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    document.getElementById('dpiCustom').value = '';
+    updateInfoDpi();
+    recalcAll();
+  });
+});
+
+document.getElementById('dpiCustom').addEventListener('input', function() {
+  var v = parseInt(this.value);
+  if (v && v > 0 && v <= 2400) {
+    currentDpi = v;
+    document.querySelectorAll('.dpi-preset').forEach(function(b){ b.classList.remove('active'); });
+    updateInfoDpi();
+    recalcAll();
+  }
+});
+
+/* ── COLOR MODE ── */
+document.querySelectorAll('.mode-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    currentMode = this.getAttribute('data-mode');
+    document.querySelectorAll('.mode-btn').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    updateInfoMode();
+  });
+});
+
+function updateInfoDpi() {
+  document.getElementById('infoDpi').textContent = currentDpi + ' dpi';
+}
+
+function updateInfoMode() {
+  var d = modeData[currentMode];
+  document.getElementById('modeHint').textContent = d.hint;
+  document.getElementById('infoMode').textContent = currentMode.toUpperCase() + ' — ' + d.hint;
+  document.getElementById('infoRec').textContent = d.rec;
+}
+
+/* ── INPUTS ── */
+units.forEach(function(u) {
+  var el = document.getElementById('val-' + u);
+  el.addEventListener('input', function(){ updateFrom(u); });
+  el.addEventListener('focus', function(){
+    units.forEach(function(x){ document.getElementById('val-'+x).classList.remove('active-field'); });
+    el.classList.add('active-field');
+  });
+});
+
+/* ── RESET ── */
+document.getElementById('btnReset').addEventListener('click', function() {
+  units.forEach(function(u) {
+    var el = document.getElementById('val-' + u);
+    el.value = '';
+    el.classList.remove('active-field');
+  });
+});
+
+/* ── DARK MODE ── */
+var isDark = false;
+document.getElementById('darkToggle').addEventListener('click', function() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('iconSun').style.display = isDark ? 'block' : 'none';
+  document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
+});
+
+/* ── INIT ── */
+updateInfoDpi();
+updateInfoMode();
+</script>
+</body>
+</html>

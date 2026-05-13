@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stampede</title>
+<title>Stampede — Frame</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,7 +27,7 @@
   --text-tertiary: #9a9895;
   --text-placeholder: #c5c3be;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
   --radius-sm: 12px;
   --radius-md: 18px;
@@ -76,17 +77,44 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-.brand-name {
+.header-left { display: flex; align-items: center; gap: 14px; }
+
+/* ── BREADCRUMB — de Tag v5 ── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
+  font-size: 12px;
+}
+
+.bc-link {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--purple);
   text-decoration: none;
-  line-height: 1;
+  transition: opacity 0.15s;
 }
 
-[data-theme="dark"] .brand-name { color: #c4a6f0; }
+[data-theme="dark"] .bc-link { color: #c4a6f0; }
+.bc-link:hover { opacity: 0.7; }
+
+.bc-sep {
+  color: var(--text-tertiary);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1;
+  margin: 0 1px;
+}
+
+.bc-current {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.header-right { display: flex; align-items: center; gap: 8px; }
 
 .btn-icon {
   width: 34px; height: 34px;
@@ -98,41 +126,40 @@ body {
   display: flex; align-items: center; justify-content: center;
   transition: all 0.18s;
 }
-
 .btn-icon:hover { background: var(--surface-3); color: var(--text-primary); }
 
 /* ── PAGE ── */
 .page {
   max-width: 780px;
   margin: 0 auto;
-  padding: 3rem 1.5rem 6rem;
+  padding: 2.5rem 1.5rem 5rem;
 }
 
-/* ── HERO ── */
-.hero { margin-bottom: 3rem; }
+/* ── INTRO ── */
+.page-intro { margin-bottom: 2rem; }
 
-.hero-eyebrow {
+.page-eyebrow {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.14em;
   color: var(--orange);
   text-transform: uppercase;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
-.hero-title {
+/* Título con gradiente — alineado a Tag v5 */
+.page-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 42px;
+  font-size: 32px;
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
-  line-height: 1.05;
-  margin-bottom: 16px;
+  line-height: 1.1;
+  margin-bottom: 10px;
 }
 
-/* Gradiente exacto de Tag v5 */
-.hero-title span {
+.page-title span {
   display: inline-block;
   background: linear-gradient(135deg, var(--purple) 0%, #7b5ea7 50%, var(--orange) 100%);
   -webkit-background-clip: text;
@@ -141,12 +168,13 @@ body {
   color: transparent;
 }
 
-.hero-desc {
-  font-size: 15px;
-  color: var(--text-secondary);
+.page-desc {
+  font-size: 14px;
   font-weight: 300;
-  line-height: 1.7;
+  color: var(--text-secondary);
+  line-height: 1.65;
   max-width: 520px;
+  margin-bottom: 2.5rem;
 }
 
 /* ── SECTION LABEL — de Tag v5 ── */
@@ -178,7 +206,7 @@ body {
   margin-bottom: 2.5rem;
 }
 
-/* ── TOOL CARD — activa ── */
+/* ── TOOL CARD — activa (sistema de Tag v5) ── */
 .tool-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -207,7 +235,7 @@ body {
 .tool-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-mid); }
 .tool-card:hover::before { opacity: 1; }
 
-/* Icon: gradiente purple como en Tag v5 */
+/* Icon con gradiente — canon Tag v5 */
 .tool-card-icon {
   width: 40px;
   height: 40px;
@@ -239,6 +267,7 @@ body {
   flex: 1;
 }
 
+/* Footer con status dot + arrow diagonal — canon Tag v5 */
 .tool-card-footer {
   display: flex;
   align-items: center;
@@ -248,7 +277,6 @@ body {
   border-top: 1px solid var(--border);
 }
 
-/* Status dot verde — sistema de Tag v5 */
 .tool-card-status {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
@@ -266,7 +294,6 @@ body {
   background: #3ecf6a;
 }
 
-/* Arrow diagonal animado — de Tag v5 */
 .tool-card-arrow {
   color: var(--text-tertiary);
   transition: transform 0.18s, color 0.18s;
@@ -297,7 +324,7 @@ body {
 .tool-card-soon .tool-card-name { color: var(--text-tertiary); }
 .tool-card-soon .tool-card-desc { color: var(--text-tertiary); }
 
-/* ── VERSION FOOTER ── */
+/* ── FOOTER ── */
 .site-footer {
   text-align: center;
   padding-top: 2.5rem;
@@ -311,97 +338,63 @@ body {
 /* ── RESPONSIVE ── */
 @media (max-width: 580px) {
   .header { padding: 0 1rem; }
-  .page { padding: 2rem 1rem 4rem; }
-  .hero-title { font-size: 28px; }
+  .page { padding: 1.5rem 1rem 4rem; }
   .tools-grid { grid-template-columns: 1fr; }
+  .page-title { font-size: 24px; }
+  .bc-sep, .bc-current { display: none; }
 }
 </style>
 </head>
 <body>
 
 <header class="header">
-  <span class="brand-name">Stampede</span>
-  <button class="btn-icon" id="darkToggle" title="Modo oscuro">
-    <svg id="iconSun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="display:none">
-      <circle cx="7.5" cy="7.5" r="2.8"/>
-      <line x1="7.5" y1="1" x2="7.5" y2="2.5"/><line x1="7.5" y1="12.5" x2="7.5" y2="14"/>
-      <line x1="1" y1="7.5" x2="2.5" y2="7.5"/><line x1="12.5" y1="7.5" x2="14" y2="7.5"/>
-      <line x1="3" y1="3" x2="4.1" y2="4.1"/><line x1="10.9" y1="10.9" x2="12" y2="12"/>
-      <line x1="12" y1="3" x2="10.9" y2="4.1"/><line x1="4.1" y1="10.9" x2="3" y2="12"/>
-    </svg>
-    <svg id="iconMoon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-      <path d="M12 9A6 6 0 0 1 5 2a6 6 0 1 0 7 7z"/>
-    </svg>
-  </button>
+  <div class="header-left">
+    <nav class="breadcrumb">
+      <a href="../index.html" class="bc-link">Stampede</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-current">Frame</span>
+    </nav>
+  </div>
+  <div class="header-right">
+    <button class="btn-icon" id="darkToggle" title="Modo oscuro">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="display:none">
+        <circle cx="7.5" cy="7.5" r="2.8"/>
+        <line x1="7.5" y1="1" x2="7.5" y2="2.5"/><line x1="7.5" y1="12.5" x2="7.5" y2="14"/>
+        <line x1="1" y1="7.5" x2="2.5" y2="7.5"/><line x1="12.5" y1="7.5" x2="14" y2="7.5"/>
+        <line x1="3" y1="3" x2="4.1" y2="4.1"/><line x1="10.9" y1="10.9" x2="12" y2="12"/>
+        <line x1="12" y1="3" x2="10.9" y2="4.1"/><line x1="4.1" y1="10.9" x2="3" y2="12"/>
+      </svg>
+      <svg id="iconMoon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M12 9A6 6 0 0 1 5 2a6 6 0 1 0 7 7z"/>
+      </svg>
+    </button>
+  </div>
 </header>
 
 <div class="page">
 
-  <div class="hero">
-    <div class="hero-eyebrow">// internal toolset</div>
-    <h1 class="hero-title">Herramientas<br>que <span>sí funcionan.</span></h1>
-    <p class="hero-desc">Un kit de herramientas hecho a mano para el equipo. Sin drama, sin fricción. Cada tool hace una cosa y la hace bien.</p>
+  <div class="page-intro">
+    <div class="page-eyebrow">// prompt generator</div>
+    <h1 class="page-title"><span>Frame.</span></h1>
+    <p class="page-desc">Herramientas para generar prompts de imagen por modelo de campaña. Cada herramienta está calibrada para un uso específico.</p>
   </div>
 
   <div class="section-label">Herramientas</div>
 
   <div class="tools-grid">
 
-    <!-- TAG — activa -->
-    <a href="./tag/index.html" class="tool-card">
+    <!-- JAC4 — activa -->
+    <a href="./jac4/index.html" class="tool-card">
       <div class="tool-card-icon">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 10.5V4a1 1 0 0 1 1-1h6.5a1 1 0 0 1 .7.3l6 6a1 1 0 0 1 0 1.4l-6 6a1 1 0 0 1-1.4 0l-6-6A1 1 0 0 1 3 10.5z"/>
-          <circle cx="7.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="7" width="18" height="8" rx="2.5"/>
+          <circle cx="5" cy="15" r="2"/><circle cx="15" cy="15" r="2"/>
+          <path d="M1 11L4 7H16L19 11"/>
+          <line x1="8" y1="7" x2="8" y2="11"/><line x1="13" y1="7" x2="13" y2="11"/>
         </svg>
       </div>
-      <div class="tool-card-name">Tag</div>
-      <div class="tool-card-desc">Nombra archivos con la nomenclatura correcta, siempre en el orden correcto. Sin drama.</div>
-      <div class="tool-card-footer">
-        <span class="tool-card-status">
-          <span class="status-dot"></span>
-          Disponible
-        </span>
-        <svg class="tool-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="13" x2="13" y2="3"/>
-          <polyline points="6,3 13,3 13,10"/>
-        </svg>
-      </div>
-    </a>
-
-    <!-- SCALE — activa -->
-    <a href="./scale/index.html" class="tool-card">
-      <div class="tool-card-icon">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 10h14"/>
-          <path d="M3 10l3-3M3 10l3 3"/>
-          <path d="M17 10l-3-3M17 10l-3 3"/>
-        </svg>
-      </div>
-      <div class="tool-card-name">Scale</div>
-      <div class="tool-card-desc">Conversor de unidades para diseño. Editas un campo y todos se actualizan. px, pt, mm, cm, in.</div>
-      <div class="tool-card-footer">
-        <span class="tool-card-status">
-          <span class="status-dot"></span>
-          Disponible
-        </span>
-        <svg class="tool-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="13" x2="13" y2="3"/>
-          <polyline points="6,3 13,3 13,10"/>
-        </svg>
-      </div>
-    </a>
-
-    <!-- FRAME — activa -->
-    <a href="./frame/index.html" class="tool-card">
-      <div class="tool-card-icon">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="16" height="16" rx="2.5"/>
-          <path d="M2 7h16M2 13h16M7 2v16M13 2v16"/>
-        </svg>
-      </div>
-      <div class="tool-card-name">Frame</div>
-      <div class="tool-card-desc">Generador de prompts para campañas JAC en Nano Banana. Imágenes consistentes, sin improvisar.</div>
+      <div class="tool-card-name">JAC4</div>
+      <div class="tool-card-desc">Personas en fondo blanco para compositing. Escenarios, edades, dirección de caminata.</div>
       <div class="tool-card-footer">
         <span class="tool-card-status">
           <span class="status-dot"></span>
@@ -423,13 +416,13 @@ body {
         </svg>
       </div>
       <div class="tool-card-name">¿Qué sigue?</div>
-      <div class="tool-card-desc">Hay más ideas en la lista. Una a la vez.</div>
+      <div class="tool-card-desc">Más campañas en la lista. Una a la vez.</div>
     </div>
 
   </div>
 
   <div class="site-footer">
-    <div>Stampede &nbsp;·&nbsp; internal toolset</div>
+    <div>Stampede &nbsp;·&nbsp; Frame</div>
     <div style="margin-top:4px;">Hecho a mano · maresmares.github.io/stampede</div>
   </div>
 

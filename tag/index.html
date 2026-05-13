@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stampede — Tag v5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!--
+  ── SIMPLE ANALYTICS ──────────────────────────────────────────────────────────
+  Para activar analytics, descomenta las dos líneas de abajo.
+  Crea cuenta gratis en: https://simpleanalytics.com
+  Sin cookies, sin GDPR, un solo script.
+
+  <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  ──────────────────────────────────────────────────────────────────────────────
+
+  ── FIREBASE — USUARIOS EN VIVO ───────────────────────────────────────────────
+  Cuando tengas acceso a Firebase (cuenta propia o de la agencia):
+  1. Crea proyecto en console.firebase.google.com
+  2. Activa Realtime Database en modo prueba
+  3. Agrega app web y copia el bloque firebaseConfig
+  4. Usa este snippet como base:
+
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getDatabase, ref, push, set, onValue, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const myRef = push(ref(db, 'stampede/presence'));
+  set(myRef, { joined: Date.now() });
+  onDisconnect(myRef).remove();
+  onValue(ref(db, 'stampede/presence'), snap => {
+    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+    document.getElementById('liveCount').textContent = count;
+    document.getElementById('liveDot').style.display = count > 0 ? 'block' : 'none';
+  });
+
+  En el header ya hay un elemento #liveCount y #liveDot listos para conectar.
+  ──────────────────────────────────────────────────────────────────────────────
+-->
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #34275f;
+  --purple-mid: #4a3880;
+  --orange: #df6f40;
+  --orange-light: #e8845a;
+  --bg: #f2f1ee;
+  --surface: #ffffff;
+  --surface-2: #f7f6f4;
+  --surface-3: #eeece8;
+  --border: rgba(0,0,0,0.08);
+  --border-mid: rgba(0,0,0,0.12);
+  --text-primary: #111010;
+  --text-secondary: #5a5855;
+  --text-tertiary: #9a9895;
+  --text-placeholder: #c5c3be;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-pill: 100px;
+}
+
+[data-theme="dark"] {
+  --bg: #111013;
+  --surface: #1c1b20;
+  --surface-2: #232229;
+  --surface-3: #2a2930;
+  --border: rgba(255,255,255,0.07);
+  --border-mid: rgba(255,255,255,0.12);
+  --text-primary: #f0eef8;
+  --text-secondary: #9a98a8;
+  --text-tertiary: #5a5868;
+  --text-placeholder: #3a3848;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-left { display: flex; align-items: center; gap: 14px; }
+
+.brand-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--purple);
+  text-decoration: none;
+  line-height: 1;
+}
+
+[data-theme="dark"] .brand-name { color: #c4a6f0; }
+
+.header-sep {
+  width: 1px;
+  height: 16px;
+  background: var(--border-mid);
+}
+
+.header-tool {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+/* Live counter — oculto hasta conectar Firebase */
+.live-badge {
+  display: none; /* cambiar a 'flex' cuando Firebase esté activo */
+  align-items: center;
+  gap: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3ecf6a;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.7); }
+}
+
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-mid);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover { background: var(--surface-3); color: var(--text-primary); }
+
+.btn-ghost {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.btn-ghost:hover { border-color: var(--border-mid); color: var(--text-primary); background: var(--surface-3); }
+
+/* ── PAGE ── */
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+/* ── INTRO ── */
+.page-intro { margin-bottom: 2rem; }
+
+.page-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.page-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.page-title span {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--purple) 0%, #7b5ea7 50%, var(--orange) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.card-title-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--orange));
+  flex-shrink: 0;
+}
+
+/* ── GRID ── */
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem 1.5rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field.full { grid-column: 1 / -1; }
+
+.field-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-label svg { color: var(--text-tertiary); flex-shrink: 0; }
+
+/* ── INPUTS ── */
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="text"]::placeholder { color: var(--text-placeholder); font-style: italic; font-size: 13px; }
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(52,39,95,0.1);
+  background: var(--surface);
+}
+
+[data-theme="dark"] input[type="text"]:focus,
+[data-theme="dark"] input[type="date"]:focus,
+[data-theme="dark"] select:focus {
+  box-shadow: 0 0 0 3px rgba(123,94,167,0.2);
+}
+
+.select-wrap { position: relative; }
+.select-wrap select { padding-right: 36px; cursor: pointer; }
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-tertiary);
+  display: flex;
+}
+
+.input-row { display: flex; }
+.input-prefix {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.input-row input { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+
+/* ── TOGGLE ── */
+.toggle { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+.toggle input[type="checkbox"] { display: none; }
+
+.toggle-track {
+  width: 34px;
+  height: 19px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  position: relative;
+  transition: background 0.22s, border-color 0.22s;
+  flex-shrink: 0;
+}
+
+.toggle input:checked + .toggle-track { background: var(--orange); border-color: var(--orange); }
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 13px; height: 13px;
+  background: #fff;
+  border-radius: 50%;
+  transition: left 0.22s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+}
+
+.toggle input:checked + .toggle-track .toggle-thumb { left: 17px; }
+
+.toggle-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  min-width: 20px;
+}
+
+/* ── DISABLED ── */
+.field-body.disabled input,
+.field-body.disabled select,
+.field-body.disabled .input-prefix {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ── MODEL FIELD ── */
+#modelField { display: none; }
+#modelField.visible { display: flex; }
+
+/* ── PREVIEW CARD — gradiente animado ── */
+.preview-card {
+  border-radius: var(--radius-lg);
+  padding: 2rem 2rem 1.75rem;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.preview-card-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #0f0c22, #34275f, #6b3070, #c0451e, #df6f40, #34275f, #0f0c22);
+  background-size: 400% 400%;
+  animation: auroraShift 14s ease infinite;
+  z-index: 0;
+}
+
+[data-theme="dark"] .preview-card-bg {
+  background: linear-gradient(-45deg, #08060f, #1c1240, #3d1f55, #6a2010, #8b3520, #1c1240, #08060f);
+  background-size: 400% 400%;
+  animation: auroraShift 14s ease infinite;
+}
+
+@keyframes auroraShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.preview-card-glow {
+  position: absolute;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(223,111,64,0.38) 0%, transparent 68%);
+  top: -90px; right: -70px;
+  z-index: 0;
+  pointer-events: none;
+  animation: orbeA 9s ease-in-out infinite;
+}
+
+.preview-card-glow2 {
+  position: absolute;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123,94,167,0.42) 0%, transparent 68%);
+  bottom: -80px; left: 20px;
+  z-index: 0;
+  pointer-events: none;
+  animation: orbeB 11s ease-in-out infinite;
+}
+
+@keyframes orbeA {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(-24px, 18px); }
+}
+
+@keyframes orbeB {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(18px, -22px); }
+}
+
+.preview-inner { position: relative; z-index: 1; }
+
+.preview-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 16px; height: 1px;
+  background: rgba(255,255,255,0.3);
+}
+
+.preview-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff;
+  word-break: break-all;
+  line-height: 1.7;
+  min-height: 30px;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.preview-name.empty {
+  color: rgba(255,255,255,0.25);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.preview-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: chipIn 0.2s ease;
+}
+
+@keyframes chipIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.chip-key { color: rgba(255,255,255,0.3); font-size: 10px; }
+
+/* ── ACTIONS ── */
+.actions { display: flex; gap: 10px; margin-bottom: 1rem; align-items: stretch; }
+
+/* ── BOTÓN COPIAR — Apple border gradient ── */
+.btn-copy-wrap {
+  flex: 1;
+  position: relative;
+  border-radius: var(--radius-pill);
+  padding: 1.5px;
+  background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple));
+  background-size: 300% 300%;
+  animation: borderFlow 5s linear infinite;
+  box-shadow: 0 2px 14px rgba(52,39,95,0.15), 0 1px 4px rgba(223,111,64,0.10);
+}
+
+@keyframes borderFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.btn-copy {
+  width: 100%;
+  height: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: none;
+  border-radius: calc(var(--radius-pill) - 1.5px);
+  padding: 13px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  transition: background 0.2s, color 0.2s, transform 0.12s;
+  white-space: nowrap;
+}
+
+.btn-copy:hover { background: var(--surface-2); color: var(--purple); }
+[data-theme="dark"] .btn-copy:hover { color: #c4a6f0; }
+.btn-copy:active { transform: scale(0.985); }
+.btn-copy.copied { color: #1c7a4a; }
+[data-theme="dark"] .btn-copy.copied { color: #4dd68c; }
+
+.btn-copy.shake { animation: shake 0.4s ease; }
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.btn-clear {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-pill);
+  padding: 13px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.18s;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-clear:hover { color: var(--text-primary); background: var(--surface-2); }
+
+/* ── HISTORY ── */
+.history-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: none;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
+}
+
+.history-card.open { display: block; }
+
+.history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.history-head-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-hist-clear {
+  font-size: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-tertiary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+  padding: 4px 0;
+}
+
+.btn-hist-clear:hover { color: var(--orange); }
+
+.history-list { padding: 4px 0; }
+
+.history-empty {
+  padding: 24px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.history-item:last-child { border-bottom: none; }
+.history-item:hover { background: var(--surface-2); }
+
+.history-item-idx {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.history-item-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  flex: 1;
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+.btn-hist-copy {
+  font-size: 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  color: var(--purple);
+  background: none;
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .btn-hist-copy { color: #9a7fd4; border-color: rgba(154,127,212,0.2); }
+.btn-hist-copy:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 2rem 0 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+}
+
+.footer-mamut {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 580px) {
+  .header { padding: 0 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+  .card, .preview-card { padding: 1.25rem; }
+  .fields-grid { grid-template-columns: 1fr; }
+  .field.full { grid-column: 1; }
+  .page-title { font-size: 22px; }
+  .header-sep, .header-tool { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <a href="../index.html" class="brand-name">Stampede</a>
+    <div class="header-sep"></div>
+    <span class="header-tool">Tag</span>
+    <!-- Live badge — activar con Firebase. Cambiar display:none a display:flex en .live-badge -->
+    <div class="live-badge" id="liveBadge">
+      <div class="live-dot" id="liveDot"></div>
+      <span id="liveCount">0</span> online
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="btn-ghost" id="histToggle">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6.5" cy="6.5" r="5.2"/>
+        <polyline points="6.5,3.5 6.5,6.5 8.5,8.5"/>
+      </svg>
+      Historial
+    </button>
+    <button class="btn-icon" id="darkToggle" title="Modo oscuro">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="display:none">
+        <circle cx="7.5" cy="7.5" r="2.8"/>
+        <line x1="7.5" y1="1" x2="7.5" y2="2.5"/>
+        <line x1="7.5" y1="12.5" x2="7.5" y2="14"/>
+        <line x1="1" y1="7.5" x2="2.5" y2="7.5"/>
+        <line x1="12.5" y1="7.5" x2="14" y2="7.5"/>
+        <line x1="3" y1="3" x2="4.1" y2="4.1"/>
+        <line x1="10.9" y1="10.9" x2="12" y2="12"/>
+        <line x1="12" y1="3" x2="10.9" y2="4.1"/>
+        <line x1="4.1" y1="10.9" x2="3" y2="12"/>
+      </svg>
+      <svg id="iconMoon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M12 9A6 6 0 0 1 5 2a6 6 0 1 0 7 7z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="page-intro">
+    <div class="page-eyebrow">// file naming tool</div>
+    <h1 class="page-title">Nombra tu archivo.<br><span>Sin drama.</span></h1>
+  </div>
+
+  <!-- CAMPOS PRINCIPALES -->
+  <div class="card">
+    <div class="card-title">
+      <span class="card-title-dot"></span>
+      Datos del archivo
+    </div>
+
+    <div class="fields-grid">
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label" for="clientSelect">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="3.5" r="2"/><path d="M1.5 11c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5"/>
+            </svg>
+            Cliente
+          </label>
+        </div>
+        <div class="field-body">
+          <div class="select-wrap">
+            <select id="clientSelect">
+              <option value="">Selecciona tu cuenta...</option>
+              <option value="JAC">JAC</option>
+              <option value="SHOP-SMALL">SHOP-SMALL</option>
+              <option value="FACIL">FACIL</option>
+              <option value="POC">POC</option>
+              <option value="MERCK">MERCK</option>
+              <option value="__custom__">Otro cliente...</option>
+            </select>
+            <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+          </div>
+          <div id="clientCustomWrap" style="display:none; margin-top:8px;">
+            <input type="text" id="clientCustom" placeholder="¿Quién es el cliente?" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label" for="campana">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 9V4l4-2.5L10 4v5l-4 2.5L2 9z"/>
+            </svg>
+            Campaña
+          </label>
+        </div>
+        <div class="field-body">
+          <input type="text" id="campana" placeholder="Ej: OC, VERANO24, LANZAMIENTO" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="1" width="10" height="10" rx="1.5"/>
+              <line x1="1" y1="4.5" x2="11" y2="4.5"/><line x1="4.5" y1="1" x2="4.5" y2="11"/>
+            </svg>
+            Medidas
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="toggleMedidas" checked />
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-text" id="lblMedidas">ON</span>
+          </label>
+        </div>
+        <div class="field-body" id="bodyMedidas">
+          <input type="text" id="medidas" placeholder="Ej: 1920x1080" />
+        </div>
+      </div>
+
+      <div class="field" id="modelField">
+        <div class="field-top">
+          <label class="field-label" for="modeloSelect">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="0.5" y="4" width="11" height="4.5" rx="1.5"/>
+              <circle cx="3" cy="8.5" r="1.3"/><circle cx="9" cy="8.5" r="1.3"/>
+              <path d="M0.5 6.5L2.5 4H9.5L11.5 6.5"/>
+            </svg>
+            Modelo
+          </label>
+        </div>
+        <div class="field-body">
+          <div class="select-wrap">
+            <select id="modeloSelect">
+              <option value="">¿Qué modelo va?</option>
+              <option value="JAC2">JAC2</option>
+              <option value="JAC4">JAC4</option>
+              <option value="Traveler_PHEV">Traveler_PHEV</option>
+              <option value="JAC6_PHEV">JAC6_PHEV</option>
+              <option value="SUNRAY_CITYCARGO">SUNRAY_CITYCARGO</option>
+              <option value="SUNRAY_PASAJEROS">SUNRAY_PASAJEROS</option>
+            </select>
+            <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label" for="fecha">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="2" width="10" height="9" rx="1.5"/>
+              <line x1="1" y1="5" x2="11" y2="5"/>
+              <line x1="3.5" y1="1" x2="3.5" y2="3.5"/><line x1="8.5" y1="1" x2="8.5" y2="3.5"/>
+            </svg>
+            Fecha
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:var(--text-tertiary);letter-spacing:0;text-transform:none;font-weight:300;">DDMMYY</span>
+          </label>
+        </div>
+        <div class="field-body">
+          <input type="date" id="fecha" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="5"/>
+              <polyline points="3.5,6 6,3.5 8.5,6"/>
+              <line x1="6" y1="3.5" x2="6" y2="8.5"/>
+            </svg>
+            Versión
+          </label>
+        </div>
+        <div class="field-body">
+          <div class="input-row">
+            <span class="input-prefix">V</span>
+            <input type="text" id="version" placeholder="1, 2, 3..." />
+          </div>
+        </div>
+      </div>
+
+      <div class="field full">
+        <div class="field-top">
+          <label class="field-label" for="iniciales">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="4" r="2"/><path d="M1.5 11c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5"/>
+            </svg>
+            Tus iniciales
+          </label>
+        </div>
+        <div class="field-body">
+          <input type="text" id="iniciales" placeholder="Ej: MRS — se ponen en mayúsculas solas" maxlength="5" style="max-width:320px;" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CAMPOS EXTRA -->
+  <div class="card">
+    <div class="card-title">
+      <span class="card-title-dot"></span>
+      Campos extra
+      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:300;color:var(--text-tertiary);letter-spacing:0;text-transform:none;margin-left:4px;">— solo si el proyecto lo pide</span>
+    </div>
+    <div class="fields-grid">
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="1" width="10" height="10" rx="2"/>
+              <line x1="3.5" y1="6" x2="8.5" y2="6"/><line x1="6" y1="3.5" x2="6" y2="8.5"/>
+            </svg>
+            Campo extra 1
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="toggleExtra1" />
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-text" id="lblExtra1">OFF</span>
+          </label>
+        </div>
+        <div class="field-body disabled" id="bodyExtra1">
+          <input type="text" id="extra1" placeholder="Ej: OP2, ES, DIGITAL..." />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="1" width="10" height="10" rx="2"/>
+              <line x1="3.5" y1="6" x2="8.5" y2="6"/><line x1="6" y1="3.5" x2="6" y2="8.5"/>
+            </svg>
+            Campo extra 2
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="toggleExtra2" />
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-text" id="lblExtra2">OFF</span>
+          </label>
+        </div>
+        <div class="field-body disabled" id="bodyExtra2">
+          <input type="text" id="extra2" placeholder="Ej: FINAL, PRINT, WEB..." />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-card">
+    <div class="preview-card-bg"></div>
+    <div class="preview-card-glow"></div>
+    <div class="preview-card-glow2"></div>
+    <div class="preview-inner">
+      <div class="preview-eyebrow">nombre generado</div>
+      <div class="preview-name empty" id="previewName">Aquí aparece tu nombre cuando empieces a llenar...</div>
+      <div class="preview-chips" id="previewChips"></div>
+    </div>
+  </div>
+
+  <!-- ACCIONES -->
+  <div class="actions">
+    <div class="btn-copy-wrap">
+      <button class="btn-copy" id="btnCopy">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="8.5" height="8.5" rx="1.5"/>
+          <path d="M10 4V2.5A1.5 1.5 0 0 0 8.5 1H2A1.5 1.5 0 0 0 .5 2.5V9A1.5 1.5 0 0 0 2 10.5H3.5"/>
+        </svg>
+        Copiar nombre
+      </button>
+    </div>
+    <button class="btn-clear" id="btnClear">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="2" y1="2" x2="11" y2="11"/><line x1="11" y1="2" x2="2" y2="11"/>
+      </svg>
+      Limpiar
+    </button>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="history-card" id="historyCard">
+    <div class="history-head">
+      <div class="history-head-title">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6.5" cy="6.5" r="5.2"/><polyline points="6.5,3.5 6.5,6.5 8.5,8.5"/>
+        </svg>
+        Últimos nombres
+      </div>
+      <button class="btn-hist-clear" id="histClearAll">Borrar todo</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <div class="footer">
+    <div>Stampede · Tag · v5</div>
+    <div class="footer-mamut">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-tertiary)">
+        <ellipse cx="7" cy="8" rx="4.5" ry="3.5"/>
+        <path d="M2.5 8C1.5 7.5 1 6.5 1.5 5.5S3.5 4.5 4 5"/>
+        <path d="M11.5 8C12.5 7.5 13 6.5 12.5 5.5S10.5 4.5 10 5"/>
+        <path d="M4.5 5C4 3.5 4.5 2 6 1.5"/><path d="M9.5 5C10 3.5 9.5 2 8 1.5"/>
+        <line x1="5.5" y1="1.5" x2="4.5" y2="0.5"/><line x1="8.5" y1="1.5" x2="9.5" y2="0.5"/>
+      </svg>
+      Hecho a mano por alguien que también odia nombrar archivos mal.
+    </div>
+  </div>
+
+</div>
+
+<script>
+var STORAGE_KEY = 'stampede_v5';
+var audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {} }
+  return audioCtx;
+}
+
+function playSeal() {
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  if (ctx.state === 'suspended') ctx.resume();
+  var now = ctx.currentTime;
+  var o1 = ctx.createOscillator(), g1 = ctx.createGain();
+  o1.connect(g1); g1.connect(ctx.destination);
+  o1.type = 'sine';
+  o1.frequency.setValueAtTime(120, now); o1.frequency.exponentialRampToValueAtTime(40, now+0.18);
+  g1.gain.setValueAtTime(0.7, now); g1.gain.exponentialRampToValueAtTime(0.001, now+0.22);
+  o1.start(now); o1.stop(now+0.22);
+  var o2 = ctx.createOscillator(), g2 = ctx.createGain();
+  o2.connect(g2); g2.connect(ctx.destination);
+  o2.type = 'triangle';
+  o2.frequency.setValueAtTime(220, now); o2.frequency.exponentialRampToValueAtTime(80, now+0.12);
+  g2.gain.setValueAtTime(0.35, now); g2.gain.exponentialRampToValueAtTime(0.001, now+0.15);
+  o2.start(now); o2.stop(now+0.15);
+  var bs = ctx.sampleRate*0.04, buf = ctx.createBuffer(1,bs,ctx.sampleRate), d = buf.getChannelData(0);
+  for (var i=0;i<bs;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/bs,4);
+  var ns = ctx.createBufferSource(), gn = ctx.createGain(), fl = ctx.createBiquadFilter();
+  fl.type='lowpass'; fl.frequency.value=800;
+  ns.buffer=buf; ns.connect(fl); fl.connect(gn); gn.connect(ctx.destination);
+  gn.gain.setValueAtTime(0.4,now); gn.gain.exponentialRampToValueAtTime(0.001,now+0.04);
+  ns.start(now);
+}
+
+function todayISO() {
+  var d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  var p = iso.split('-');
+  if (p.length!==3) return '';
+  return p[2]+p[1]+String(p[0]).slice(-2);
+}
+
+function sanitize(s) { return s.replace(/[^a-zA-Z0-9\-_]/g,'').toUpperCase(); }
+function sanitizeInitials(s) { return s.replace(/[^a-zA-Z]/g,'').toUpperCase(); }
+function getHistory() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY))||[]; } catch(e) { return []; } }
+function saveHistory(a) { try { localStorage.setItem(STORAGE_KEY,JSON.stringify(a)); } catch(e) {} }
+
+function buildName() {
+  var cs = document.getElementById('clientSelect').value;
+  var cc = document.getElementById('clientCustom').value.trim();
+  var client = cs==='__custom__' ? sanitize(cc) : cs;
+  var campana = sanitize(document.getElementById('campana').value.trim());
+  var mOn = document.getElementById('toggleMedidas').checked;
+  var medidas = mOn ? sanitize(document.getElementById('medidas').value.trim()) : '';
+  var modelo = cs==='JAC' ? document.getElementById('modeloSelect').value : '';
+  var fecha = formatDate(document.getElementById('fecha').value);
+  var e1On = document.getElementById('toggleExtra1').checked;
+  var extra1 = e1On ? sanitize(document.getElementById('extra1').value.trim()) : '';
+  var e2On = document.getElementById('toggleExtra2').checked;
+  var extra2 = e2On ? sanitize(document.getElementById('extra2').value.trim()) : '';
+  var vv = document.getElementById('version').value.trim().replace(/\D/g,'');
+  var version = vv ? 'V'+vv : '';
+  var iniciales = sanitizeInitials(document.getElementById('iniciales').value.trim());
+  var parts = [client,campana,medidas,modelo,fecha,extra1,extra2,version,iniciales].filter(Boolean);
+  var chips = [
+    client?{key:'cliente',val:client}:null,
+    campana?{key:'campaña',val:campana}:null,
+    mOn&&medidas?{key:'medidas',val:medidas}:null,
+    modelo?{key:'modelo',val:modelo}:null,
+    fecha?{key:'fecha',val:fecha}:null,
+    e1On&&extra1?{key:'extra 1',val:extra1}:null,
+    e2On&&extra2?{key:'extra 2',val:extra2}:null,
+    version?{key:'versión',val:version}:null,
+    iniciales?{key:'iniciales',val:iniciales}:null,
+  ].filter(Boolean);
+  return { name: parts.join('_'), chips: chips };
+}
+
+function renderPreview() {
+  var r = buildName();
+  var el = document.getElementById('previewName');
+  var ch = document.getElementById('previewChips');
+  if (!r.name) {
+    el.textContent = 'Aquí aparece tu nombre cuando empieces a llenar...';
+    el.classList.add('empty'); ch.innerHTML = ''; return;
+  }
+  el.textContent = r.name;
+  el.classList.remove('empty');
+  ch.innerHTML = r.chips.map(function(c){
+    return '<span class="chip"><span class="chip-key">'+c.key+'</span>'+c.val+'</span>';
+  }).join('');
+}
+
+function setupToggle(cId,lId,bId,on) {
+  var chk=document.getElementById(cId), lbl=document.getElementById(lId), body=document.getElementById(bId);
+  chk.checked=!!on;
+  function u() {
+    if(chk.checked){body.classList.remove('disabled');lbl.textContent='ON';}
+    else{body.classList.add('disabled');lbl.textContent='OFF';}
+    renderPreview();
+  }
+  chk.addEventListener('change',u); u();
+}
+
+function copyToClipboard(t) {
+  if(navigator.clipboard&&navigator.clipboard.writeText) return navigator.clipboard.writeText(t).catch(function(){fallbackCopy(t);});
+  fallbackCopy(t); return Promise.resolve();
+}
+
+function fallbackCopy(t) {
+  var ta=document.createElement('textarea'); ta.value=t;
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:0;pointer-events:none;';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);
+}
+
+function addToHistory(name) {
+  if(!name) return;
+  var h=getHistory().filter(function(x){return x!==name;});
+  h.unshift(name); saveHistory(h.slice(0,10));
+}
+
+function renderHistory() {
+  var listEl=document.getElementById('historyList'), h=getHistory();
+  if(!h.length){listEl.innerHTML='<div class="history-empty">Nada todavía. Copia tu primer nombre.</div>';return;}
+  listEl.innerHTML=h.map(function(name,i){
+    return '<div class="history-item"><span class="history-item-idx">'+(i+1)+'</span><span class="history-item-name">'+name+'</span><button class="btn-hist-copy" data-name="'+name+'">Copiar</button></div>';
+  }).join('');
+  listEl.querySelectorAll('.btn-hist-copy').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation(); copyToClipboard(btn.getAttribute('data-name')); playSeal();
+      var o=btn.textContent; btn.textContent='✓ Listo';
+      setTimeout(function(){btn.textContent=o;},1400);
+    });
+  });
+}
+
+// ── INIT ──
+document.getElementById('fecha').value = todayISO();
+setupToggle('toggleMedidas','lblMedidas','bodyMedidas',true);
+setupToggle('toggleExtra1','lblExtra1','bodyExtra1',false);
+setupToggle('toggleExtra2','lblExtra2','bodyExtra2',false);
+
+document.getElementById('clientSelect').addEventListener('change',function(){
+  var v=this.value;
+  document.getElementById('clientCustomWrap').style.display=v==='__custom__'?'block':'none';
+  var mf=document.getElementById('modelField');
+  if(v==='JAC'){mf.classList.add('visible');}
+  else{mf.classList.remove('visible');document.getElementById('modeloSelect').value='';}
+  renderPreview();
+});
+
+['clientCustom','campana','medidas','modeloSelect','fecha','extra1','extra2','version'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el){el.addEventListener('input',renderPreview);el.addEventListener('change',renderPreview);}
+});
+
+document.getElementById('iniciales').addEventListener('input',function(){
+  this.value=this.value.replace(/[^a-zA-Z]/g,'').toUpperCase(); renderPreview();
+});
+
+document.getElementById('btnCopy').addEventListener('click',function(){
+  var r=buildName(), wrap=document.querySelector('.btn-copy-wrap');
+  if(!r.name){
+    this.classList.add('shake');
+    var s=this; setTimeout(function(){s.classList.remove('shake');},450); return;
+  }
+  copyToClipboard(r.name); playSeal(); addToHistory(r.name);
+  var btn=this, orig=btn.innerHTML;
+  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,7 5.5,10.5 12,4"/></svg> Copiado.';
+  btn.classList.add('copied');
+  if(document.getElementById('historyCard').classList.contains('open')) renderHistory();
+  setTimeout(function(){btn.innerHTML=orig;btn.classList.remove('copied');},1600);
+});
+
+document.getElementById('btnClear').addEventListener('click',function(){
+  ['campana','medidas','extra1','extra2','version'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('clientSelect').value='';
+  document.getElementById('clientCustomWrap').style.display='none';
+  document.getElementById('clientCustom').value='';
+  document.getElementById('modeloSelect').value='';
+  document.getElementById('modelField').classList.remove('visible');
+  document.getElementById('iniciales').value='';
+  document.getElementById('fecha').value=todayISO();
+  document.getElementById('toggleMedidas').checked=true;
+  document.getElementById('bodyMedidas').classList.remove('disabled');
+  document.getElementById('lblMedidas').textContent='ON';
+  document.getElementById('toggleExtra1').checked=false;
+  document.getElementById('bodyExtra1').classList.add('disabled');
+  document.getElementById('lblExtra1').textContent='OFF';
+  document.getElementById('toggleExtra2').checked=false;
+  document.getElementById('bodyExtra2').classList.add('disabled');
+  document.getElementById('lblExtra2').textContent='OFF';
+  renderPreview();
+});
+
+document.getElementById('histToggle').addEventListener('click',function(){
+  var card=document.getElementById('historyCard');
+  card.classList.toggle('open');
+  if(card.classList.contains('open')) renderHistory();
+});
+
+document.getElementById('histClearAll').addEventListener('click',function(){
+  saveHistory([]); renderHistory();
+});
+
+var isDark=false;
+document.getElementById('darkToggle').addEventListener('click',function(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('iconSun').style.display=isDark?'block':'none';
+  document.getElementById('iconMoon').style.display=isDark?'none':'block';
+});
+
+renderPreview();
+</script>
+</body>
+</html>

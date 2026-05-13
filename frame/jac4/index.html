@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stampede — Frame · JAC4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #34275f;
+  --purple-mid: #4a3880;
+  --orange: #df6f40;
+  --orange-light: #e8845a;
+  --bg: #f2f1ee;
+  --surface: #ffffff;
+  --surface-2: #f7f6f4;
+  --surface-3: #eeece8;
+  --border: rgba(0,0,0,0.08);
+  --border-mid: rgba(0,0,0,0.12);
+  --text-primary: #111010;
+  --text-secondary: #5a5855;
+  --text-tertiary: #9a9895;
+  --text-placeholder: #c5c3be;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-pill: 100px;
+}
+
+[data-theme="dark"] {
+  --bg: #111013;
+  --surface: #1c1b20;
+  --surface-2: #232229;
+  --surface-3: #2a2930;
+  --border: rgba(255,255,255,0.07);
+  --border-mid: rgba(255,255,255,0.12);
+  --text-primary: #f0eef8;
+  --text-secondary: #9a98a8;
+  --text-tertiary: #5a5868;
+  --text-placeholder: #3a3848;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-left { display: flex; align-items: center; gap: 14px; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.bc-link {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--purple);
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+[data-theme="dark"] .bc-link { color: #c4a6f0; }
+.bc-link:hover { opacity: 0.7; }
+
+.bc-sep {
+  color: var(--text-tertiary);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1;
+  margin: 0 1px;
+}
+
+.bc-mid {
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: opacity 0.15s;
+  text-transform: uppercase;
+}
+.bc-mid:hover { opacity: 0.7; }
+
+.bc-current {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.btn-icon {
+  width: 34px; height: 34px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-mid);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.btn-icon:hover { background: var(--surface-3); color: var(--text-primary); }
+
+/* ── PAGE ── */
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+.page-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.page-intro { margin-bottom: 2rem; }
+
+.page-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.page-title span {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--purple) 0%, #7b5ea7 50%, var(--orange) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.card-title-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--orange));
+  flex-shrink: 0;
+}
+
+/* ── GRID ── */
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem 1.5rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field.full { grid-column: 1 / -1; }
+
+.field-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-label svg { color: var(--text-tertiary); flex-shrink: 0; }
+
+/* ── INPUTS ── */
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder { color: var(--text-placeholder); font-style: italic; font-size: 13px; }
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(52,39,95,0.1);
+  background: var(--surface);
+}
+
+[data-theme="dark"] input[type="text"]:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  box-shadow: 0 0 0 3px rgba(123,94,167,0.2);
+}
+
+textarea { resize: vertical; min-height: 68px; line-height: 1.6; }
+
+.select-wrap { position: relative; }
+.select-wrap select { padding-right: 36px; cursor: pointer; }
+.select-arrow {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-tertiary);
+  display: flex;
+}
+
+/* ── SLIDER DE EDAD ── */
+.slider-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slider-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slider-display-val {
+  color: var(--purple);
+  font-size: 15px;
+}
+
+[data-theme="dark"] .slider-display-val { color: #c4a6f0; }
+
+.slider-display-sep {
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.range-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  width: 22px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: 2px;
+  outline: none;
+  border: none;
+  padding: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--purple);
+  cursor: pointer;
+  border: 2px solid var(--surface);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.12s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--purple);
+  cursor: pointer;
+  border: 2px solid var(--surface);
+}
+
+[data-theme="dark"] input[type="range"]::-webkit-slider-thumb { background: #9a7fd4; }
+[data-theme="dark"] input[type="range"]::-moz-range-thumb { background: #9a7fd4; }
+
+/* ── PRESET TAGS ── */
+.escenario-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.escenario-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.escenario-tag:hover,
+.escenario-tag.active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+
+[data-theme="dark"] .escenario-tag:hover,
+[data-theme="dark"] .escenario-tag.active {
+  background: #6a4db8;
+  border-color: #6a4db8;
+}
+
+/* ── DIRECTION BUTTONS ── */
+.direction-wrap { display: flex; gap: 8px; }
+
+.dir-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 9px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-mid);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 7px;
+  transition: all 0.15s;
+  flex: 1;
+  justify-content: center;
+}
+
+.dir-btn.active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+
+[data-theme="dark"] .dir-btn.active { background: #6a4db8; border-color: #6a4db8; }
+
+/* ── PREVIEW CARD ── */
+.preview-card {
+  border-radius: var(--radius-lg);
+  padding: 2rem 2rem 1.75rem;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.preview-card-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(-45deg, #0f0c22, #34275f, #6b3070, #c0451e, #df6f40, #34275f, #0f0c22);
+  background-size: 400% 400%;
+  animation: auroraShift 14s ease infinite;
+  z-index: 0;
+}
+
+[data-theme="dark"] .preview-card-bg {
+  background: linear-gradient(-45deg, #08060f, #1c1240, #3d1f55, #6a2010, #8b3520, #1c1240, #08060f);
+  background-size: 400% 400%;
+}
+
+@keyframes auroraShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.preview-card-glow {
+  position: absolute;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(223,111,64,0.38) 0%, transparent 68%);
+  top: -90px; right: -70px;
+  z-index: 0; pointer-events: none;
+  animation: orbeA 9s ease-in-out infinite;
+}
+
+.preview-card-glow2 {
+  position: absolute;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123,94,167,0.42) 0%, transparent 68%);
+  bottom: -80px; left: 20px;
+  z-index: 0; pointer-events: none;
+  animation: orbeB 11s ease-in-out infinite;
+}
+
+@keyframes orbeA {
+  0%, 100% { transform: translate(0,0); }
+  50%       { transform: translate(-24px,18px); }
+}
+@keyframes orbeB {
+  0%, 100% { transform: translate(0,0); }
+  50%       { transform: translate(18px,-22px); }
+}
+
+.preview-inner { position: relative; z-index: 1; }
+
+.preview-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 400;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.preview-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 16px; height: 1px;
+  background: rgba(255,255,255,0.3);
+}
+
+.preview-prompt {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.75;
+  min-height: 80px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.preview-prompt.empty {
+  color: rgba(255,255,255,0.25);
+  font-style: italic;
+}
+
+.preview-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  color: rgba(255,255,255,0.7);
+  display: flex; align-items: center; gap: 5px;
+  animation: chipIn 0.2s ease;
+}
+
+@keyframes chipIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.chip-key { color: rgba(255,255,255,0.3); font-size: 10px; }
+
+/* ── ACTIONS ── */
+.actions { display: flex; gap: 10px; margin-bottom: 1rem; align-items: stretch; }
+
+.btn-gen {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #fff;
+  background: var(--purple);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 13px 24px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: all 0.18s;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.btn-gen:hover { background: var(--purple-mid); transform: translateY(-1px); }
+.btn-gen:active { transform: scale(0.98); }
+.btn-gen.shake { animation: shake 0.4s ease; }
+
+.btn-copy-wrap {
+  flex: 1;
+  position: relative;
+  border-radius: var(--radius-pill);
+  padding: 1.5px;
+  background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple));
+  background-size: 300% 300%;
+  animation: borderFlow 5s linear infinite;
+  box-shadow: 0 2px 14px rgba(52,39,95,0.15);
+}
+
+@keyframes borderFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.btn-copy {
+  width: 100%; height: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: none;
+  border-radius: calc(var(--radius-pill) - 1.5px);
+  padding: 13px 24px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  gap: 9px;
+  transition: background 0.2s, color 0.2s, transform 0.12s;
+  white-space: nowrap;
+}
+
+.btn-copy:hover { background: var(--surface-2); color: var(--purple); }
+[data-theme="dark"] .btn-copy:hover { color: #c4a6f0; }
+.btn-copy:active { transform: scale(0.985); }
+.btn-copy.copied { color: #1c7a4a; }
+[data-theme="dark"] .btn-copy.copied { color: #4dd68c; }
+.btn-copy.shake { animation: shake 0.4s ease; }
+
+.btn-clear {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-pill);
+  padding: 13px 18px;
+  cursor: pointer;
+  display: flex; align-items: center;
+  transition: all 0.18s;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.btn-clear:hover { color: var(--text-primary); background: var(--surface-2); }
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 2rem 0 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+}
+
+.footer-mamut {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; margin-top: 4px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 580px) {
+  .header { padding: 0 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+  .card { padding: 1.25rem; }
+  .preview-card { padding: 1.25rem; }
+  .fields-grid { grid-template-columns: 1fr; }
+  .field.full { grid-column: 1; }
+  .page-title { font-size: 22px; }
+  .bc-sep, .bc-mid, .bc-current { display: none; }
+  .actions { flex-wrap: wrap; }
+  .btn-gen { flex: 1; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <nav class="breadcrumb">
+      <a href="../../index.html" class="bc-link">Stampede</a>
+      <span class="bc-sep">/</span>
+      <a href="../index.html" class="bc-mid">Frame</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-current">JAC4</span>
+    </nav>
+  </div>
+  <div class="header-right">
+    <button class="btn-icon" id="darkToggle" title="Modo oscuro">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="display:none">
+        <circle cx="7.5" cy="7.5" r="2.8"/>
+        <line x1="7.5" y1="1" x2="7.5" y2="2.5"/><line x1="7.5" y1="12.5" x2="7.5" y2="14"/>
+        <line x1="1" y1="7.5" x2="2.5" y2="7.5"/><line x1="12.5" y1="7.5" x2="14" y2="7.5"/>
+        <line x1="3" y1="3" x2="4.1" y2="4.1"/><line x1="10.9" y1="10.9" x2="12" y2="12"/>
+        <line x1="12" y1="3" x2="10.9" y2="4.1"/><line x1="4.1" y1="10.9" x2="3" y2="12"/>
+      </svg>
+      <svg id="iconMoon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M12 9A6 6 0 0 1 5 2a6 6 0 1 0 7 7z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="page-intro">
+    <div class="page-eyebrow">// frame · jac4</div>
+    <h1 class="page-title">Genera tu escena.<br><span>Sin adivinar.</span></h1>
+  </div>
+
+  <!-- ESCENARIO -->
+  <div class="card">
+    <div class="card-title">
+      <span class="card-title-dot"></span>
+      Escenario
+    </div>
+
+    <div class="field full" style="margin-bottom:0">
+      <div class="field-top" style="margin-bottom:10px">
+        <label class="field-label">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="3.5" r="2"/><path d="M1.5 11c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5"/>
+          </svg>
+          Preset rápido
+        </label>
+      </div>
+      <div class="escenario-tags-wrap" id="presetTags">
+        <button class="escenario-tag" data-preset="solo">1 persona</button>
+        <button class="escenario-tag" data-preset="dos">2 personas</button>
+        <button class="escenario-tag" data-preset="pareja">Pareja</button>
+        <button class="escenario-tag" data-preset="amigos">Amigos mixto</button>
+        <button class="escenario-tag" data-preset="amigas">Amigas</button>
+        <button class="escenario-tag" data-preset="familia">Familia</button>
+        <button class="escenario-tag" data-preset="familia-nino">Familia con niño</button>
+        <button class="escenario-tag" data-preset="dos-hombres">2 hombres</button>
+        <button class="escenario-tag" data-preset="dos-mujeres">2 mujeres</button>
+      </div>
+
+      <div class="field-top" style="margin-bottom:8px">
+        <label class="field-label">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="1" width="10" height="10" rx="2"/>
+            <line x1="3.5" y1="6" x2="8.5" y2="6"/><line x1="6" y1="3.5" x2="6" y2="8.5"/>
+          </svg>
+          Caso específico
+        </label>
+      </div>
+      <input type="text" id="escenarioCustom" placeholder="Ej: abuela con nieto, 4 ejecutivos, mujer con carrito de bebé..." />
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓN -->
+  <div class="card">
+    <div class="card-title">
+      <span class="card-title-dot"></span>
+      Configuración visual
+    </div>
+
+    <div class="fields-grid">
+
+      <!-- Dirección -->
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="1" y1="6" x2="11" y2="6"/>
+              <polyline points="8,3 11,6 8,9"/>
+            </svg>
+            Dirección de caminata
+          </label>
+        </div>
+        <div class="direction-wrap">
+          <button class="dir-btn active" id="dirLeft" onclick="setDir('left')">
+            <svg width="13" height="11" viewBox="0 0 13 11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="5,2 2,5.5 5,9"/>
+              <line x1="2" y1="5.5" x2="11" y2="5.5"/>
+            </svg>
+            Izquierda
+          </button>
+          <button class="dir-btn" id="dirRight" onclick="setDir('right')">
+            Derecha
+            <svg width="13" height="11" viewBox="0 0 13 11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="8,2 11,5.5 8,9"/>
+              <line x1="11" y1="5.5" x2="2" y2="5.5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Paleta -->
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="4.5"/>
+              <circle cx="4" cy="5" r="0.8" fill="currentColor" stroke="none"/>
+              <circle cx="8" cy="5" r="0.8" fill="currentColor" stroke="none"/>
+              <circle cx="6" cy="8" r="0.8" fill="currentColor" stroke="none"/>
+            </svg>
+            Paleta del outfit
+          </label>
+        </div>
+        <div class="select-wrap">
+          <select id="paleta">
+            <option value="random">Aleatoria (recomendado)</option>
+            <option value="negro + blanco roto">Negro + blanco roto</option>
+            <option value="terracota + crema">Terracota + crema</option>
+            <option value="azul cobalto + gris claro">Azul cobalto + gris</option>
+            <option value="verde olivo + camel">Verde olivo + camel</option>
+            <option value="borgoña + nude">Borgoña + nude</option>
+            <option value="blanco total">Blanco total</option>
+            <option value="gris + acento rojo">Gris + acento rojo</option>
+            <option value="mostaza + gris antracita">Mostaza + antracita</option>
+            <option value="azul marino + crema">Azul marino + crema</option>
+            <option value="rosa palo + beige">Rosa palo + beige</option>
+            <option value="verde botella + blanco">Verde botella + blanco</option>
+          </select>
+          <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+        </div>
+      </div>
+
+      <!-- Edad adultos -->
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="3.5" r="2"/><path d="M1.5 11c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5"/>
+            </svg>
+            Edad adultos
+          </label>
+        </div>
+        <div class="slider-wrap">
+          <div class="slider-display">
+            <span class="slider-display-val" id="ageMinVal">35</span>
+            <span class="slider-display-sep">—</span>
+            <span class="slider-display-val" id="ageMaxVal">44</span>
+            <span style="font-size:11px;color:var(--text-tertiary);margin-left:4px;">años</span>
+          </div>
+          <div class="range-row">
+            <span class="range-label">25</span>
+            <input type="range" id="ageMin" min="25" max="60" value="35" step="1">
+            <span class="range-label">60</span>
+          </div>
+          <div class="range-row">
+            <span class="range-label">25</span>
+            <input type="range" id="ageMax" min="25" max="60" value="44" step="1">
+            <span class="range-label">60</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Energía -->
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 1L2 7h5l-2 4 5-6H5l2-4z"/>
+            </svg>
+            Nivel de energía
+          </label>
+        </div>
+        <div class="select-wrap">
+          <select id="energia">
+            <option value="a">Stride amplio y decidido</option>
+            <option value="b">Caminando rápido</option>
+            <option value="c">Casi corriendo, muy dinámico</option>
+          </select>
+          <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+        </div>
+      </div>
+
+      <!-- Expresión -->
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="5"/>
+              <path d="M4 7.5s.8 1.5 2 1.5 2-1.5 2-1.5"/>
+              <line x1="4" y1="5" x2="4" y2="5.5"/><line x1="8" y1="5" x2="8" y2="5.5"/>
+            </svg>
+            Expresión
+          </label>
+        </div>
+        <div class="select-wrap">
+          <select id="expresion">
+            <option value="mix">Mixta — serio con toque cálido</option>
+            <option value="sonrisa">Sonrisa natural y relajada</option>
+            <option value="serio">Serio con determinación</option>
+          </select>
+          <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+        </div>
+      </div>
+
+      <!-- Nota -->
+      <div class="field full">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 9.5L2 3.5a1 1 0 011-1h6a1 1 0 011 1v6l-3 2z"/>
+            </svg>
+            Nota adicional
+            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:var(--text-tertiary);letter-spacing:0;text-transform:none;font-weight:300;margin-left:4px;">— opcional</span>
+          </label>
+        </div>
+        <textarea id="extra" placeholder="Ej: que lleven bolsas de compras, que uno use lentes de sol, que haya una mascota..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-card">
+    <div class="preview-card-bg"></div>
+    <div class="preview-card-glow"></div>
+    <div class="preview-card-glow2"></div>
+    <div class="preview-inner">
+      <div class="preview-eyebrow">prompt generado</div>
+      <div class="preview-prompt empty" id="previewPrompt">Elige un escenario y presiona Generar...</div>
+      <div class="preview-chips" id="previewChips"></div>
+    </div>
+  </div>
+
+  <!-- ACCIONES -->
+  <div class="actions">
+    <button class="btn-gen" id="btnGen">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="2,2 11,6.5 2,11 4.5,6.5"/>
+      </svg>
+      Generar
+    </button>
+    <div class="btn-copy-wrap">
+      <button class="btn-copy" id="btnCopy">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="8.5" height="8.5" rx="1.5"/>
+          <path d="M10 4V2.5A1.5 1.5 0 0 0 8.5 1H2A1.5 1.5 0 0 0 .5 2.5V9A1.5 1.5 0 0 0 2 10.5H3.5"/>
+        </svg>
+        Copiar prompt
+      </button>
+    </div>
+    <button class="btn-clear" id="btnClear">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="2" y1="2" x2="11" y2="11"/><line x1="11" y1="2" x2="2" y2="11"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="footer">
+    <div>Stampede · Frame · JAC4 · v1</div>
+    <div class="footer-mamut">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-tertiary)">
+        <ellipse cx="7" cy="8" rx="4.5" ry="3.5"/>
+        <path d="M2.5 8C1.5 7.5 1 6.5 1.5 5.5S3.5 4.5 4 5"/>
+        <path d="M11.5 8C12.5 7.5 13 6.5 12.5 5.5S10.5 4.5 10 5"/>
+        <path d="M4.5 5C4 3.5 4.5 2 6 1.5"/><path d="M9.5 5C10 3.5 9.5 2 8 1.5"/>
+        <line x1="5.5" y1="1.5" x2="4.5" y2="0.5"/><line x1="8.5" y1="1.5" x2="9.5" y2="0.5"/>
+      </svg>
+      Hecho a mano por alguien que también odia describir personas desde cero.
+    </div>
+  </div>
+
+</div>
+
+<script>
+var currentDir = 'left';
+var lastPrompt = '';
+var activePreset = null;
+
+function setDir(d) {
+  currentDir = d;
+  document.getElementById('dirLeft').classList.toggle('active', d === 'left');
+  document.getElementById('dirRight').classList.toggle('active', d === 'right');
+}
+
+// Presets
+var presetData = {
+  'solo':        { personas: [{ g: null }], hasKid: false, label: '1 persona' },
+  'dos':         { personas: [{ g: null }, { g: null }], hasKid: false, label: '2 personas' },
+  'pareja':      { personas: [{ g: 'mujer' }, { g: 'hombre' }], hasKid: false, label: 'pareja' },
+  'amigos':      { personas: [{ g: 'mujer' }, { g: 'hombre' }, { g: null }], hasKid: false, label: 'grupo de amigos' },
+  'amigas':      { personas: [{ g: 'mujer' }, { g: 'mujer' }, { g: 'mujer' }], hasKid: false, label: 'grupo de amigas' },
+  'familia':     { personas: [{ g: 'mujer' }, { g: 'hombre' }, { g: null }, { g: null }], hasKid: false, label: 'familia' },
+  'familia-nino':{ personas: [{ g: 'mujer' }, { g: 'hombre' }], hasKid: true, label: 'familia con niño' },
+  'dos-hombres': { personas: [{ g: 'hombre' }, { g: 'hombre' }], hasKid: false, label: '2 hombres' },
+  'dos-mujeres': { personas: [{ g: 'mujer' }, { g: 'mujer' }], hasKid: false, label: '2 mujeres' }
+};
+
+document.querySelectorAll('.escenario-tag').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    if (activePreset === this) {
+      this.classList.remove('active');
+      activePreset = null;
+    } else {
+      if (activePreset) activePreset.classList.remove('active');
+      this.classList.add('active');
+      activePreset = this;
+      document.getElementById('escenarioCustom').value = '';
+    }
+  });
+});
+
+document.getElementById('escenarioCustom').addEventListener('input', function() {
+  if (this.value.trim() && activePreset) {
+    activePreset.classList.remove('active');
+    activePreset = null;
+  }
+});
+
+// Sliders de edad
+var ageMinEl = document.getElementById('ageMin');
+var ageMaxEl = document.getElementById('ageMax');
+var ageMinVal = document.getElementById('ageMinVal');
+var ageMaxVal = document.getElementById('ageMaxVal');
+
+function updateAgeDisplay() {
+  var mn = parseInt(ageMinEl.value);
+  var mx = parseInt(ageMaxEl.value);
+  if (mn > mx) { mx = mn; ageMaxEl.value = mx; }
+  ageMinVal.textContent = mn;
+  ageMaxVal.textContent = mx;
+}
+
+ageMinEl.addEventListener('input', updateAgeDisplay);
+ageMaxEl.addEventListener('input', updateAgeDisplay);
+
+// Data pools — diferenciación forzada
+var rnd = function(a) { return a[Math.floor(Math.random() * a.length)]; };
+
+// Builds y tonos para diferenciar personas
+var builds = [
+  'lean and slender build',
+  'athletic and toned physique',
+  'medium, well-proportioned build',
+  'fuller, strong physique',
+  'tall and lean frame'
+];
+
+var tones = [
+  'light skin tone — fair-complexioned Mexican',
+  'light-medium skin tone — warm undertones',
+  'medium skin tone — classic Mexican olive complexion',
+  'medium-warm skin tone — sun-kissed appearance'
+];
+
+var cabellos = {
+  mujer: [
+    'long dark hair, loose and flowing from the movement',
+    'shoulder-length wavy auburn hair, loose and in motion',
+    'sleek straight dark hair, neatly pulled back',
+    'medium curly dark brown hair, voluminous and in motion',
+    'long chestnut hair in a loose braid over one shoulder',
+    'short, modern pixie-style dark hair'
+  ],
+  hombre: [
+    'short dark hair, neatly styled with a clean fade',
+    'medium-length dark hair, slightly tousled from movement',
+    'short salt-and-pepper hair, distinguished look',
+    'dark wavy hair, textured and natural',
+    'short dark hair with a defined side part',
+    'cropped dark hair, very clean and minimal'
+  ]
+};
+
+var outfits = {
+  mujer: [
+    'wide-leg trousers in premium fabric + fitted tucked-in shirt + structured blazer worn open',
+    'straight-leg dark jeans + oversized silk blouse + clean white leather sneakers',
+    'midi skirt with subtle movement + premium fitted top + short leather jacket',
+    'tailored wide-leg pants + sleeveless structured top + long open cardigan',
+    'high-waist straight trousers + tucked oversized linen shirt + clean ankle boots',
+    'flowing midi trousers + fitted turtleneck + trench coat worn loosely'
+  ],
+  hombre: [
+    'well-fitted straight chinos + premium crew-neck tee + unstructured blazer worn casually',
+    'dark straight jeans + fitted long-sleeve shirt + clean white leather sneakers',
+    'tailored trousers + premium polo shirt + lightweight suede jacket',
+    'straight dark jeans + quality fitted turtleneck + premium bomber jacket',
+    'slim straight jeans + premium graphic-free tee + short leather jacket',
+    'chinos + linen shirt rolled at sleeves + loafers and no-show socks'
+  ]
+};
+
+var accesorios = {
+  mujer: [
+    'a delicate gold watch',
+    'small gold hoop earrings + a thin chain necklace',
+    'a minimal leather tote bag',
+    'a small structured shoulder bag',
+    'a thin silver watch + stacked bracelets',
+    'no visible accessories — clean minimal look'
+  ],
+  hombre: [
+    'a clean analog watch with leather strap',
+    'a subtle silver chain necklace',
+    'a fine analog watch with metal bracelet',
+    'a minimal leather belt as the only accessory',
+    'no visible accessories — intentionally clean'
+  ]
+};
+
+var paletas = [
+  'negro + blanco roto','terracota + crema','azul cobalto + gris claro',
+  'verde olivo + camel','borgoña + nude','blanco total',
+  'gris + acento rojo','mostaza + gris antracita','azul marino + crema',
+  'rosa palo + beige','verde botella + blanco','lavanda + beige',
+  'chocolate + naranja quemado'
+];
+
+var energias = {
+  a: 'walking with a long, deliberate, confident stride — mid-step, weight shifted forward, arms swinging naturally, looking straight ahead in the direction of movement',
+  b: 'walking fast with clear urgency and energy — long stride, arms in motion, clothing reacting to speed, gaze forward in the direction of movement',
+  c: 'nearly running — dynamic, one foot fully elevated, hair and clothing caught in motion, full kinetic energy, eyes forward in the direction of walk'
+};
+
+var expresiones = {
+  mix: 'calm and forward-focused — not smiling, but with subtle warmth at the corners of the mouth, naturally pleasant without being stiff',
+  sonrisa: 'natural relaxed smile — not forced, genuine, as if heading somewhere exciting',
+  serio: 'calm and determined — confident, purposeful, no tension'
+};
+
+// Función para construir descripción de una persona con variación forzada
+function buildPersonaDesc(p, index, usedBuilds, usedTones, usedHairs, usedOutfits, usedAccs, ageMin, ageMax) {
+  var g = p.g || rnd(['mujer', 'hombre']);
+
+  // Build — sin repetir hasta agotar
+  var availBuilds = builds.filter(function(b) { return usedBuilds.indexOf(b) === -1; });
+  if (!availBuilds.length) availBuilds = builds.slice();
+  var build = rnd(availBuilds);
+  usedBuilds.push(build);
+
+  // Tono — sin repetir
+  var availTones = tones.filter(function(t) { return usedTones.indexOf(t) === -1; });
+  if (!availTones.length) availTones = tones.slice();
+  var tone = rnd(availTones);
+  usedTones.push(tone);
+
+  // Cabello
+  var pool = cabellos[g].filter(function(h) { return usedHairs.indexOf(h) === -1; });
+  if (!pool.length) pool = cabellos[g].slice();
+  var cabello = rnd(pool);
+  usedHairs.push(cabello);
+
+  // Outfit
+  var oPool = outfits[g].filter(function(o) { return usedOutfits.indexOf(o) === -1; });
+  if (!oPool.length) oPool = outfits[g].slice();
+  var outfit = rnd(oPool);
+  usedOutfits.push(outfit);
+
+  // Accesorio
+  var aPool = accesorios[g].filter(function(a) { return usedAccs.indexOf(a) === -1; });
+  if (!aPool.length) aPool = accesorios[g].slice();
+  var acc = rnd(aPool);
+  usedAccs.push(acc);
+
+  var sujeto = g === 'mujer' ? 'Woman' : 'Man';
+  var label = 'Person ' + (index + 1);
+
+  return label + ' (' + sujeto + '): ' + ageMin + '–' + ageMax + ' years old, Mexican appearance, ' + tone + ', ' + build + '. Hair: ' + cabello + '. Outfit: ' + outfit + '. Accessory: ' + acc + '.';
+}
+
+function getDirText(dir) {
+  return dir === 'left'
+    ? 'walking toward the LEFT — captured in a pure 90-degree lateral profile from the right side. CRITICAL: every single person faces and walks LEFT. No exceptions. No one faces right or looks at the camera.'
+    : 'walking toward the RIGHT — captured in a pure 90-degree lateral profile from the left side. CRITICAL: every single person faces and walks RIGHT. No exceptions. No one faces left or looks at the camera.';
+}
+
+function buildPrompt() {
+  var presetKey = activePreset ? activePreset.getAttribute('data-preset') : null;
+  var customVal = document.getElementById('escenarioCustom').value.trim();
+
+  if (!presetKey && !customVal) return null;
+
+  var ageMin = parseInt(ageMinEl.value);
+  var ageMax = parseInt(ageMaxEl.value);
+  if (ageMin > ageMax) ageMax = ageMin;
+
+  var p_sel = document.getElementById('paleta').value;
+  var paleta = p_sel === 'random' ? rnd(paletas) : p_sel;
+  var energia = energias[document.getElementById('energia').value];
+  var expresion = expresiones[document.getElementById('expresion').value];
+  var extra = document.getElementById('extra').value.trim();
+  var dirText = getDirText(currentDir);
+
+  var prompt = 'Photorealistic ultra-high-resolution image, print-ready 300 DPI, square 1:1 aspect ratio. Premium lifestyle editorial campaign — visual quality of Zara, Mango or GQ. Not stock photography.\n\n';
+
+  if (presetKey) {
+    var scen = presetData[presetKey];
+    var usedBuilds = [], usedTones = [], usedHairs = [], usedOutfits = [], usedAccs = [];
+
+    prompt += 'SCENE: ' + scen.label.charAt(0).toUpperCase() + scen.label.slice(1) + '. ' + scen.personas.length + (scen.hasKid ? '+1' : '') + ' people total.\n\n';
+    prompt += 'DIRECTION: All people are ' + dirText + '\n\n';
+    prompt += 'MOVEMENT: Everyone is ' + energia + '. Captured mid-stride — at least one foot elevated. Clothing shows natural movement and drape.\n\n';
+    prompt += 'EXPRESSION: All expressions are ' + expresion + '.\n\n';
+    prompt += 'PEOPLE — each person must look visually distinct from the others (different build, skin tone, hair length, and facial features):\n';
+
+    scen.personas.forEach(function(p, i) {
+      prompt += buildPersonaDesc(p, i, usedBuilds, usedTones, usedHairs, usedOutfits, usedAccs, ageMin, ageMax) + '\n';
+    });
+
+    if (scen.hasKid) {
+      prompt += 'Person ' + (scen.personas.length + 1) + ' (Child): 5–8 years old, Mexican appearance, light to medium skin tone, small playful build. Hair: dark, naturally styled. Outfit: casual kids clothing in palette-coordinated colors.\n';
+    }
+
+  } else {
+    prompt += 'SCENE: ' + customVal + '.\n\n';
+    prompt += 'DIRECTION: All people are ' + dirText + '\n\n';
+    prompt += 'MOVEMENT: Everyone is ' + energia + '. Captured mid-stride. Clothing shows natural movement.\n\n';
+    prompt += 'EXPRESSION: ' + expresion + '.\n\n';
+    prompt += 'PEOPLE: Each person ' + ageMin + '–' + ageMax + ' years old (unless the scenario specifies otherwise), Mexican appearance, urban middle-class. Each individual must look clearly distinct from the others — different build (lean vs athletic vs fuller), different skin tone within the Mexican range (light to olive), and different hair style and length.\n';
+  }
+
+  prompt += '\nCOLOR PALETTE for all outfits: ' + paleta + '. Coordinate looks — harmonious but individually distinct. No visible logos. Fabrics look premium.\n\n';
+  prompt += 'LIGHTING: Dramatic editorial lighting from slightly above and in front — sculpts all figures, cinematic quality. Not flat.\n\n';
+  prompt += 'SHADOW: A single natural ground shadow under each person, clearly defined, anchored at the feet. Essential for compositing.\n\n';
+  prompt += 'BACKGROUND: Absolute pure white (#FFFFFF). No texture, no gradient. Full body head to feet, generous negative space on both sides.';
+
+  if (extra) prompt += '\n\nADDITIONAL NOTE: ' + extra;
+
+  return {
+    prompt: prompt,
+    label: presetKey ? presetData[presetKey].label : customVal.slice(0, 30),
+    paleta: paleta,
+    ages: ageMin + '–' + ageMax,
+    dir: currentDir
+  };
+}
+
+function renderPreview(result) {
+  var el = document.getElementById('previewPrompt');
+  var ch = document.getElementById('previewChips');
+
+  if (!result) {
+    el.textContent = 'Elige un escenario y presiona Generar...';
+    el.classList.add('empty');
+    ch.innerHTML = '';
+    return;
+  }
+
+  el.textContent = result.prompt;
+  el.classList.remove('empty');
+  lastPrompt = result.prompt;
+
+  ch.innerHTML = [
+    { key: 'escenario', val: result.label },
+    { key: 'paleta', val: result.paleta },
+    { key: 'edades', val: result.ages + ' años' },
+    { key: 'caminata', val: result.dir === 'left' ? '← izq' : 'der →' }
+  ].map(function(c) {
+    return '<span class="chip"><span class="chip-key">' + c.key + '</span>' + c.val + '</span>';
+  }).join('');
+}
+
+// Eventos
+document.getElementById('btnGen').addEventListener('click', function() {
+  var result = buildPrompt();
+  if (!result) {
+    this.classList.add('shake');
+    var s = this;
+    setTimeout(function() { s.classList.remove('shake'); }, 450);
+    return;
+  }
+  renderPreview(result);
+});
+
+document.getElementById('btnCopy').addEventListener('click', function() {
+  if (!lastPrompt) {
+    this.classList.add('shake');
+    var s = this;
+    setTimeout(function() { s.classList.remove('shake'); }, 450);
+    return;
+  }
+  var btn = this, orig = btn.innerHTML;
+  navigator.clipboard.writeText(lastPrompt).then(function() {
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,7 5.5,10.5 12,4"/></svg> Copiado';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1600);
+  });
+});
+
+document.getElementById('btnClear').addEventListener('click', function() {
+  if (activePreset) { activePreset.classList.remove('active'); activePreset = null; }
+  document.getElementById('escenarioCustom').value = '';
+  document.getElementById('paleta').value = 'random';
+  document.getElementById('energia').value = 'a';
+  document.getElementById('expresion').value = 'mix';
+  document.getElementById('extra').value = '';
+  ageMinEl.value = 35; ageMaxEl.value = 44; updateAgeDisplay();
+  setDir('left');
+  lastPrompt = '';
+  renderPreview(null);
+});
+
+// Dark mode
+var isDark = false;
+document.getElementById('darkToggle').addEventListener('click', function() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('iconSun').style.display = isDark ? 'block' : 'none';
+  document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
+});
+</script>
+</body>
+</html>

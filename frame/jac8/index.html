@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stampede — Frame · JAC 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #34275f;
+  --purple-mid: #4a3880;
+  --orange: #df6f40;
+  --orange-light: #e8845a;
+  --bg: #f2f1ee;
+  --surface: #ffffff;
+  --surface-2: #f7f6f4;
+  --surface-3: #eeece8;
+  --border: rgba(0,0,0,0.08);
+  --border-mid: rgba(0,0,0,0.12);
+  --text-primary: #111010;
+  --text-secondary: #5a5855;
+  --text-tertiary: #9a9895;
+  --text-placeholder: #c5c3be;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-pill: 100px;
+}
+
+[data-theme="dark"] {
+  --bg: #111013;
+  --surface: #1c1b20;
+  --surface-2: #232229;
+  --surface-3: #2a2930;
+  --border: rgba(255,255,255,0.07);
+  --border-mid: rgba(255,255,255,0.12);
+  --text-primary: #f0eef8;
+  --text-secondary: #9a98a8;
+  --text-tertiary: #5a5868;
+  --text-placeholder: #3a3848;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+.header-left { display: flex; align-items: center; gap: 14px; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+.breadcrumb { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; }
+.bc-link { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: var(--purple); text-decoration: none; transition: opacity 0.15s; line-height: 1; }
+[data-theme="dark"] .bc-link { color: #c4a6f0; }
+.bc-link:hover { opacity: 0.7; }
+.bc-sep { color: var(--text-tertiary); font-weight: 300; font-size: 15px; line-height: 1; }
+.bc-mid { font-size: 12px; font-weight: 400; letter-spacing: 0.06em; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: opacity 0.15s; }
+.bc-mid:hover { opacity: 0.7; }
+.bc-current { font-size: 12px; font-weight: 400; letter-spacing: 0.06em; color: var(--text-tertiary); text-transform: uppercase; }
+
+.btn-icon { width: 34px; height: 34px; border-radius: var(--radius-pill); border: 1px solid var(--border-mid); background: var(--surface-2); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.18s; flex-shrink: 0; }
+.btn-icon:hover { background: var(--surface-3); color: var(--text-primary); }
+
+/* ── PAGE ── */
+.page { max-width: 800px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+.page-intro { margin-bottom: 2rem; }
+.page-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; color: var(--orange); text-transform: uppercase; margin-bottom: 10px; }
+.page-title { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; letter-spacing: -0.03em; color: var(--text-primary); line-height: 1.15; }
+.page-title span { display: inline-block; background: linear-gradient(135deg, var(--purple) 0%, #7b5ea7 50%, var(--orange) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; }
+
+/* ── TABS ── */
+.tabs { display: flex; gap: 6px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px; margin-bottom: 1.5rem; width: fit-content; }
+.tab-btn { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); background: transparent; border: none; border-radius: calc(var(--radius-pill) - 2px); padding: 8px 18px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 7px; }
+.tab-btn:hover { color: var(--text-secondary); }
+.tab-btn.active { background: var(--surface); color: var(--text-primary); box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── CARDS ── */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); transition: background 0.3s, border-color 0.3s; }
+.card-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; }
+.card-title-dot { width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--orange)); flex-shrink: 0; }
+.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── FIELDS ── */
+.fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 1.5rem; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field.full { grid-column: 1 / -1; }
+.field-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; color: var(--text-secondary); text-transform: uppercase; }
+
+input[type="text"], select, textarea { width: 100%; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-primary); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; outline: none; transition: border-color 0.18s, box-shadow 0.18s, background 0.18s; -webkit-appearance: none; appearance: none; }
+input[type="text"]::placeholder, textarea::placeholder { color: var(--text-placeholder); font-style: italic; font-size: 13px; }
+input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(52,39,95,0.1); background: var(--surface); }
+[data-theme="dark"] input:focus, [data-theme="dark"] select:focus, [data-theme="dark"] textarea:focus { box-shadow: 0 0 0 3px rgba(123,94,167,0.2); }
+textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
+.select-wrap { position: relative; }
+.select-wrap select { padding-right: 36px; cursor: pointer; }
+.select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-tertiary); display: flex; }
+
+/* ── ESCENARIO CUSTOM ── */
+.escenario-custom { margin-top: 8px; display: none; }
+.escenario-custom.visible { display: block; }
+
+/* ── ÁNGULOS ── */
+.angles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.angle-btn { background: var(--surface-2); border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 12px 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 7px; transition: all 0.18s; text-align: center; }
+.angle-btn:hover { border-color: var(--border-mid); background: var(--surface-3); }
+.angle-btn.selected { border-color: var(--purple); background: rgba(52,39,95,0.06); box-shadow: 0 0 0 3px rgba(52,39,95,0.12); }
+[data-theme="dark"] .angle-btn.selected { border-color: #7b5ea7; background: rgba(123,94,167,0.12); box-shadow: 0 0 0 3px rgba(123,94,167,0.2); }
+.angle-letter { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: var(--text-tertiary); line-height: 1; transition: color 0.18s; }
+.angle-btn.selected .angle-letter { color: var(--purple); }
+[data-theme="dark"] .angle-btn.selected .angle-letter { color: #c4a6f0; }
+.angle-desc { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 400; color: var(--text-tertiary); line-height: 1.4; }
+.angle-btn.selected .angle-desc { color: var(--text-secondary); }
+
+/* ── COLORES ── */
+.colors-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+.color-btn { display: flex; align-items: center; gap: 8px; background: var(--surface-2); border: 2px solid var(--border); border-radius: var(--radius-pill); padding: 7px 14px; cursor: pointer; transition: all 0.18s; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+.color-btn:hover { border-color: var(--border-mid); color: var(--text-primary); background: var(--surface-3); }
+.color-btn.selected { border-color: var(--purple); background: rgba(52,39,95,0.06); color: var(--text-primary); box-shadow: 0 0 0 3px rgba(52,39,95,0.12); }
+[data-theme="dark"] .color-btn.selected { border-color: #7b5ea7; background: rgba(123,94,167,0.12); box-shadow: 0 0 0 3px rgba(123,94,167,0.2); }
+.color-check { width: 13px; height: 13px; flex-shrink: 0; color: var(--purple); display: none; }
+[data-theme="dark"] .color-check { color: #c4a6f0; }
+.color-btn.selected .color-check { display: block; }
+.color-swatch { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
+.sw-arctic { background: #f0f0ee; }
+.sw-red { background: #c0392b; }
+.sw-onyx { background: #1a1a1a; }
+
+/* ── PREVIEW AURORA ── */
+.preview-card { border-radius: var(--radius-lg); padding: 2rem 2rem 1.75rem; margin-bottom: 1rem; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+.preview-card-bg { position: absolute; inset: 0; background: linear-gradient(-45deg, #0f0c22, #34275f, #6b3070, #c0451e, #df6f40, #34275f, #0f0c22); background-size: 400% 400%; animation: auroraShift 14s ease infinite; z-index: 0; }
+[data-theme="dark"] .preview-card-bg { background: linear-gradient(-45deg, #08060f, #1c1240, #3d1f55, #6a2010, #8b3520, #1c1240, #08060f); background-size: 400% 400%; }
+@keyframes auroraShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.preview-card-glow { position: absolute; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(223,111,64,0.38) 0%, transparent 68%); top: -90px; right: -70px; z-index: 0; pointer-events: none; animation: orbeA 9s ease-in-out infinite; }
+.preview-card-glow2 { position: absolute; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle, rgba(123,94,167,0.42) 0%, transparent 68%); bottom: -80px; left: 20px; z-index: 0; pointer-events: none; animation: orbeB 11s ease-in-out infinite; }
+@keyframes orbeA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-24px,18px); } }
+@keyframes orbeB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(18px,-22px); } }
+.preview-inner { position: relative; z-index: 1; }
+.preview-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.preview-eyebrow::before { content: ''; display: inline-block; width: 16px; height: 1px; background: rgba(255,255,255,0.3); }
+.preview-result { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12.5px; font-weight: 300; color: rgba(255,255,255,0.88); line-height: 1.75; min-height: 80px; white-space: pre-wrap; word-break: break-word; }
+.preview-result.empty { color: rgba(255,255,255,0.25); font-style: italic; }
+.preview-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.chip { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-pill); padding: 4px 10px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 5px; animation: chipIn 0.2s ease; }
+@keyframes chipIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.chip-key { color: rgba(255,255,255,0.3); font-size: 10px; }
+
+/* ── BOTONES ── */
+.actions { display: flex; gap: 10px; margin-bottom: 1rem; align-items: stretch; }
+.btn-primary { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; background: var(--purple); border: none; border-radius: var(--radius-pill); padding: 13px 24px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.18s; white-space: nowrap; box-shadow: var(--shadow-sm); flex-shrink: 0; }
+.btn-primary:hover { background: var(--purple-mid); transform: translateY(-1px); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary.shake { animation: shake 0.4s ease; }
+
+.btn-copy-wrap { flex: 1; position: relative; border-radius: var(--radius-pill); padding: 1.5px; background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple)); background-size: 300% 300%; animation: borderFlow 5s linear infinite; box-shadow: 0 2px 14px rgba(52,39,95,0.15); }
+@keyframes borderFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.btn-copy { width: 100%; height: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); background: var(--surface); border: none; border-radius: calc(var(--radius-pill) - 1.5px); padding: 13px 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; transition: background 0.2s, color 0.2s, transform 0.12s; white-space: nowrap; }
+.btn-copy:hover { background: var(--surface-2); color: var(--purple); }
+[data-theme="dark"] .btn-copy:hover { color: #c4a6f0; }
+.btn-copy:active { transform: scale(0.985); }
+.btn-copy.copied { color: #1c7a4a; }
+[data-theme="dark"] .btn-copy.copied { color: #4dd68c; }
+.btn-copy.shake { animation: shake 0.4s ease; }
+
+.btn-clear { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-secondary); background: var(--surface); border: 1px solid var(--border-mid); border-radius: var(--radius-pill); padding: 13px 18px; cursor: pointer; display: flex; align-items: center; transition: all 0.18s; box-shadow: var(--shadow-sm); flex-shrink: 0; }
+.btn-clear:hover { color: var(--text-primary); background: var(--surface-2); }
+
+@keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+
+/* ── GALERÍA — ESCENAS ── */
+.scene-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+.scene-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.scene-num { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); }
+.scene-badge { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--orange)); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #fff; }
+.btn-remove { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border-mid); background: var(--surface-2); color: var(--text-tertiary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.18s; }
+.btn-remove:hover { background: #fce8e8; border-color: #e57373; color: #c0392b; }
+[data-theme="dark"] .btn-remove:hover { background: #2a1a1a; border-color: #c0392b; color: #e57373; }
+
+.scene-copy-wrap { flex: 1; position: relative; border-radius: var(--radius-pill); padding: 1.5px; background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple)); background-size: 300% 300%; animation: borderFlow 5s linear infinite; }
+.scene-copy-btn { width: 100%; height: 100%; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); background: var(--surface); border: none; border-radius: calc(var(--radius-pill) - 1.5px); padding: 9px 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background 0.2s, color 0.2s, transform 0.12s; }
+.scene-copy-btn:hover { background: var(--surface-2); color: var(--purple); }
+[data-theme="dark"] .scene-copy-btn:hover { color: #c4a6f0; }
+.scene-copy-btn.copied { color: #1c7a4a; }
+[data-theme="dark"] .scene-copy-btn.copied { color: #4dd68c; }
+.scene-copy-btn.shake { animation: shake 0.4s ease; }
+.scene-mini-actions { display: flex; gap: 8px; margin-top: 1rem; align-items: stretch; }
+
+.btn-add-scene { width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); background: var(--surface-2); border: 1.5px dashed var(--border-mid); border-radius: var(--radius-lg); padding: 1rem; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1rem; }
+.btn-add-scene:hover { border-color: var(--purple); color: var(--purple); background: var(--surface); }
+[data-theme="dark"] .btn-add-scene:hover { border-color: #7b5ea7; color: #c4a6f0; }
+.btn-add-scene:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-add-scene:disabled:hover { border-color: var(--border-mid); color: var(--text-secondary); background: var(--surface-2); }
+
+/* Chars dinámicos */
+.char-fields { display: flex; flex-direction: column; gap: 10px; }
+.char-row { display: flex; gap: 10px; align-items: flex-start; }
+.char-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--purple), var(--orange)); border-radius: var(--radius-pill); padding: 5px 10px; flex-shrink: 0; margin-top: 10px; letter-spacing: 0.06em; }
+
+/* Nota restricción */
+.restriction-note { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; color: var(--orange); background: rgba(223,111,64,0.08); border: 1px solid rgba(223,111,64,0.2); border-radius: var(--radius-sm); padding: 8px 12px; margin-top: 8px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.5; }
+
+/* Nueva historia */
+.btn-nueva { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); background: var(--surface-2); border: 1px solid var(--border-mid); border-radius: var(--radius-pill); padding: 7px 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.18s; }
+.btn-nueva:hover { color: var(--text-primary); background: var(--surface-3); }
+
+/* ── FOOTER ── */
+.footer { text-align: center; padding: 2rem 0 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.06em; line-height: 1.8; }
+.footer-mamut { font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px; }
+
+/* ── CARD INSTRUCCIONES ── */
+.how-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); transition: background 0.3s, border-color 0.3s; }
+.how-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+.how-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); display: flex; align-items: center; gap: 8px; }
+.how-toggle { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-mid); background: var(--surface-2); color: var(--text-tertiary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.18s; flex-shrink: 0; }
+.how-toggle:hover { background: var(--surface-3); color: var(--text-primary); }
+.how-toggle svg { transition: transform 0.25s; }
+.how-card.collapsed .how-toggle svg { transform: rotate(-90deg); }
+.how-body { margin-top: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.how-card.collapsed .how-body { display: none; }
+.how-step { display: flex; align-items: flex-start; gap: 12px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; }
+.how-step-icon { width: 28px; height: 28px; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--purple), var(--orange)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: rgba(255,255,255,0.9); margin-top: 1px; }
+.how-step-text { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.5; }
+.how-step-text strong { font-weight: 600; color: var(--text-primary); }
+@media (max-width: 580px) { .how-body { grid-template-columns: 1fr; } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 580px) {
+  .header { padding: 0 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+  .card, .scene-card { padding: 1.25rem; }
+  .preview-card { padding: 1.25rem; }
+  .fields-grid { grid-template-columns: 1fr; }
+  .field.full { grid-column: 1; }
+  .page-title { font-size: 22px; }
+  .bc-sep, .bc-mid, .bc-current { display: none; }
+  .actions { flex-wrap: wrap; }
+  .angles-grid { grid-template-columns: repeat(2,1fr); }
+  .colors-grid { gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <nav class="breadcrumb">
+      <a href="../../index.html" class="bc-link">Stampede</a>
+      <span class="bc-sep">/</span>
+      <a href="../index.html" class="bc-mid">Frame</a>
+      <span class="bc-sep">/</span>
+      <span class="bc-current">JAC 8</span>
+    </nav>
+  </div>
+  <div class="header-right">
+    <button class="btn-icon" id="darkToggle" title="Modo oscuro">
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="display:none">
+        <circle cx="7.5" cy="7.5" r="2.8"/>
+        <line x1="7.5" y1="1" x2="7.5" y2="2.5"/><line x1="7.5" y1="12.5" x2="7.5" y2="14"/>
+        <line x1="1" y1="7.5" x2="2.5" y2="7.5"/><line x1="12.5" y1="7.5" x2="14" y2="7.5"/>
+        <line x1="3" y1="3" x2="4.1" y2="4.1"/><line x1="10.9" y1="10.9" x2="12" y2="12"/>
+        <line x1="12" y1="3" x2="10.9" y2="4.1"/><line x1="4.1" y1="10.9" x2="3" y2="12"/>
+      </svg>
+      <svg id="iconMoon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M12 9A6 6 0 0 1 5 2a6 6 0 1 0 7 7z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="page-intro">
+    <div class="page-eyebrow">// frame · jac 8</div>
+    <h1 class="page-title">Prompts para<br><span>JAC 8.</span></h1>
+  </div>
+
+  <!-- CARD INSTRUCCIONES -->
+  <div class="how-card" id="howCard">
+    <div class="how-header" id="howHeader">
+      <div class="how-title">
+        <div class="card-title-dot"></div>
+        Cómo usar esta herramienta
+      </div>
+      <button class="how-toggle" id="howToggle" title="Colapsar">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="1,3 5,7 9,3"/></svg>
+      </button>
+    </div>
+    <div class="how-body">
+      <div class="how-step">
+        <div class="how-step-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="8" y="1" width="5" height="5" rx="1"/><rect x="1" y="8" width="5" height="5" rx="1"/><rect x="8" y="8" width="5" height="5" rx="1"/></svg>
+        </div>
+        <span class="how-step-text"><strong>Elige el modo</strong> — Imagen única para una foto independiente, o Historia / Galería para una secuencia de hasta 6 escenas con los mismos personajes.</span>
+      </div>
+      <div class="how-step">
+        <div class="how-step-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="12" height="9" rx="1.5"/><path d="M4 3V2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><line x1="7" y1="6" x2="7" y2="9"/><line x1="5.5" y1="7.5" x2="8.5" y2="7.5"/></svg>
+        </div>
+        <span class="how-step-text"><strong>Completa los campos</strong> — describe exactamente qué pasa en cada escena. Mientras más específico, mejor resultado. Presiona Copiar en cada escena.</span>
+      </div>
+      <div class="how-step">
+        <div class="how-step-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="2" width="12" height="9" rx="1.5"/><circle cx="5" cy="6" r="1.5"/><path d="M1 11l3-3 2 2 3-3 4 4"/></svg>
+        </div>
+        <span class="how-step-text"><strong>En Gemini:</strong> adjunta las 4 fotos de referencia de la JAC 8 + pega el prompt. Gemini entrega solo la fotografía — sin texto ni logos.</span>
+      </div>
+      <div class="how-step">
+        <div class="how-step-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h12M8 2l5 5-5 5"/></svg>
+        </div>
+        <span class="how-step-text"><strong>Para mantener los mismos personajes en la galería:</strong> adjunta la imagen de la escena anterior junto con el prompt de la siguiente. Sin esa referencia visual, Gemini cambia los personajes.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="single">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1" y="1" width="11" height="11" rx="2"/><circle cx="6.5" cy="6.5" r="2"/></svg>
+      Imagen única
+    </button>
+    <button class="tab-btn" data-tab="gallery">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1" y="1" width="5" height="5" rx="1.2"/><rect x="7" y="1" width="5" height="5" rx="1.2"/><rect x="1" y="7" width="5" height="5" rx="1.2"/><rect x="7" y="7" width="5" height="5" rx="1.2"/></svg>
+      Historia / Galería
+    </button>
+  </div>
+
+  <!-- ════════ TAB: IMAGEN ÚNICA ════════ -->
+  <div class="tab-content active" id="tab-single">
+
+    <div class="card">
+      <div class="card-title"><div class="card-title-dot"></div>Escena</div>
+      <div class="field full" style="margin-bottom:1.25rem">
+        <label class="field-label">Escenario</label>
+        <div class="select-wrap">
+          <select id="s-escenario">
+            <option value="pareja llegando a restaurante de cocina de autor, estacionamiento de valet en edificio moderno de la ciudad">Llegada a restaurante de nivel</option>
+            <option value="persona o pareja saliendo de casa de fin de semana modernista en la montaña, cargando maletas al cajón">Casa de campo en montaña</option>
+            <option value="grupo llegando a hotel boutique urbano, portero abriendo la puerta, entrada elegante">Hotel boutique urbano</option>
+            <option value="pareja en mirador con vista panorámica, paisaje de montaña o ciudad al fondo, momento contemplativo">Punto panorámico en ruta</option>
+            <option value="persona saliendo del auto frente a galería de arte o espacio cultural contemporáneo en la ciudad">Galería o espacio cultural</option>
+            <option value="grupo regresando de road trip, carretera sinuosa con paisaje aspiracional, ventanas abiertas">Road trip — regreso</option>
+            <option value="pareja en terraza de restaurante o bar de azotea con vista a la ciudad, ambiente cálido nocturno o atardecer">Terraza con vista a la ciudad</option>
+            <option value="familia o pareja llegando a rancho o casa de descanso privada, ambiente tranquilo y verde">Casa de descanso / rancho</option>
+            <option value="persona o pareja en plaza o calle empedrada de ciudad colonial con comercios premium al fondo">Centro histórico / calle premium">Centro histórico / calle premium</option>
+            <option value="CUSTOM">Otro — escribir a mano →</option>
+          </select>
+          <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+        </div>
+        <div class="escenario-custom" id="s-escenario-custom">
+          <input type="text" id="s-escenario-txt" placeholder="Describe el escenario y la actividad principal...">
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="field">
+          <label class="field-label">Personajes</label>
+          <div class="select-wrap">
+            <select id="s-personajes">
+              <option value="1">1 persona</option>
+              <option value="2" selected>2 personas</option>
+              <option value="3">3 personas</option>
+              <option value="4">4 personas</option>
+            </select>
+            <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Géneros</label>
+          <div class="select-wrap">
+            <select id="s-generos">
+              <option value="un hombre">1 hombre</option>
+              <option value="una mujer">1 mujer</option>
+              <option value="un hombre y una mujer" selected>1 hombre + 1 mujer</option>
+              <option value="dos hombres">2 hombres</option>
+              <option value="dos mujeres">2 mujeres</option>
+              <option value="dos hombres y una mujer">2 hombres + 1 mujer</option>
+              <option value="un hombre y dos mujeres">1 hombre + 2 mujeres</option>
+              <option value="tres hombres">3 hombres</option>
+              <option value="tres mujeres">3 mujeres</option>
+              <option value="dos hombres y dos mujeres">2 hombres + 2 mujeres</option>
+              <option value="tres hombres y una mujer">3 hombres + 1 mujer</option>
+              <option value="un hombre y tres mujeres">1 hombre + 3 mujeres</option>
+              <option value="cuatro hombres">4 hombres</option>
+              <option value="cuatro mujeres">4 mujeres</option>
+            </select>
+            <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Estado del vehículo</label>
+          <div class="select-wrap">
+            <select id="s-estado">
+              <option value="impecable, acabado de salir de agencia, como nuevo, showroom">Impecable / showroom</option>
+              <option value="recién lavado, carrocería brillante y rines limpios" selected>Recién lavado</option>
+              <option value="mojado con gotas de lluvia sobre la carrocería, reflejos húmedos, recién estacionado bajo lluvia">Mojado post-lluvia</option>
+              <option value="iluminado por luz de tarde dorada, reflejos cálidos en la carrocería, sombras largas">Con luz de tarde dorada</option>
+              <option value="polvo ligero de carretera en las partes bajas, carrocería principal limpia, aspecto de viaje reciente">Polvo ligero de carretera</option>
+              <option value="reflejos de luces de ciudad en la carrocería, iluminación urbana nocturna, ambiente cosmopolita">Noche urbana — reflejos</option>
+            </select>
+            <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Hora del día</label>
+          <div class="select-wrap">
+            <select id="s-hora">
+              <option value="amanecer 6AM, luz dorada rasante, cielo rosa-naranja">Amanecer 6AM</option>
+              <option value="mañana temprana 8AM, luz suave y cálida, sombras largas">Mañana 8AM</option>
+              <option value="media mañana 10AM, luz brillante y limpia, cielo azul" selected>Media mañana 10AM</option>
+              <option value="mediodía 12PM, luz cenital intensa, sombras cortas">Mediodía 12PM</option>
+              <option value="tarde 2PM, luz directa cálida, cielo despejado">Tarde 2PM</option>
+              <option value="tarde 4PM, luz lateral cálida con tonos dorados">Tarde 4PM</option>
+              <option value="golden hour 5PM, luz dorada intensa, flares y reflejos">Golden Hour 5PM</option>
+              <option value="atardecer 6PM, cielo naranja-morado, luz dramática">Atardecer 6PM</option>
+              <option value="crepúsculo 7PM, luz azul-violeta suave, transición día-noche">Crepúsculo 7PM</option>
+              <option value="noche urbana 9PM, iluminación artificial, luces de ciudad al fondo">Noche urbana 9PM</option>
+              <option value="día nublado, luz difusa y pareja, sin sombras duras">Día nublado</option>
+            </select>
+            <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-title-dot"></div>Ángulo fotográfico</div>
+      <div class="angles-grid" id="s-angles">
+        <button class="angle-btn selected" data-angle="A" data-desc="Tres cuartos frontal, ángulo bajo — Ref. A">
+          <span class="angle-letter">A</span><span class="angle-desc">Tres cuartos frontal, ángulo bajo</span>
+        </button>
+        <button class="angle-btn" data-angle="B" data-desc="Tres cuartos trasero, ángulo bajo — Ref. B">
+          <span class="angle-letter">B</span><span class="angle-desc">Tres cuartos trasero, ángulo bajo</span>
+        </button>
+        <button class="angle-btn" data-angle="C" data-desc="Lateral completo, nivel cintura — Ref. C">
+          <span class="angle-letter">C</span><span class="angle-desc">Lateral completo, nivel cintura</span>
+        </button>
+        <button class="angle-btn" data-angle="D" data-desc="Frontal directo, ángulo bajo — Ref. D">
+          <span class="angle-letter">D</span><span class="angle-desc">Frontal directo, ángulo bajo</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-title-dot"></div>Color del vehículo</div>
+      <div class="colors-grid" id="s-colores">
+        <button class="color-btn selected" data-color="Arctic White"><span class="color-swatch sw-arctic"></span>Arctic White<svg class="color-check" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg></button>
+        <button class="color-btn" data-color="Extreme Red"><span class="color-swatch sw-red"></span>Extreme Red<svg class="color-check" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg></button>
+        <button class="color-btn" data-color="Onyx Black"><span class="color-swatch sw-onyx"></span>Onyx Black<svg class="color-check" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg></button>
+      </div>
+    </div>
+
+    <div class="preview-card">
+      <div class="preview-card-bg"></div>
+      <div class="preview-card-glow"></div>
+      <div class="preview-card-glow2"></div>
+      <div class="preview-inner">
+        <div class="preview-eyebrow">prompt generado</div>
+        <div class="preview-result empty" id="s-preview">Elige el escenario y presiona Generar.</div>
+        <div class="preview-chips" id="s-chips"></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" id="s-generar">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg>
+        Generar
+      </button>
+      <div class="btn-copy-wrap">
+        <button class="btn-copy" id="s-copiar">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M2 9H1.5A1.5 1.5 0 0 1 0 7.5v-6A1.5 1.5 0 0 1 1.5 0h6A1.5 1.5 0 0 1 9 1.5V2"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+      <button class="btn-clear" id="s-limpiar" title="Limpiar">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ════════ TAB: HISTORIA / GALERÍA ════════ -->
+  <div class="tab-content" id="tab-gallery">
+
+    <div class="card">
+      <div class="card-title">
+        <div class="card-title-dot"></div>ADN de la historia
+        <button class="btn-nueva" id="g-nueva" style="margin-left:auto;">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 2a5 5 0 1 0 1 4"/><polyline points="7,0 9,2 7,4"/></svg>
+          Nueva historia
+        </button>
+      </div>
+
+      <div class="fields-grid">
+        <div class="field full">
+          <label class="field-label">Nombre de la historia</label>
+          <input type="text" id="g-nombre" placeholder="ej: Campaña Verano Ciudad Junio">
+        </div>
+        <div class="field full">
+          <label class="field-label">Brief / Copy de referencia</label>
+          <textarea id="g-brief" rows="3" placeholder="Pega el brief o copy que el cliente dio para esta galería."></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label">Personajes</label>
+          <div class="select-wrap">
+            <select id="g-personajes">
+              <option value="1">1 persona</option>
+              <option value="2" selected>2 personas</option>
+              <option value="3">3 personas</option>
+              <option value="4">4 personas</option>
+            </select>
+            <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Géneros</label>
+          <div class="select-wrap">
+            <select id="g-generos">
+              <option value="un hombre">1 hombre</option>
+              <option value="una mujer">1 mujer</option>
+              <option value="un hombre y una mujer" selected>1 hombre + 1 mujer</option>
+              <option value="dos hombres">2 hombres</option>
+              <option value="dos mujeres">2 mujeres</option>
+              <option value="dos hombres y una mujer">2 hombres + 1 mujer</option>
+              <option value="un hombre y dos mujeres">1 hombre + 2 mujeres</option>
+              <option value="tres hombres">3 hombres</option>
+              <option value="tres mujeres">3 mujeres</option>
+              <option value="dos hombres y dos mujeres">2 hombres + 2 mujeres</option>
+              <option value="tres hombres y una mujer">3 hombres + 1 mujer</option>
+              <option value="un hombre y tres mujeres">1 hombre + 3 mujeres</option>
+              <option value="cuatro hombres">4 hombres</option>
+              <option value="cuatro mujeres">4 mujeres</option>
+            </select>
+            <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+          </div>
+        </div>
+        <div class="field full">
+          <label class="field-label">Tez del grupo</label>
+          <div class="select-wrap">
+            <select id="g-tez">
+              <option value="mayoría tez blanca y apiñonada, rasgos mexicanos clase media-alta">Mayoría tez blanca / apiñonada</option>
+              <option value="mayoría tez apiñonada y moreno claro, rasgos mexicanos clase media-alta" selected>Mayoría tez apiñonada / moreno claro</option>
+              <option value="mix equilibrado de tez blanca, apiñonada y moreno claro, rasgos mexicanos clase media-alta">Mix equilibrado</option>
+            </select>
+            <span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span>
+          </div>
+          <div class="restriction-note">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="flex-shrink:0;margin-top:1px"><circle cx="7" cy="7" r="6"/><line x1="7" y1="4" x2="7" y2="7.5"/><circle cx="7" cy="10" r="0.5" fill="currentColor"/></svg>
+            Solo perfiles mexicanos clase media-alta. Etnias distintas están fuera del brief de JAC México.
+          </div>
+        </div>
+        <div class="field full">
+          <label class="field-label">Ropa base del grupo</label>
+          <textarea id="g-ropa" rows="2" placeholder="ej: smart casual — camisas de lino, blazers ligeros, jeans, colores neutros/tierra. Nada deportivo."></textarea>
+        </div>
+        <div class="field full">
+          <label class="field-label">Color del vehículo</label>
+          <div class="colors-grid" id="g-colores">
+            <button class="color-btn selected" data-color="Arctic White"><span class="color-swatch sw-arctic"></span>Arctic White<svg class="color-check" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg></button>
+            <button class="color-btn" data-color="Extreme Red"><span class="color-swatch sw-red"></span>Extreme Red<svg class="color-check" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg></button>
+            <button class="color-btn" data-color="Onyx Black"><span class="color-swatch sw-onyx"></span>Onyx Black<svg class="color-check" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem">
+        <div class="section-label">Descripción individual por personaje</div>
+        <div class="char-fields" id="g-chars"></div>
+      </div>
+    </div>
+
+    <div class="section-label">Escenas</div>
+    <div id="g-scenes"></div>
+    <button class="btn-add-scene" id="g-add">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+      Agregar escena
+    </button>
+
+  </div>
+
+  <div class="footer">
+    <div>Stampede · Frame · JAC 8 · v1</div>
+    <div class="footer-mamut">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-tertiary)">
+        <ellipse cx="7" cy="8" rx="4.5" ry="3.5"/>
+        <path d="M2.5 8C1.5 7.5 1 6.5 1.5 5.5S3.5 4.5 4 5"/>
+        <path d="M11.5 8C12.5 7.5 13 6.5 12.5 5.5S10.5 4.5 10 5"/>
+        <path d="M4.5 5C4 3.5 4.5 2 6 1.5"/><path d="M9.5 5C10 3.5 9.5 2 8 1.5"/>
+        <line x1="5.5" y1="1.5" x2="4.5" y2="0.5"/><line x1="8.5" y1="1.5" x2="9.5" y2="0.5"/>
+      </svg>
+      Construido a mano. Porque sí se puede y porque ya me cansé de perder el tiempo.
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ── CARD INSTRUCCIONES: TOGGLE ── */
+(function() {
+  var card = document.getElementById('howCard');
+  var header = document.getElementById('howHeader');
+  var key = 'stampede_jac8_how';
+  if (localStorage.getItem(key) !== 'open') card.classList.add('collapsed');
+  header.addEventListener('click', function() {
+    var isCollapsed = card.classList.toggle('collapsed');
+    localStorage.setItem(key, isCollapsed ? 'collapsed' : 'open');
+  });
+})();
+
+/* ── DARK MODE ── */
+var isDark = false;
+document.getElementById('darkToggle').addEventListener('click', function() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('iconSun').style.display = isDark ? 'block' : 'none';
+  document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
+});
+
+/* ── SONIDO AL COPIAR ── */
+function playSeal() {
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var o1 = ctx.createOscillator(), g1 = ctx.createGain();
+    o1.type = 'sine';
+    o1.frequency.setValueAtTime(880, ctx.currentTime);
+    o1.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.18);
+    g1.gain.setValueAtTime(0.18, ctx.currentTime);
+    g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+    o1.connect(g1); g1.connect(ctx.destination);
+    o1.start(); o1.stop(ctx.currentTime + 0.22);
+
+    var o2 = ctx.createOscillator(), g2 = ctx.createGain();
+    o2.type = 'triangle';
+    o2.frequency.setValueAtTime(1320, ctx.currentTime + 0.05);
+    o2.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.2);
+    g2.gain.setValueAtTime(0, ctx.currentTime);
+    g2.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.06);
+    g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+    o2.connect(g2); g2.connect(ctx.destination);
+    o2.start(ctx.currentTime + 0.04); o2.stop(ctx.currentTime + 0.26);
+
+    var buf = ctx.createBuffer(1, ctx.sampleRate * 0.08, ctx.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * 0.15;
+    var ns = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), gn = ctx.createGain();
+    ns.buffer = buf; fl.type = 'bandpass'; fl.frequency.value = 2400; fl.Q.value = 0.8;
+    gn.gain.setValueAtTime(0.22, ctx.currentTime);
+    gn.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+    ns.connect(fl); fl.connect(gn); gn.connect(ctx.destination);
+    ns.start(); ns.stop(ctx.currentTime + 0.1);
+  } catch(e) {}
+}
+
+/* ── CONSTANTES DEL VEHÍCULO ── */
+var VEHICLE_RULES = 'RESTRICCIONES DEL VEHÍCULO — CRÍTICAS (no negociables):\n' +
+  '· Parrilla frontal con líneas horizontales escalonadas multi-nivel — diseño exclusivo JAC 8\n' +
+  '· Logo JAC visible y legible, centrado en la parrilla delantera\n' +
+  '· Faros LED horizontales alargados en DOS NIVELES — característica definitoria del modelo\n' +
+  '· Rines multi-radio de gran diámetro, diseño premium\n' +
+  '· SUV mediana-grande — proporciones exactas del modelo de producción JAC 8\n' +
+  '· PROHIBIDO modificar o alterar cualquier elemento del diseño real\n' +
+  '· Material para impresión profesional: valla y revista — máxima fidelidad al modelo\n\n' +
+  'FORMATO: 16:9 horizontal. Sin excepción.\n\n' +
+  'RESULTADO FINAL: Entrega ÚNICAMENTE la fotografía. Absolutamente ningún texto, ningún logo, ningún overlay, ningún elemento gráfico ajeno a la escena. Solo la imagen.';
+
+var MOOD = 'Estado de ánimo: confianza tranquila, elegancia sin esfuerzo, pertenencia aspiracional, disfrute genuino. No forzado, no sobreactuado.';
+
+var STYLE = 'Estilo: fotografía lifestyle de alta producción, documental y aspiracional, realista, apta para valla publicitaria y revista. Iluminación natural con tratamiento profesional. Personas reales de clase media-alta mexicana, no modelos sobreproducidos. Ropa smart-casual o casual elegante — nunca deportivo extremo.';
+
+/* ── TABS ── */
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+    this.classList.add('active');
+    document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+  });
+});
+
+/* ── HELPER: COLOR GROUP ── */
+function initColors(id) {
+  document.querySelectorAll('#' + id + ' .color-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#' + id + ' .color-btn').forEach(function(b) { b.classList.remove('selected'); });
+      this.classList.add('selected');
+    });
+  });
+}
+function getColor(id) {
+  var s = document.querySelector('#' + id + ' .color-btn.selected');
+  return s ? s.dataset.color : 'Arctic White';
+}
+initColors('s-colores');
+initColors('g-colores');
+
+/* ── ESCENARIO CUSTOM — IMAGEN ÚNICA ── */
+document.getElementById('s-escenario').addEventListener('change', function() {
+  var custom = document.getElementById('s-escenario-custom');
+  if (this.value === 'CUSTOM') {
+    custom.classList.add('visible');
+  } else {
+    custom.classList.remove('visible');
+  }
+});
+
+function getEscenario() {
+  var sel = document.getElementById('s-escenario');
+  if (sel.value === 'CUSTOM') {
+    return document.getElementById('s-escenario-txt').value.trim();
+  }
+  return sel.value;
+}
+
+/* ── ÁNGULOS — IMAGEN ÚNICA ── */
+var sAngle = { v: 'A', desc: 'Tres cuartos frontal, ángulo bajo — Ref. A' };
+document.querySelectorAll('#s-angles .angle-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#s-angles .angle-btn').forEach(function(b) { b.classList.remove('selected'); });
+    this.classList.add('selected');
+    sAngle = { v: this.dataset.angle, desc: this.dataset.desc };
+  });
+});
+
+/* ── IMAGEN ÚNICA: BUILD PROMPT ── */
+var sPrompt = '';
+
+function buildSingle() {
+  var esc = getEscenario();
+  var per = document.getElementById('s-personajes').value;
+  var gen = document.getElementById('s-generos').value;
+  var est = document.getElementById('s-estado').value;
+  var hor = document.getElementById('s-hora').value;
+  var col = getColor('s-colores');
+
+  return 'FOTOGRAFÍA A GENERAR — LEE ESTO PRIMERO:\n' +
+    esc + '\n\n' +
+    'Esta descripción define exactamente qué debe ocurrir en la imagen. Respétala al pie de la letra.\n\n' +
+    '---\n\n' +
+    'PERSONAJES: ' + per + ' persona(s) — ' + gen + '.\n\n' +
+    'VEHÍCULO: JAC 8, color ' + col + '. Estado: ' + est + '.\n' +
+    'El vehículo debe ser claramente visible y reconocible en la composición.\n\n' +
+    'ÁNGULO: ' + sAngle.desc + '. Usar imagen de referencia adjunta.\n\n' +
+    'HORA / LUZ: ' + hor + '.\n\n' +
+    MOOD + '\n\n' + STYLE + '\n\n' + VEHICLE_RULES;
+}
+
+document.getElementById('s-generar').addEventListener('click', function() {
+  var esc = getEscenario();
+  if (!esc) { shake(this); return; }
+  sPrompt = buildSingle();
+  var el = document.getElementById('s-preview');
+  el.classList.remove('empty');
+  el.textContent = sPrompt;
+  var chips = document.getElementById('s-chips');
+  chips.innerHTML = '';
+  var escLabel = document.getElementById('s-escenario').value === 'CUSTOM'
+    ? 'Custom'
+    : document.getElementById('s-escenario').options[document.getElementById('s-escenario').selectedIndex].text;
+  [
+    ['Escenario', escLabel],
+    ['Ángulo', sAngle.v],
+    ['Color', getColor('s-colores')],
+    ['Hora', document.getElementById('s-hora').options[document.getElementById('s-hora').selectedIndex].text],
+    ['Estado', document.getElementById('s-estado').options[document.getElementById('s-estado').selectedIndex].text]
+  ].forEach(function(d) {
+    var c = document.createElement('span');
+    c.className = 'chip';
+    c.innerHTML = '<span class="chip-key">' + d[0] + '</span>' + d[1];
+    chips.appendChild(c);
+  });
+});
+
+document.getElementById('s-copiar').addEventListener('click', function() {
+  if (!sPrompt) { shake(this); return; }
+  copyText(sPrompt, this, 'Copiar prompt');
+});
+
+document.getElementById('s-limpiar').addEventListener('click', function() {
+  document.getElementById('s-escenario').selectedIndex = 0;
+  document.getElementById('s-escenario-custom').classList.remove('visible');
+  document.getElementById('s-escenario-txt').value = '';
+  document.getElementById('s-personajes').value = '2';
+  document.getElementById('s-generos').value = 'un hombre y una mujer';
+  document.getElementById('s-estado').selectedIndex = 0;
+  document.getElementById('s-hora').selectedIndex = 2;
+  document.querySelectorAll('#s-angles .angle-btn').forEach(function(b) { b.classList.remove('selected'); });
+  document.querySelector('#s-angles [data-angle="A"]').classList.add('selected');
+  sAngle = { v: 'A', desc: 'Tres cuartos frontal, ángulo bajo — Ref. A' };
+  document.querySelectorAll('#s-colores .color-btn').forEach(function(b) { b.classList.remove('selected'); });
+  document.querySelector('#s-colores .color-btn').classList.add('selected');
+  sPrompt = '';
+  var el = document.getElementById('s-preview');
+  el.classList.add('empty');
+  el.textContent = 'Elige el escenario y presiona Generar.';
+  document.getElementById('s-chips').innerHTML = '';
+});
+
+/* ── HELPER: COPY TEXT ── */
+function copyText(text, btn, label) {
+  navigator.clipboard.writeText(text).then(function() {
+    playSeal();
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg> Copiado';
+    setTimeout(function() {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M2 9H1.5A1.5 1.5 0 0 1 0 7.5v-6A1.5 1.5 0 0 1 1.5 0h6A1.5 1.5 0 0 1 9 1.5V2"/></svg> ' + label;
+    }, 2200);
+  });
+}
+
+function shake(el) {
+  el.classList.add('shake');
+  setTimeout(function() { el.classList.remove('shake'); }, 400);
+}
+
+/* ── GALERÍA: PERSONAJES DINÁMICOS ── */
+var charPlaceholders = [
+  'ej: hombre, 32, delgado, cabello oscuro corto, barba ligera, tez apiñonada, porte casual elegante',
+  'ej: mujer, 29, media, cabello largo oscuro liso, tez moreno claro, segura y natural',
+  'ej: hombre, 38, corpulento, cabello corto muy oscuro, sin barba, tez blanca, actitud tranquila',
+  'ej: mujer, 26, delgada, cabello corto ondulado, tez apiñonada, expresión cálida'
+];
+
+function renderChars() {
+  var n = parseInt(document.getElementById('g-personajes').value);
+  var c = document.getElementById('g-chars');
+  c.innerHTML = '';
+  for (var i = 0; i < n; i++) {
+    var row = document.createElement('div');
+    row.className = 'char-row';
+    row.innerHTML = '<span class="char-badge">P' + (i+1) + '</span>' +
+      '<input type="text" id="g-char-' + i + '" placeholder="' + charPlaceholders[i] + '" style="flex:1">';
+    c.appendChild(row);
+  }
+}
+
+document.getElementById('g-personajes').addEventListener('change', renderChars);
+renderChars();
+
+/* ── GALERÍA: ESCENAS ── */
+var sceneCount = 0;
+
+var ESTADOS = [
+  { v: 'impecable, acabado de salir de agencia, como nuevo, showroom', l: 'Impecable / showroom' },
+  { v: 'recién lavado, carrocería brillante y rines limpios', l: 'Recién lavado' },
+  { v: 'mojado con gotas de lluvia sobre la carrocería, reflejos húmedos', l: 'Mojado post-lluvia' },
+  { v: 'iluminado por luz de tarde dorada, reflejos cálidos en la carrocería', l: 'Luz de tarde dorada' },
+  { v: 'polvo ligero de carretera en las partes bajas, carrocería principal limpia', l: 'Polvo ligero' },
+  { v: 'reflejos de luces de ciudad en la carrocería, iluminación urbana nocturna', l: 'Noche urbana' }
+];
+
+var HORAS = [
+  { v: 'amanecer 6AM, luz dorada rasante, cielo rosa-naranja', l: 'Amanecer 6AM' },
+  { v: 'mañana temprana 8AM, luz suave y cálida, sombras largas', l: 'Mañana 8AM' },
+  { v: 'media mañana 10AM, luz brillante y limpia, cielo azul', l: 'Media mañana 10AM' },
+  { v: 'mediodía 12PM, luz cenital intensa, sombras cortas', l: 'Mediodía 12PM' },
+  { v: 'tarde 2PM, luz directa cálida, cielo despejado', l: 'Tarde 2PM' },
+  { v: 'tarde 4PM, luz lateral cálida con tonos dorados', l: 'Tarde 4PM' },
+  { v: 'golden hour 5PM, luz dorada intensa, flares y reflejos', l: 'Golden Hour 5PM' },
+  { v: 'atardecer 6PM, cielo naranja-morado, luz dramática', l: 'Atardecer 6PM' },
+  { v: 'crepúsculo 7PM, luz azul-violeta suave, transición día-noche', l: 'Crepúsculo 7PM' },
+  { v: 'noche urbana 9PM, iluminación artificial, luces de ciudad al fondo', l: 'Noche urbana 9PM' },
+  { v: 'día nublado, luz difusa y pareja, sin sombras duras', l: 'Día nublado' }
+];
+
+var ANGLE_MAP = {
+  A: 'Tres cuartos frontal, ángulo bajo — Ref. A',
+  B: 'Tres cuartos trasero, ángulo bajo — Ref. B',
+  C: 'Lateral completo, nivel cintura — Ref. C',
+  D: 'Frontal directo, ángulo bajo — Ref. D'
+};
+
+function optHtml(arr, selIdx) {
+  return arr.map(function(o, i) {
+    return '<option value="' + o.v + '"' + (i === selIdx ? ' selected' : '') + '>' + o.l + '</option>';
+  }).join('');
+}
+
+function addScene() {
+  if (sceneCount >= 6) return;
+  sceneCount++;
+  var n = sceneCount;
+  var div = document.createElement('div');
+  div.className = 'scene-card'; div.id = 'sc-' + n;
+  div.innerHTML =
+    '<div class="scene-header">' +
+      '<div class="scene-num"><div class="scene-badge">' + n + '</div>Escena ' + n + '</div>' +
+      '<button class="btn-remove" onclick="removeScene(' + n + ')" title="Eliminar">' +
+        '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg>' +
+      '</button>' +
+    '</div>' +
+    '<div class="field full" style="margin-bottom:1rem">' +
+      '<label class="field-label">Momento narrativo</label>' +
+      '<textarea id="sc-mom-' + n + '" rows="2" placeholder="ej: Hombre solo, recargado en el cofre de la JAC 8 afuera de una cafetería, café en mano, actitud relajada y cotidiana. Ángulo tipo paparazzi desde la acera."></textarea>' +
+    '</div>' +
+    '<div class="fields-grid">' +
+      '<div class="field"><label class="field-label">Estado del vehículo</label>' +
+        '<div class="select-wrap"><select id="sc-est-' + n + '">' + optHtml(ESTADOS, 0) + '</select>' +
+        '<span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span></div></div>' +
+      '<div class="field"><label class="field-label">Hora del día</label>' +
+        '<div class="select-wrap"><select id="sc-hor-' + n + '">' + optHtml(HORAS, 2) + '</select>' +
+        '<span class="select-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg></span></div></div>' +
+    '</div>' +
+    '<div style="margin-top:1rem">' +
+      '<label class="field-label" style="margin-bottom:10px;display:block">Ángulo fotográfico</label>' +
+      '<div class="angles-grid" id="sc-ang-' + n + '">' +
+        '<button class="angle-btn selected" data-angle="A" onclick="pickAngle(' + n + ',this)"><span class="angle-letter">A</span><span class="angle-desc">Tres cuartos frontal, ángulo bajo</span></button>' +
+        '<button class="angle-btn" data-angle="B" onclick="pickAngle(' + n + ',this)"><span class="angle-letter">B</span><span class="angle-desc">Tres cuartos trasero, ángulo bajo</span></button>' +
+        '<button class="angle-btn" data-angle="C" onclick="pickAngle(' + n + ',this)"><span class="angle-letter">C</span><span class="angle-desc">Lateral completo, nivel cintura</span></button>' +
+        '<button class="angle-btn" data-angle="D" onclick="pickAngle(' + n + ',this)"><span class="angle-letter">D</span><span class="angle-desc">Frontal directo, ángulo bajo</span></button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="scene-mini-actions">' +
+      '<div class="scene-copy-wrap">' +
+        '<button class="scene-copy-btn" id="sc-copy-' + n + '" onclick="copyScene(' + n + ')">' +
+          '<svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M2 9H1.5A1.5 1.5 0 0 1 0 7.5v-6A1.5 1.5 0 0 1 1.5 0h6A1.5 1.5 0 0 1 9 1.5V2"/></svg>' +
+          'Copiar escena ' + n +
+        '</button>' +
+      '</div>' +
+    '</div>';
+  document.getElementById('g-scenes').appendChild(div);
+  updateAddBtn();
+}
+
+function pickAngle(n, btn) {
+  document.querySelectorAll('#sc-ang-' + n + ' .angle-btn').forEach(function(b) { b.classList.remove('selected'); });
+  btn.classList.add('selected');
+}
+
+function removeScene(n) {
+  var el = document.getElementById('sc-' + n);
+  if (el) el.remove();
+  sceneCount--;
+  updateAddBtn();
+}
+
+function updateAddBtn() {
+  document.getElementById('g-add').disabled = sceneCount >= 6;
+}
+
+function getADN() {
+  var n = parseInt(document.getElementById('g-personajes').value);
+  var chars = [];
+  for (var i = 0; i < n; i++) {
+    var el = document.getElementById('g-char-' + i);
+    chars.push('P' + (i+1) + ': ' + ((el && el.value.trim()) || 'sin descripción'));
+  }
+  return {
+    nombre: document.getElementById('g-nombre').value.trim(),
+    brief: document.getElementById('g-brief').value.trim(),
+    per: n, gen: document.getElementById('g-generos').value,
+    tez: document.getElementById('g-tez').value,
+    chars: chars,
+    ropa: document.getElementById('g-ropa').value.trim(),
+    color: getColor('g-colores')
+  };
+}
+
+function buildScene(n) {
+  var adn = getADN();
+  var mom = (document.getElementById('sc-mom-' + n) || {}).value || '';
+  var est = (document.getElementById('sc-est-' + n) || {}).value || '';
+  var hor = (document.getElementById('sc-hor-' + n) || {}).value || '';
+  var selBtn = document.querySelector('#sc-ang-' + n + ' .angle-btn.selected');
+  var angDesc = selBtn ? ANGLE_MAP[selBtn.dataset.angle] : ANGLE_MAP['A'];
+
+  var p = '';
+  if (adn.nombre) p += 'CAMPAÑA: ' + adn.nombre + '\n\n';
+
+  p += 'FOTOGRAFÍA A GENERAR — ESCENA ' + n + ' — LEE ESTO PRIMERO:\n';
+  p += mom + '\n';
+  p += 'Esta descripción define exactamente qué debe ocurrir en la imagen. Respétala al pie de la letra.\n\n';
+  p += '---\n\n';
+
+  p += 'PERSONAJES (mantener identidad visual en TODAS las imágenes de la serie):\n';
+  p += adn.per + ' persona(s) — ' + adn.gen + '.\n';
+  p += 'Tez: ' + adn.tez + '.\n';
+  adn.chars.forEach(function(c) { p += c + '\n'; });
+  p += 'Ropa: ' + (adn.ropa || 'smart casual, colores neutros, no deportivo') + '\n\n';
+
+  p += 'VEHÍCULO: JAC 8, color ' + adn.color + '. Estado en esta escena: ' + est + '.\n';
+  p += 'El vehículo debe ser claramente visible y reconocible en la composición.\n\n';
+
+  p += 'ÁNGULO: ' + angDesc + '. Usar imagen de referencia adjunta.\n\n';
+  p += 'HORA / LUZ: ' + hor + '.\n\n';
+
+  p += MOOD + '\n\n' + STYLE + '\n\n' + VEHICLE_RULES;
+  return p;
+}
+
+function copyScene(n) {
+  var mom = document.getElementById('sc-mom-' + n);
+  var btn = document.getElementById('sc-copy-' + n);
+  if (!mom || !mom.value.trim()) { shake(btn); return; }
+  var prompt = buildScene(n);
+  navigator.clipboard.writeText(prompt).then(function() {
+    playSeal();
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="1,7 4,10 12,2"/></svg> Copiado';
+    setTimeout(function() {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M2 9H1.5A1.5 1.5 0 0 1 0 7.5v-6A1.5 1.5 0 0 1 1.5 0h6A1.5 1.5 0 0 1 9 1.5V2"/></svg> Copiar escena ' + n;
+    }, 2200);
+  });
+}
+
+document.getElementById('g-add').addEventListener('click', addScene);
+
+document.getElementById('g-nueva').addEventListener('click', function() {
+  if (!confirm('¿Limpiar toda la historia y las escenas?')) return;
+  document.getElementById('g-nombre').value = '';
+  document.getElementById('g-brief').value = '';
+  document.getElementById('g-personajes').value = '2';
+  document.getElementById('g-generos').value = 'un hombre y una mujer';
+  document.getElementById('g-tez').selectedIndex = 1;
+  document.getElementById('g-ropa').value = '';
+  document.querySelectorAll('#g-colores .color-btn').forEach(function(b) { b.classList.remove('selected'); });
+  document.querySelector('#g-colores .color-btn').classList.add('selected');
+  renderChars();
+  document.getElementById('g-scenes').innerHTML = '';
+  sceneCount = 0;
+  updateAddBtn();
+});
+
+addScene();
+</script>
+</body>
+</html>

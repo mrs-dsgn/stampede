@@ -80,15 +80,6 @@ body {
 .header-left { display: flex; align-items: center; gap: 14px; }
 .header-right { display: flex; align-items: center; gap: 8px; }
 
-/* ── BREADCRUMB ── */
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-}
-
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -198,21 +189,23 @@ body {
 
 .card-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-size: 13.75px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-tertiary);
+  color: var(--orange);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 1.5rem;
 }
 
+.card-title svg { color: var(--orange); flex-shrink: 0; }
+
 .card-title-dot {
-  width: 6px; height: 6px;
+  width: 7px; height: 7px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--purple), var(--orange));
+  background: var(--orange);
   flex-shrink: 0;
 }
 
@@ -397,45 +390,90 @@ input[type="range"]::-moz-range-thumb {
   white-space: nowrap;
 }
 
-.escenario-tag:hover,
-.escenario-tag.active {
-  background: var(--purple);
-  border-color: var(--purple);
-  color: #fff;
-}
-
-[data-theme="dark"] .escenario-tag:hover,
-[data-theme="dark"] .escenario-tag.active {
-  background: #6a4db8;
-  border-color: #6a4db8;
-}
-
-/* ── DIRECTION BUTTONS ── */
-.direction-wrap { display: flex; gap: 8px; }
-
-.dir-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.04em;
-  padding: 9px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-mid);
+.escenario-tag:hover {
   background: var(--surface-2);
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex; align-items: center; gap: 7px;
-  transition: all 0.15s;
-  flex: 1;
+  border-color: var(--border-mid);
+  color: var(--text-primary);
+}
+
+.escenario-tag-wrap {
+  display: inline-block;
+  border-radius: var(--radius-pill);
+  padding: 1.5px;
+  background: var(--surface-3);
+  transition: background 0.2s;
+}
+
+.escenario-tag-wrap.active {
+  background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple));
+  background-size: 300% 300%;
+  animation: borderFlow 4s linear infinite;
+}
+
+.escenario-tag-wrap.active .escenario-tag {
+  color: var(--purple);
+  background: var(--surface);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .escenario-tag-wrap.active .escenario-tag {
+  color: #c4a6f0;
+}
+
+/* ── PAD 2D ── */
+.pads-row-centered {
+  display: flex;
+  gap: 2rem;
   justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 }
 
-.dir-btn.active {
-  background: var(--purple);
-  border-color: var(--purple);
-  color: #fff;
+.pad-col-v3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-[data-theme="dark"] .dir-btn.active { background: #6a4db8; border-color: #6a4db8; }
+.pad-sublabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.pad-canvas {
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.pad-result {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--purple);
+  letter-spacing: 0.03em;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 13px;
+  min-height: 44px;
+  line-height: 1.6;
+}
+[data-theme="dark"] .pad-result { color: #c4a6f0; }
+
+/* ── COMPOSICIÓN ── */
+.comp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.1rem 1.5rem;
+}
 
 /* ── PREVIEW CARD ── */
 .preview-card {
@@ -553,6 +591,9 @@ input[type="range"]::-moz-range-thumb {
 /* ── ACTIONS ── */
 .actions { display: flex; gap: 10px; margin-bottom: 1rem; align-items: stretch; }
 
+/* Botón generar — con soporte para punto naranja de "modificado" */
+.btn-gen-wrap { position: relative; flex-shrink: 0; }
+
 .btn-gen {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px; font-weight: 600;
@@ -567,12 +608,46 @@ input[type="range"]::-moz-range-thumb {
   transition: all 0.18s;
   white-space: nowrap;
   box-shadow: var(--shadow-sm);
-  flex-shrink: 0;
 }
 
 .btn-gen:hover { background: var(--purple-mid); transform: translateY(-1px); }
 .btn-gen:active { transform: scale(0.98); }
 .btn-gen.shake { animation: shake 0.4s ease; }
+
+/* Punto naranja — indica configuración modificada después de generar */
+.btn-modified-dot {
+  position: absolute;
+  top: -3px; right: -3px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 2px solid var(--bg);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.btn-modified-dot.visible { opacity: 1; }
+
+/* Botón regenerar variante */
+.btn-regen {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-secondary);
+  background: var(--surface-2);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-pill);
+  padding: 13px 16px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 7px;
+  transition: all 0.18s;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+.btn-regen:hover { background: var(--surface-3); color: var(--text-primary); border-color: var(--border-mid); transform: translateY(-1px); }
+.btn-regen:active { transform: scale(0.98); }
+.btn-regen.shake { animation: shake 0.4s ease; }
 
 .btn-copy-wrap {
   flex: 1;
@@ -640,6 +715,42 @@ input[type="range"]::-moz-range-thumb {
   80% { transform: translateX(4px); }
 }
 
+/* ── HISTORIAL ── */
+.history-list { display: flex; flex-direction: column; gap: 6px; }
+
+.history-item {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 400;
+  color: var(--text-secondary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  animation: chipIn 0.2s ease;
+}
+.history-item:hover { background: var(--surface-3); color: var(--text-primary); border-color: var(--border-mid); }
+
+.history-item-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.5; }
+
+.history-item-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.history-item-copy {
+  color: var(--text-tertiary); flex-shrink: 0;
+  transition: color 0.15s;
+}
+.history-item:hover .history-item-copy { color: var(--purple); }
+[data-theme="dark"] .history-item:hover .history-item-copy { color: #c4a6f0; }
+
 /* ── FOOTER ── */
 .footer {
   text-align: center;
@@ -669,7 +780,9 @@ input[type="range"]::-moz-range-thumb {
   .page-title { font-size: 22px; }
   .bc-sep, .bc-mid, .bc-current { display: none; }
   .actions { flex-wrap: wrap; }
-  .btn-gen { flex: 1; justify-content: center; }
+  .btn-gen-wrap { flex: 1; }
+  .btn-gen { width: 100%; justify-content: center; }
+  .comp-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -711,7 +824,10 @@ input[type="range"]::-moz-range-thumb {
   <!-- ESCENARIO -->
   <div class="card">
     <div class="card-title">
-      <span class="card-title-dot"></span>
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="7.5" cy="4.5" r="2.5"/>
+        <path d="M2 13.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5"/>
+      </svg>
       Escenario
     </div>
 
@@ -725,15 +841,12 @@ input[type="range"]::-moz-range-thumb {
         </label>
       </div>
       <div class="escenario-tags-wrap" id="presetTags">
-        <button class="escenario-tag" data-preset="solo">1 persona</button>
-        <button class="escenario-tag" data-preset="dos">2 personas</button>
-        <button class="escenario-tag" data-preset="pareja">Pareja</button>
-        <button class="escenario-tag" data-preset="amigos">Amigos mixto</button>
-        <button class="escenario-tag" data-preset="amigas">Amigas</button>
-        <button class="escenario-tag" data-preset="familia">Familia</button>
-        <button class="escenario-tag" data-preset="familia-nino">Familia con niño</button>
-        <button class="escenario-tag" data-preset="dos-hombres">2 hombres</button>
-        <button class="escenario-tag" data-preset="dos-mujeres">2 mujeres</button>
+        <span class="escenario-tag-wrap" data-preset="solo"><button class="escenario-tag" data-preset="solo">1 persona</button></span>
+        <span class="escenario-tag-wrap" data-preset="pareja"><button class="escenario-tag" data-preset="pareja">Pareja</button></span>
+        <span class="escenario-tag-wrap" data-preset="amigas"><button class="escenario-tag" data-preset="amigas">Amigas</button></span>
+        <span class="escenario-tag-wrap" data-preset="amigos"><button class="escenario-tag" data-preset="amigos">Grupo mixto</button></span>
+        <span class="escenario-tag-wrap" data-preset="familia"><button class="escenario-tag" data-preset="familia">Familia</button></span>
+        <span class="escenario-tag-wrap" data-preset="familia-nino"><button class="escenario-tag" data-preset="familia-nino">Familia con niño</button></span>
       </div>
 
       <div class="field-top" style="margin-bottom:8px">
@@ -752,39 +865,28 @@ input[type="range"]::-moz-range-thumb {
   <!-- CONFIGURACIÓN -->
   <div class="card">
     <div class="card-title">
-      <span class="card-title-dot"></span>
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="7.5" cy="7.5" r="2"/>
+        <path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1"/>
+      </svg>
       Configuración visual
     </div>
 
     <div class="fields-grid">
 
-      <!-- Dirección -->
-      <div class="field">
-        <div class="field-top">
-          <label class="field-label">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="1" y1="6" x2="11" y2="6"/>
-              <polyline points="8,3 11,6 8,9"/>
-            </svg>
-            Dirección de caminata
-          </label>
+      <!-- Pads v3 — movimiento y mirada centrados -->
+      <div class="field full">
+        <div class="pads-row-centered">
+          <div class="pad-col-v3">
+            <span class="pad-sublabel">Dirección de movimiento</span>
+            <canvas class="pad-canvas" id="padMove" width="220" height="220"></canvas>
+          </div>
+          <div class="pad-col-v3">
+            <span class="pad-sublabel">Dirección de mirada</span>
+            <canvas class="pad-canvas" id="padGaze" width="220" height="220"></canvas>
+          </div>
         </div>
-        <div class="direction-wrap">
-          <button class="dir-btn active" id="dirLeft" onclick="setDir('left')">
-            <svg width="13" height="11" viewBox="0 0 13 11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="5,2 2,5.5 5,9"/>
-              <line x1="2" y1="5.5" x2="11" y2="5.5"/>
-            </svg>
-            Izquierda
-          </button>
-          <button class="dir-btn" id="dirRight" onclick="setDir('right')">
-            Derecha
-            <svg width="13" height="11" viewBox="0 0 13 11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="8,2 11,5.5 8,9"/>
-              <line x1="11" y1="5.5" x2="2" y2="5.5"/>
-            </svg>
-          </button>
-        </div>
+        <div class="pad-result" id="padResult">Arrastra en cualquiera de los pads — el texto del prompt aparece aquí.</div>
       </div>
 
       <!-- Paleta -->
@@ -803,6 +905,7 @@ input[type="range"]::-moz-range-thumb {
         <div class="select-wrap">
           <select id="paleta">
             <option value="random">Aleatoria (recomendado)</option>
+            <option value="variado-calle">Variado — colores de calle</option>
             <option value="negro + blanco roto">Negro + blanco roto</option>
             <option value="terracota + crema">Terracota + crema</option>
             <option value="azul cobalto + gris claro">Azul cobalto + gris</option>
@@ -831,19 +934,19 @@ input[type="range"]::-moz-range-thumb {
         </div>
         <div class="slider-wrap">
           <div class="slider-display">
-            <span class="slider-display-val" id="ageMinVal">35</span>
+            <span class="slider-display-val" id="ageMinVal">28</span>
             <span class="slider-display-sep">—</span>
-            <span class="slider-display-val" id="ageMaxVal">44</span>
+            <span class="slider-display-val" id="ageMaxVal">40</span>
             <span style="font-size:11px;color:var(--text-tertiary);margin-left:4px;">años</span>
           </div>
           <div class="range-row">
-            <span class="range-label">25</span>
-            <input type="range" id="ageMin" min="25" max="60" value="35" step="1">
+            <span class="range-label">20</span>
+            <input type="range" id="ageMin" min="20" max="60" value="28" step="1">
             <span class="range-label">60</span>
           </div>
           <div class="range-row">
-            <span class="range-label">25</span>
-            <input type="range" id="ageMax" min="25" max="60" value="44" step="1">
+            <span class="range-label">20</span>
+            <input type="range" id="ageMax" min="20" max="60" value="40" step="1">
             <span class="range-label">60</span>
           </div>
         </div>
@@ -861,9 +964,11 @@ input[type="range"]::-moz-range-thumb {
         </div>
         <div class="select-wrap">
           <select id="energia">
-            <option value="a">Stride amplio y decidido</option>
-            <option value="b">Caminando rápido</option>
-            <option value="c">Casi corriendo, muy dinámico</option>
+            <option value="a">Paso decidido y natural</option>
+            <option value="b">Caminando con energía</option>
+            <option value="d">Felices y entusiasmados — paso ligero</option>
+            <option value="c">Corriendo — muy dinámico</option>
+            <option value="e">Máxima energía — casi brincando</option>
           </select>
           <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
         </div>
@@ -883,9 +988,11 @@ input[type="range"]::-moz-range-thumb {
         </div>
         <div class="select-wrap">
           <select id="expresion">
-            <option value="mix">Mixta — serio con toque cálido</option>
-            <option value="sonrisa">Sonrisa natural y relajada</option>
-            <option value="serio">Serio con determinación</option>
+            <option value="mix">Mixta — relajada y cálida</option>
+            <option value="sonrisa">Sonrisa natural y genuina</option>
+            <option value="feliz">Feliz — sonrisa amplia, ojos brillantes</option>
+            <option value="muyfeliz">Muy feliz — emoción real, sin exagerar</option>
+            <option value="serio">Tranquilo y determinado</option>
           </select>
           <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
         </div>
@@ -902,7 +1009,85 @@ input[type="range"]::-moz-range-thumb {
             <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:var(--text-tertiary);letter-spacing:0;text-transform:none;font-weight:300;margin-left:4px;">— opcional</span>
           </label>
         </div>
-        <textarea id="extra" placeholder="Ej: que lleven bolsas de compras, que uno use lentes de sol, que haya una mascota..."></textarea>
+        <textarea id="extra" placeholder="Ej: que uno lleve audífonos, que traigan café, que haya una mascota..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMPOSICIÓN DE CÁMARA -->
+  <div class="card">
+    <div class="card-title">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3.5" width="13" height="9" rx="1.5"/>
+        <circle cx="7.5" cy="8" r="2.2"/>
+        <line x1="4.5" y1="3.5" x2="4.5" y2="2"/><line x1="10.5" y1="3.5" x2="10.5" y2="2"/>
+      </svg>
+      Composición de cámara
+    </div>
+    <div class="comp-grid">
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1.5" y="3" width="9" height="7" rx="1.2"/>
+              <circle cx="6" cy="6.5" r="1.8"/>
+              <line x1="4" y1="3" x2="4" y2="1.5"/><line x1="8" y1="3" x2="8" y2="1.5"/>
+            </svg>
+            Ángulo de cámara
+          </label>
+        </div>
+        <div class="select-wrap">
+          <select id="camAngle">
+            <option value="eye">A nivel de ojos</option>
+            <option value="low">Ligeramente bajo</option>
+            <option value="high">Ligeramente alto</option>
+          </select>
+          <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="6" y1="1" x2="6" y2="11"/>
+              <line x1="3" y1="4" x2="9" y2="4"/>
+              <line x1="2" y1="8" x2="10" y2="8"/>
+            </svg>
+            Encuadre
+          </label>
+        </div>
+        <div class="select-wrap">
+          <select id="camFrame">
+            <option value="full">Cuerpo completo</option>
+            <option value="34">Tres cuartos</option>
+            <option value="med">Plano medio</option>
+          </select>
+          <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label class="field-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="4.5"/>
+              <line x1="6" y1="1.5" x2="6" y2="3.5"/>
+              <line x1="9.5" y1="3" x2="8" y2="4.5"/>
+            </svg>
+            Iluminación
+          </label>
+        </div>
+        <div class="select-wrap">
+          <select id="camLight">
+            <option value="studio">Estudio suave</option>
+            <option value="natural">Natural exterior</option>
+            <option value="dramatic">Lateral dramática</option>
+          </select>
+          <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+        </div>
       </div>
 
     </div>
@@ -922,11 +1107,21 @@ input[type="range"]::-moz-range-thumb {
 
   <!-- ACCIONES -->
   <div class="actions">
-    <button class="btn-gen" id="btnGen">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="2,2 11,6.5 2,11 4.5,6.5"/>
+    <div class="btn-gen-wrap">
+      <button class="btn-gen" id="btnGen">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="2,2 11,6.5 2,11 4.5,6.5"/>
+        </svg>
+        Generar
+      </button>
+      <div class="btn-modified-dot" id="btnModifiedDot"></div>
+    </div>
+    <button class="btn-regen" id="btnRegen" title="Misma config, personas nuevas">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 2a5 5 0 1 0 1.5 4"/>
+        <polyline points="10,0 10,3 7,3"/>
       </svg>
-      Generar
+      Variante
     </button>
     <div class="btn-copy-wrap">
       <button class="btn-copy" id="btnCopy">
@@ -944,8 +1139,20 @@ input[type="range"]::-moz-range-thumb {
     </button>
   </div>
 
+  <!-- HISTORIAL -->
+  <div class="card" id="historialCard" style="display:none">
+    <div class="card-title">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="7.5" cy="7.5" r="6"/>
+        <polyline points="7.5,4 7.5,7.5 10,9"/>
+      </svg>
+      Últimos generados
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
   <div class="footer">
-    <div>Stampede · Frame · JAC4 · v1</div>
+    <div>Stampede · Frame · JAC4 · v2</div>
     <div class="footer-mamut">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-tertiary)">
         <ellipse cx="7" cy="8" rx="4.5" ry="3.5"/>
@@ -954,24 +1161,389 @@ input[type="range"]::-moz-range-thumb {
         <path d="M4.5 5C4 3.5 4.5 2 6 1.5"/><path d="M9.5 5C10 3.5 9.5 2 8 1.5"/>
         <line x1="5.5" y1="1.5" x2="4.5" y2="0.5"/><line x1="8.5" y1="1.5" x2="9.5" y2="0.5"/>
       </svg>
-      Hecho a mano por alguien que también odia describir personas desde cero.
+      Construido a mano. Porque sí se puede y porque ya me cansé de perder el tiempo.
     </div>
   </div>
 
 </div>
 
 <script>
-var currentDir = 'left';
-var lastPrompt = '';
-var activePreset = null;
+/* ══════════════════════════════════════════════════════
+   DARK MODE — inamovible
+   ══════════════════════════════════════════════════════ */
+var isDark = false;
+document.getElementById('darkToggle').addEventListener('click', function() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('iconSun').style.display = isDark ? 'block' : 'none';
+  document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
+  drawPadMove(moveCanvas, movePx, movePy);
+  drawPadGaze(gazeCanvas, gazePx, gazePy);
+});
 
-function setDir(d) {
-  currentDir = d;
-  document.getElementById('dirLeft').classList.toggle('active', d === 'left');
-  document.getElementById('dirRight').classList.toggle('active', d === 'right');
+/* ══════════════════════════════════════════════════════
+   PAD 2D v3 — movimiento y mirada
+   ══════════════════════════════════════════════════════ */
+
+var PAD_S = 220;
+var movePx = PAD_S/2, movePy = PAD_S/2;
+var gazePx = PAD_S/2, gazePy = PAD_S/2;
+var lastPadDragged = null; // 'move' | 'gaze'
+
+function clampPad(v,a,b){return Math.max(a,Math.min(b,v));}
+
+function rrPad(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
 }
 
-// Presets
+function getPadColors() {
+  var dk = isDark;
+  return {
+    bg:       dk ? '#232229' : '#f7f6f4',
+    border:   dk ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.09)',
+    borderM:  dk ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.22)',
+    line:     dk ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.045)',
+    text:     dk ? '#9a98a8' : '#9a9895',
+    figFill:  dk ? '#c4a6f0' : '#34275f',
+    eyeWhite: dk ? '#2a2930' : '#ffffff',
+    eyeBord:  dk ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.14)',
+    orange:   '#df6f40',
+    purple:   dk ? '#c4a6f0' : '#34275f',
+  };
+}
+
+function getMoveText(px, py) {
+  var h = px/PAD_S, v = py/PAD_S;
+  var hT = h<0.1  ? 'fully to the LEFT — pure lateral profile'
+    : h<0.27 ? 'mostly to the left, slight forward angle'
+    : h<0.42 ? 'diagonally toward the left'
+    : h<0.58 ? 'straight ahead toward the camera'
+    : h<0.73 ? 'diagonally toward the right'
+    : h<0.9  ? 'mostly to the right, slight forward angle'
+    :           'fully to the RIGHT — pure lateral profile';
+  var vT = v<0.18 ? 'moving TOWARD the camera — frontal composition'
+    : v<0.38 ? 'slight angle toward camera — 3/4 view, face partially visible'
+    : v<0.62 ? 'pure lateral — camera perpendicular to direction of movement'
+    : v<0.82 ? 'slight angle away — rear 3/4, back partially visible'
+    :           'moving AWAY from camera — backs to the lens';
+  return 'walking ' + hT + ', ' + vT + '. CRITICAL: every person faces this exact direction.';
+}
+
+function getGazeText(px, py) {
+  var h = px/PAD_S, v = py/PAD_S;
+  var hT = h<0.12 ? 'looking hard to the LEFT — head fully turned, eyes locked on vehicle on their left'
+    : h<0.3  ? 'looking left — head turned, gaze at vehicle body height on the left'
+    : h<0.44 ? 'glancing slightly left — subtle head turn, eyes aimed left'
+    : h<0.56 ? 'looking straight ahead in the direction of movement'
+    : h<0.7  ? 'glancing slightly right — subtle head turn, eyes aimed right'
+    : h<0.88 ? 'looking right — head turned, gaze at vehicle body height on the right'
+    :           'looking hard to the RIGHT — head fully turned, eyes locked on vehicle on their right';
+  var vT = v<0.15 ? 'gaze sharply upward — roofline or sky'
+    : v<0.32 ? 'gaze above eye level — upper body or hood'
+    : v<0.46 ? 'gaze slightly above level — window or hood line'
+    : v<0.54 ? 'gaze perfectly level — door or window line'
+    : v<0.68 ? 'gaze slightly below level — door handle or lower body'
+    : v<0.85 ? 'gaze angled down — wheels or base of the vehicle'
+    :           'gaze sharply down — ground or tires at the base';
+  return hT + '. ' + vT + '. All persons share this exact gaze direction.';
+}
+
+/* ── Etiquetas cortas para chips de preview ── */
+function getMoveLabel(px, py) {
+  var h = px/PAD_S, v = py/PAD_S;
+  var hL = h<0.1  ? 'perfil izq'
+    : h<0.27 ? 'izq leve'
+    : h<0.42 ? 'diagonal izq'
+    : h<0.58 ? 'hacia cámara'
+    : h<0.73 ? 'diagonal der'
+    : h<0.9  ? 'der leve'
+    :           'perfil der';
+  var vL = v<0.18 ? 'frente'
+    : v<0.38 ? '3/4 frente'
+    : v<0.62 ? 'lateral'
+    : v<0.82 ? '3/4 espalda'
+    :           'espalda';
+  return hL + ' · ' + vL;
+}
+
+function getGazeLabel(px, py) {
+  var h = px/PAD_S, v = py/PAD_S;
+  var hL = h<0.12 ? 'izq total'
+    : h<0.3  ? 'izq'
+    : h<0.44 ? 'izq leve'
+    : h<0.56 ? 'al frente'
+    : h<0.7  ? 'der leve'
+    : h<0.88 ? 'der'
+    :           'der total';
+  var vL = v<0.15 ? 'muy arriba'
+    : v<0.32 ? 'arriba'
+    : v<0.46 ? 'leve arr'
+    : v<0.54 ? 'nivel'
+    : v<0.68 ? 'leve abj'
+    : v<0.85 ? 'abajo'
+    :           'muy abajo';
+  return hL + ' · ' + vL;
+}
+
+function drawPadDot(ctx, px, py, big) {
+  var r = big ? 7 : 5;
+  ctx.beginPath(); ctx.arc(px,py,r+2,0,Math.PI*2);
+  ctx.fillStyle = isDark?'rgba(0,0,0,0.25)':'rgba(0,0,0,0.07)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);
+  ctx.fillStyle = isDark?'#1c1b20':'#fff'; ctx.fill();
+  var g = ctx.createRadialGradient(px-1,py-1,0,px,py,r-1);
+  g.addColorStop(0,'#df6f40'); g.addColorStop(1,'#34275f');
+  ctx.beginPath(); ctx.arc(px,py,r-1,0,Math.PI*2);
+  ctx.fillStyle = g; ctx.fill();
+}
+
+function drawPadMove(canvas, px, py) {
+  var S = PAD_S, ctx = canvas.getContext('2d'), c = getPadColors();
+  var cx = S/2, cy = S/2;
+  ctx.clearRect(0,0,S,S);
+
+  ctx.fillStyle = c.bg; rrPad(ctx,0,0,S,S,12); ctx.fill();
+
+  /* suelo perspectiva */
+  var vp = {x:cx, y:28};
+  ctx.strokeStyle = c.line; ctx.lineWidth = 0.5;
+  for (var xi=10; xi<=S-10; xi+=24) {
+    ctx.beginPath();
+    ctx.moveTo(vp.x+(xi-cx)*0.06, vp.y);
+    ctx.lineTo(xi, S-8); ctx.stroke();
+  }
+  for (var yi=S-14; yi>S*0.45; yi-=20) {
+    var sp = ((S-yi)/(S*0.55))*S*0.48;
+    ctx.beginPath();
+    ctx.moveTo(cx-sp,yi); ctx.lineTo(cx+sp,yi); ctx.stroke();
+  }
+
+  /* marco de encuadre */
+  var m=16;
+  ctx.strokeStyle = c.borderM; ctx.lineWidth = 0.8;
+  rrPad(ctx,m,m,S-m*2,S-m*2,4); ctx.stroke();
+  var cl=13;
+  ctx.strokeStyle = c.borderM; ctx.lineWidth = 2; ctx.lineCap = 'round';
+  [[m,m],[S-m,m],[m,S-m],[S-m,S-m]].forEach(function(corner) {
+    var bx=corner[0],by=corner[1],sx=bx===m?1:-1,sy=by===m?1:-1;
+    ctx.beginPath();
+    ctx.moveTo(bx+sx*cl,by); ctx.lineTo(bx,by); ctx.lineTo(bx,by+sy*cl);
+    ctx.stroke();
+  });
+
+  /* tercios */
+  ctx.strokeStyle = c.line; ctx.lineWidth = 0.4; ctx.setLineDash([2,5]);
+  var tw=(S-m*2)/3;
+  for (var ti=1;ti<=2;ti++) {
+    ctx.beginPath(); ctx.moveTo(m+tw*ti,m); ctx.lineTo(m+tw*ti,S-m); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(m,m+tw*ti); ctx.lineTo(S-m,m+tw*ti); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  /* etiquetas */
+  ctx.font = '500 8px JetBrains Mono,monospace'; ctx.fillStyle = c.text;
+  ctx.textAlign='center'; ctx.textBaseline='top';    ctx.fillText('hacia cámara',cx,m+5);
+  ctx.textBaseline='bottom'; ctx.fillText('se aleja',cx,S-m-5);
+  ctx.textAlign='left'; ctx.textBaseline='middle';   ctx.fillText('izq',m+5,cy);
+  ctx.textAlign='right';                             ctx.fillText('der',S-m-5,cy);
+
+  /* trail */
+  var dx=px-cx, dy=py-cy, dist=Math.sqrt(dx*dx+dy*dy);
+  if (dist>10) {
+    for (var t=0.08;t<0.9;t+=0.07) {
+      ctx.beginPath(); ctx.arc(cx+dx*t,cy+dy*t,2.2*(1-t),0,Math.PI*2);
+      ctx.fillStyle='rgba(223,111,64,'+(0.2*(1-t))+')'; ctx.fill();
+    }
+    var nx=dx/dist,ny=dy/dist,al=Math.min(dist-16,S*0.34);
+    var ex=cx+nx*al,ey=cy+ny*al;
+    ctx.strokeStyle=c.orange; ctx.lineWidth=2; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(ex,ey); ctx.stroke();
+    var ha=Math.atan2(dy,dx);
+    ctx.beginPath();
+    ctx.moveTo(ex,ey);
+    ctx.lineTo(ex-9*Math.cos(ha-0.38),ey-9*Math.sin(ha-0.38));
+    ctx.moveTo(ex,ey);
+    ctx.lineTo(ex-9*Math.cos(ha+0.38),ey-9*Math.sin(ha+0.38));
+    ctx.stroke();
+  }
+
+  /* figura pictograma señalética */
+  var hPct=(px/S)*2-1, vPct=(py/S)*2-1;
+  var tilt=hPct*0.22;
+  ctx.save();
+  ctx.translate(cx,cy); ctx.rotate(tilt);
+  var fc=c.figFill;
+  ctx.beginPath(); ctx.ellipse(0,26,14,5,vPct*0.1,0,Math.PI*2);
+  ctx.fillStyle=isDark?'rgba(0,0,0,0.35)':'rgba(0,0,0,0.09)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(0,-26,8,0,Math.PI*2);
+  ctx.fillStyle=fc; ctx.fill();
+  rrPad(ctx,-7,-17,14,18,4);
+  ctx.fillStyle=fc; ctx.fill();
+  ctx.save(); ctx.translate(-4,2); ctx.rotate(-0.18);
+  rrPad(ctx,-3.5,0,7,20,3.5); ctx.fillStyle=fc; ctx.fill(); ctx.restore();
+  ctx.save(); ctx.translate(4,2); ctx.rotate(0.18);
+  rrPad(ctx,-3.5,0,7,20,3.5); ctx.fillStyle=fc; ctx.fill(); ctx.restore();
+  ctx.restore();
+
+  /* badge */
+  ctx.fillStyle=isDark?'rgba(28,27,32,0.88)':'rgba(255,255,255,0.88)';
+  rrPad(ctx,m+2,S-m-22,88,16,4); ctx.fill();
+  ctx.font='500 8px JetBrains Mono,monospace'; ctx.fillStyle=c.text;
+  ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('H:'+Math.round((px/S)*100)+'%  V:'+Math.round((py/S)*100)+'%',m+7,S-m-14);
+
+  ctx.strokeStyle=c.border; ctx.lineWidth=1; rrPad(ctx,0,0,S,S,12); ctx.stroke();
+  drawPadDot(ctx,px,py,true);
+}
+
+function drawPadGaze(canvas, px, py) {
+  var S=PAD_S, ctx=canvas.getContext('2d'), c=getPadColors();
+  ctx.clearRect(0,0,S,S);
+  ctx.fillStyle=c.bg; rrPad(ctx,0,0,S,S,12); ctx.fill();
+
+  ctx.strokeStyle=c.line; ctx.lineWidth=0.5; ctx.setLineDash([2,5]);
+  ctx.beginPath(); ctx.moveTo(S/2,10); ctx.lineTo(S/2,S-10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(10,S/2); ctx.lineTo(S-10,S/2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.font='500 8px JetBrains Mono,monospace'; ctx.fillStyle=c.text;
+  ctx.textAlign='center'; ctx.textBaseline='top';    ctx.fillText('↑ cielo',S/2,8);
+  ctx.textBaseline='bottom'; ctx.fillText('↓ piso',S/2,S-8);
+  ctx.textAlign='left'; ctx.textBaseline='middle';   ctx.fillText('← izq',8,S/2);
+  ctx.textAlign='right';                             ctx.fillText('der →',S-8,S/2);
+
+  var eyeY=S/2, eyeSepX=38, eyeRx=30, eyeRy=20, irisR=10, pupilR=5;
+  var gx=(px/S)*2-1, gy=(py/S)*2-1;
+  var mox=(eyeRx-irisR-4)*gx, moy=(eyeRy-irisR-3)*gy;
+
+  [[-eyeSepX,eyeY],[eyeSepX,eyeY]].forEach(function(eye) {
+    var ex=S/2+eye[0], ey=eye[1];
+    ctx.save();
+    ctx.beginPath(); ctx.ellipse(ex,ey,eyeRx,eyeRy,0,0,Math.PI*2);
+    ctx.fillStyle=c.eyeWhite; ctx.fill();
+    ctx.strokeStyle=c.eyeBord; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(ex,ey,eyeRx-1,eyeRy-1,0,0,Math.PI*2); ctx.clip();
+    var ix=ex+mox, iy=ey+moy;
+    ctx.beginPath(); ctx.arc(ix,iy,irisR,0,Math.PI*2);
+    ctx.fillStyle=isDark?'#c4a6f0':'#34275f'; ctx.fill();
+    ctx.beginPath(); ctx.arc(ix,iy,pupilR,0,Math.PI*2);
+    ctx.fillStyle=isDark?'#111013':'#111010'; ctx.fill();
+    ctx.beginPath(); ctx.arc(ix-2.5,iy-2.5,2,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.7)'; ctx.fill();
+    ctx.restore();
+    ctx.beginPath();
+    ctx.moveTo(ex-eyeRx+2,ey-2); ctx.quadraticCurveTo(ex,ey-eyeRy-4,ex+eyeRx-2,ey-2);
+    ctx.strokeStyle=isDark?'rgba(196,166,240,0.4)':'rgba(52,39,95,0.3)';
+    ctx.lineWidth=1.5; ctx.lineCap='round'; ctx.stroke();
+  });
+
+  ctx.beginPath(); ctx.moveTo(S/2,eyeY+4); ctx.lineTo(S/2,eyeY+14);
+  ctx.strokeStyle=isDark?'rgba(255,255,255,0.12)':'rgba(0,0,0,0.1)';
+  ctx.lineWidth=1.5; ctx.lineCap='round'; ctx.stroke();
+
+  var hLbl=gx<-0.5?'izq':gx<-0.1?'izq leve':gx<0.1?'centro':gx<0.5?'der leve':'der';
+  var vLbl=gy<-0.5?'arriba':gy<-0.1?'leve arr':gy<0.1?'nivel ojos':gy<0.5?'leve abj':'abajo';
+  ctx.fillStyle=isDark?'rgba(28,27,32,0.88)':'rgba(255,255,255,0.88)';
+  rrPad(ctx,14,S-32,110,16,4); ctx.fill();
+  ctx.font='500 8px JetBrains Mono,monospace'; ctx.fillStyle=c.text;
+  ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText(hLbl+' · '+vLbl,20,S-24);
+
+  ctx.strokeStyle=c.border; ctx.lineWidth=1; rrPad(ctx,0,0,S,S,12); ctx.stroke();
+  drawPadDot(ctx,px,py,false);
+}
+
+/* engine de eventos */
+var padDragging=false, padWhichMove=null;
+var moveCanvas=document.getElementById('padMove');
+var gazeCanvas=document.getElementById('padGaze');
+
+function padFromEvt(canvas,e,isMove){
+  var r=canvas.getBoundingClientRect();
+  var sx=PAD_S/r.width, sy=PAD_S/r.height;
+  var cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+  var cy=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
+  if(isMove){
+    movePx=clampPad(cx*sx,4,PAD_S-4);
+    movePy=clampPad(cy*sy,4,PAD_S-4);
+    drawPadMove(moveCanvas,movePx,movePy);
+    document.getElementById('padResult').textContent='Movimiento: ' + getMoveText(movePx,movePy);
+    lastPadDragged = 'move';
+  } else {
+    gazePx=clampPad(cx*sx,4,PAD_S-4);
+    gazePy=clampPad(cy*sy,4,PAD_S-4);
+    drawPadGaze(gazeCanvas,gazePx,gazePy);
+    document.getElementById('padResult').textContent='Mirada: ' + getGazeText(gazePx,gazePy);
+    lastPadDragged = 'gaze';
+  }
+  markModified();
+}
+
+moveCanvas.addEventListener('mousedown',function(e){padDragging=true;padWhichMove=true;padFromEvt(moveCanvas,e,true);});
+gazeCanvas.addEventListener('mousedown',function(e){padDragging=true;padWhichMove=false;padFromEvt(gazeCanvas,e,false);});
+moveCanvas.addEventListener('touchstart',function(e){e.preventDefault();padDragging=true;padWhichMove=true;padFromEvt(moveCanvas,e,true);},{passive:false});
+gazeCanvas.addEventListener('touchstart',function(e){e.preventDefault();padDragging=true;padWhichMove=false;padFromEvt(gazeCanvas,e,false);},{passive:false});
+window.addEventListener('mousemove',function(e){if(padDragging){var c=padWhichMove?moveCanvas:gazeCanvas;padFromEvt(c,e,padWhichMove);}});
+window.addEventListener('touchmove',function(e){if(padDragging){e.preventDefault();var c=padWhichMove?moveCanvas:gazeCanvas;padFromEvt(c,e,padWhichMove);}},{passive:false});
+window.addEventListener('mouseup',function(){padDragging=false;});
+window.addEventListener('touchend',function(){padDragging=false;});
+
+drawPadMove(moveCanvas,movePx,movePy);
+drawPadGaze(gazeCanvas,gazePx,gazePy);
+
+
+/* ══════════════════════════════════════════════════════
+   DATOS — personas
+   ══════════════════════════════════════════════════════ */
+var lastPrompt = '';
+var activePreset = null;
+var hasGenerated = false; // para el punto de "modificado"
+
+var ageMinEl = document.getElementById('ageMin');
+var ageMaxEl = document.getElementById('ageMax');
+
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function updateAgeDisplay() {
+  document.getElementById('ageMinVal').textContent = ageMinEl.value;
+  document.getElementById('ageMaxVal').textContent = ageMaxEl.value;
+}
+
+ageMinEl.addEventListener('input', function() {
+  if (parseInt(ageMinEl.value) > parseInt(ageMaxEl.value)) ageMaxEl.value = ageMinEl.value;
+  updateAgeDisplay();
+  markModified();
+});
+ageMaxEl.addEventListener('input', function() {
+  if (parseInt(ageMaxEl.value) < parseInt(ageMinEl.value)) ageMinEl.value = ageMaxEl.value;
+  updateAgeDisplay();
+  markModified();
+});
+
+/* ── Punto naranja de "configuración modificada" ── */
+function markModified() {
+  if (hasGenerated) {
+    document.getElementById('btnModifiedDot').classList.add('visible');
+  }
+}
+
+function clearModified() {
+  document.getElementById('btnModifiedDot').classList.remove('visible');
+}
+
+/* Escuchar cambios en todos los campos de configuración */
+['paleta','energia','expresion','camAngle','camFrame','camLight'].forEach(function(id) {
+  document.getElementById(id).addEventListener('change', markModified);
+});
+document.getElementById('extra').addEventListener('input', markModified);
+document.getElementById('escenarioCustom').addEventListener('input', markModified);
+
+/* Presets escenario */
 var presetData = {
   'solo':        { personas: [{ g: null }], hasKid: false, label: '1 persona' },
   'dos':         { personas: [{ g: null }, { g: null }], hasKid: false, label: '2 personas' },
@@ -984,116 +1556,92 @@ var presetData = {
   'dos-mujeres': { personas: [{ g: 'mujer' }, { g: 'mujer' }], hasKid: false, label: '2 mujeres' }
 };
 
-document.querySelectorAll('.escenario-tag').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    if (activePreset === this) {
-      this.classList.remove('active');
+document.querySelectorAll('.escenario-tag-wrap').forEach(function(wrap) {
+  wrap.querySelector('.escenario-tag').addEventListener('click', function() {
+    if (activePreset === wrap) {
+      wrap.classList.remove('active');
       activePreset = null;
     } else {
       if (activePreset) activePreset.classList.remove('active');
-      this.classList.add('active');
-      activePreset = this;
+      wrap.classList.add('active');
+      activePreset = wrap;
       document.getElementById('escenarioCustom').value = '';
     }
+    markModified();
   });
 });
 
-document.getElementById('escenarioCustom').addEventListener('input', function() {
-  if (this.value.trim() && activePreset) {
-    activePreset.classList.remove('active');
-    activePreset = null;
-  }
-});
-
-// Sliders de edad
-var ageMinEl = document.getElementById('ageMin');
-var ageMaxEl = document.getElementById('ageMax');
-var ageMinVal = document.getElementById('ageMinVal');
-var ageMaxVal = document.getElementById('ageMaxVal');
-
-function updateAgeDisplay() {
-  var mn = parseInt(ageMinEl.value);
-  var mx = parseInt(ageMaxEl.value);
-  if (mn > mx) { mx = mn; ageMaxEl.value = mx; }
-  ageMinVal.textContent = mn;
-  ageMaxVal.textContent = mx;
-}
-
-ageMinEl.addEventListener('input', updateAgeDisplay);
-ageMaxEl.addEventListener('input', updateAgeDisplay);
-
-// Data pools — diferenciación forzada
-var rnd = function(a) { return a[Math.floor(Math.random() * a.length)]; };
-
-// Builds y tonos para diferenciar personas
 var builds = [
-  'lean and slender build',
-  'athletic and toned physique',
-  'medium, well-proportioned build',
-  'fuller, strong physique',
-  'tall and lean frame'
+  'lean and athletic build',
+  'average build, slightly athletic',
+  'fuller figure, confident and natural',
+  'slim build',
+  'compact and energetic build'
 ];
 
 var tones = [
-  'light skin tone — fair-complexioned Mexican',
-  'light-medium skin tone — warm undertones',
-  'medium skin tone — classic Mexican olive complexion',
-  'medium-warm skin tone — sun-kissed appearance'
+  'light skin tone',
+  'light-medium skin tone',
+  'medium olive skin tone',
+  'warm medium skin tone',
+  'medium-dark skin tone'
 ];
 
 var cabellos = {
   mujer: [
-    'long dark hair, loose and flowing from the movement',
-    'shoulder-length wavy auburn hair, loose and in motion',
-    'sleek straight dark hair, neatly pulled back',
-    'medium curly dark brown hair, voluminous and in motion',
-    'long chestnut hair in a loose braid over one shoulder',
-    'short, modern pixie-style dark hair'
+    'dark straight hair, shoulder length, naturally smooth',
+    'dark wavy hair, mid-length, loose and natural',
+    'dark hair in a casual ponytail',
+    'short dark bob, clean cut',
+    'dark curly hair, medium length, voluminous',
+    'straight dark hair, long, worn loose'
   ],
   hombre: [
-    'short dark hair, neatly styled with a clean fade',
-    'medium-length dark hair, slightly tousled from movement',
-    'short salt-and-pepper hair, distinguished look',
-    'dark wavy hair, textured and natural',
-    'short dark hair with a defined side part',
-    'cropped dark hair, very clean and minimal'
+    'short dark hair, clean fade cut',
+    'medium dark hair, slightly tousled, natural texture',
+    'short dark hair, neatly combed to the side',
+    'dark hair, short on sides, slightly longer on top',
+    'short dark hair, low fade, clean look'
   ]
 };
 
 var outfits = {
   mujer: [
-    'wide-leg trousers in premium fabric + fitted tucked-in shirt + structured blazer worn open',
-    'straight-leg dark jeans + oversized silk blouse + clean white leather sneakers',
-    'midi skirt with subtle movement + premium fitted top + short leather jacket',
-    'tailored wide-leg pants + sleeveless structured top + long open cardigan',
-    'high-waist straight trousers + tucked oversized linen shirt + clean ankle boots',
-    'flowing midi trousers + fitted turtleneck + trench coat worn loosely'
+    'high-waisted jeans + fitted plain t-shirt + clean white sneakers',
+    'casual midi skirt + tucked-in basic tee + flat sandals',
+    'straight-leg jeans + fitted sweatshirt + clean sneakers',
+    'relaxed cotton pants + simple blouse + loafers',
+    'jeans + lightweight zip-up hoodie + white sneakers',
+    'casual dress, knee-length, simple cut + sandals',
+    'leggings + oversized but fitted tee + sporty sneakers',
+    'wide-leg pants + plain fitted top + slip-on shoes'
   ],
   hombre: [
-    'well-fitted straight chinos + premium crew-neck tee + unstructured blazer worn casually',
-    'dark straight jeans + fitted long-sleeve shirt + clean white leather sneakers',
-    'tailored trousers + premium polo shirt + lightweight suede jacket',
-    'straight dark jeans + quality fitted turtleneck + premium bomber jacket',
-    'slim straight jeans + premium graphic-free tee + short leather jacket',
-    'chinos + linen shirt rolled at sleeves + loafers and no-show socks'
+    'clean dark jeans + plain crew-neck tee + white sneakers',
+    'chinos + simple button-down shirt, untucked + casual sneakers',
+    'jogger pants + basic polo shirt + clean trainers',
+    'straight jeans + plain hoodie + canvas sneakers',
+    'dark jeans + graphic-free sweatshirt + clean sneakers',
+    'chinos + tucked-in tee + loafers',
+    'casual shorts + plain t-shirt + sporty sneakers — if scenario fits'
   ]
 };
 
 var accesorios = {
   mujer: [
-    'a delicate gold watch',
-    'small gold hoop earrings + a thin chain necklace',
-    'a minimal leather tote bag',
-    'a small structured shoulder bag',
-    'a thin silver watch + stacked bracelets',
-    'no visible accessories — clean minimal look'
+    'a simple everyday watch',
+    'small stud earrings',
+    'a crossbody bag, casual style',
+    'a reusable tote bag',
+    'a baseball cap',
+    'no visible accessories — clean everyday look'
   ],
   hombre: [
-    'a clean analog watch with leather strap',
-    'a subtle silver chain necklace',
-    'a fine analog watch with metal bracelet',
-    'a minimal leather belt as the only accessory',
-    'no visible accessories — intentionally clean'
+    'a casual everyday watch',
+    'a snapback or baseball cap',
+    'a simple backpack',
+    'earbuds or headphones around the neck',
+    'no visible accessories — simple clean look'
   ]
 };
 
@@ -1106,46 +1654,63 @@ var paletas = [
 ];
 
 var energias = {
-  a: 'walking with a long, deliberate, confident stride — mid-step, weight shifted forward, arms swinging naturally, looking straight ahead in the direction of movement',
-  b: 'walking fast with clear urgency and energy — long stride, arms in motion, clothing reacting to speed, gaze forward in the direction of movement',
-  c: 'nearly running — dynamic, one foot fully elevated, hair and clothing caught in motion, full kinetic energy, eyes forward in the direction of walk'
+  a: 'walking with a natural, confident stride — mid-step, weight shifted forward, arms swinging naturally, clothing relaxed and at ease',
+  b: 'walking fast with clear energy and purpose — long stride, arms in motion, clothing moving naturally with speed',
+  d: 'walking with a light, happy step — slightly bouncy gait, relaxed arms, body language open and enthusiastic, as if heading somewhere exciting',
+  c: 'running — fully dynamic, one foot elevated, hair and clothing caught in motion, strong kinetic energy, body angled forward',
+  e: 'at peak energy — mid-jump or mid-skip, both feet potentially off the ground, arms spread or raised, pure joy and movement, clothing and hair fully reacting to motion'
 };
 
 var expresiones = {
-  mix: 'calm and forward-focused — not smiling, but with subtle warmth at the corners of the mouth, naturally pleasant without being stiff',
-  sonrisa: 'natural relaxed smile — not forced, genuine, as if heading somewhere exciting',
-  serio: 'calm and determined — confident, purposeful, no tension'
+  mix: 'relaxed and warm — naturally pleasant, a hint of a smile, approachable and real, not posed',
+  sonrisa: 'natural genuine smile — not forced, as if in the middle of a good moment',
+  feliz: 'clearly happy — wide natural smile, bright eyes, open and warm body language. Real happiness, not a pose. Like something genuinely good just happened',
+  muyfeliz: 'visibly excited and joyful — big genuine smile, eyes lit up, energy in the face and body. Not exaggerated or theatrical. The kind of happy you see in real life when something great happens',
+  serio: 'calm and confident — looking forward with quiet determination, no tension'
 };
 
-// Función para construir descripción de una persona con variación forzada
+var camAngleTexts = {
+  eye: 'Camera angle: true eye level — camera at approximately 160cm height, natural eye-to-eye perspective.',
+  low: 'Camera angle: slight low angle — camera at approximately 100cm height, subjects appear empowered and confident.',
+  high: 'Camera angle: slight high angle — camera at approximately 200cm height, subjects appear in context and approachable.'
+};
+
+var camFrameTexts = {
+  full: 'Framing: full body head-to-feet with generous negative space on all sides. Feet and top of head fully visible.',
+  '34': 'Framing: three-quarter shot from mid-thigh upward. Generous negative space on sides and above.',
+  med: 'Framing: medium shot from waist upward. Upper body, arms, and face fully visible.'
+};
+
+var camLightTexts = {
+  studio: 'Lighting: soft studio light — diffused, even illumination from slightly above and in front. No harsh shadows. Clean and compositable.',
+  natural: 'Lighting: natural outdoor light — soft daylight from above, warm tones, slight shadow under chin and arms. Consistent across all figures.',
+  dramatic: 'Lighting: dramatic side light — strong directional source from one side, sculpts figures, cinematic quality. Consistent direction across all figures.'
+};
+
+/* ── BUILD PERSONAS ── */
 function buildPersonaDesc(p, index, usedBuilds, usedTones, usedHairs, usedOutfits, usedAccs, ageMin, ageMax) {
   var g = p.g || rnd(['mujer', 'hombre']);
 
-  // Build — sin repetir hasta agotar
   var availBuilds = builds.filter(function(b) { return usedBuilds.indexOf(b) === -1; });
   if (!availBuilds.length) availBuilds = builds.slice();
   var build = rnd(availBuilds);
   usedBuilds.push(build);
 
-  // Tono — sin repetir
   var availTones = tones.filter(function(t) { return usedTones.indexOf(t) === -1; });
   if (!availTones.length) availTones = tones.slice();
   var tone = rnd(availTones);
   usedTones.push(tone);
 
-  // Cabello
   var pool = cabellos[g].filter(function(h) { return usedHairs.indexOf(h) === -1; });
   if (!pool.length) pool = cabellos[g].slice();
   var cabello = rnd(pool);
   usedHairs.push(cabello);
 
-  // Outfit
   var oPool = outfits[g].filter(function(o) { return usedOutfits.indexOf(o) === -1; });
   if (!oPool.length) oPool = outfits[g].slice();
   var outfit = rnd(oPool);
   usedOutfits.push(outfit);
 
-  // Accesorio
   var aPool = accesorios[g].filter(function(a) { return usedAccs.indexOf(a) === -1; });
   if (!aPool.length) aPool = accesorios[g].slice();
   var acc = rnd(aPool);
@@ -1154,13 +1719,7 @@ function buildPersonaDesc(p, index, usedBuilds, usedTones, usedHairs, usedOutfit
   var sujeto = g === 'mujer' ? 'Woman' : 'Man';
   var label = 'Person ' + (index + 1);
 
-  return label + ' (' + sujeto + '): ' + ageMin + '–' + ageMax + ' years old, Mexican appearance, ' + tone + ', ' + build + '. Hair: ' + cabello + '. Outfit: ' + outfit + '. Accessory: ' + acc + '.';
-}
-
-function getDirText(dir) {
-  return dir === 'left'
-    ? 'walking toward the LEFT — captured in a pure 90-degree lateral profile from the right side. CRITICAL: every single person faces and walks LEFT. No exceptions. No one faces right or looks at the camera.'
-    : 'walking toward the RIGHT — captured in a pure 90-degree lateral profile from the left side. CRITICAL: every single person faces and walks RIGHT. No exceptions. No one faces left or looks at the camera.';
+  return label + ' (' + sujeto + '): ' + ageMin + '–' + ageMax + ' years old, Mexican appearance, everyday urban middle-class style. ' + tone + ', ' + build + '. Hair: ' + cabello + '. Outfit: ' + outfit + '. Accessory: ' + acc + '.';
 }
 
 function buildPrompt() {
@@ -1174,44 +1733,61 @@ function buildPrompt() {
   if (ageMin > ageMax) ageMax = ageMin;
 
   var p_sel = document.getElementById('paleta').value;
-  var paleta = p_sel === 'random' ? rnd(paletas) : p_sel;
+  var esVariado = p_sel === 'variado-calle';
+  var paleta = (p_sel === 'random') ? rnd(paletas) : (esVariado ? 'variado — colores de calle' : p_sel);
   var energia = energias[document.getElementById('energia').value];
   var expresion = expresiones[document.getElementById('expresion').value];
   var extra = document.getElementById('extra').value.trim();
-  var dirText = getDirText(currentDir);
 
-  var prompt = 'Photorealistic ultra-high-resolution image, print-ready 300 DPI, square 1:1 aspect ratio. Premium lifestyle editorial campaign — visual quality of Zara, Mango or GQ. Not stock photography.\n\n';
+  var moveText = getMoveText(movePx, movePy);
+  var gazeText = getGazeText(gazePx, gazePy);
+  var moveLbl = getMoveLabel(movePx, movePy);
+  var gazeLbl = getGazeLabel(gazePx, gazePy);
+
+  var camAngle = document.getElementById('camAngle').value;
+  var camFrame = document.getElementById('camFrame').value;
+  var camLight = document.getElementById('camLight').value;
+
+  var prompt = 'Photorealistic high-resolution image, print-ready 300 DPI, square 1:1 aspect ratio. Lifestyle editorial — natural and authentic, not luxury. Real people, approachable. Not stock photography.\n\n';
 
   if (presetKey) {
     var scen = presetData[presetKey];
     var usedBuilds = [], usedTones = [], usedHairs = [], usedOutfits = [], usedAccs = [];
 
     prompt += 'SCENE: ' + scen.label.charAt(0).toUpperCase() + scen.label.slice(1) + '. ' + scen.personas.length + (scen.hasKid ? '+1' : '') + ' people total.\n\n';
-    prompt += 'DIRECTION: All people are ' + dirText + '\n\n';
-    prompt += 'MOVEMENT: Everyone is ' + energia + '. Captured mid-stride — at least one foot elevated. Clothing shows natural movement and drape.\n\n';
+    prompt += 'MOVEMENT: All people are ' + moveText + '\n\n';
+    prompt += 'GAZE: ' + gazeText + '\n\n';
+    prompt += 'ENERGY: Everyone is ' + energia + '. Captured mid-motion. Clothing shows natural movement.\n\n';
     prompt += 'EXPRESSION: All expressions are ' + expresion + '.\n\n';
-    prompt += 'PEOPLE — each person must look visually distinct from the others (different build, skin tone, hair length, and facial features):\n';
+    prompt += 'PEOPLE — each person must look visually distinct from the others (different build, skin tone, hair, facial features):\n';
 
     scen.personas.forEach(function(p, i) {
       prompt += buildPersonaDesc(p, i, usedBuilds, usedTones, usedHairs, usedOutfits, usedAccs, ageMin, ageMax) + '\n';
     });
 
     if (scen.hasKid) {
-      prompt += 'Person ' + (scen.personas.length + 1) + ' (Child): 5–8 years old, Mexican appearance, light to medium skin tone, small playful build. Hair: dark, naturally styled. Outfit: casual kids clothing in palette-coordinated colors.\n';
+      prompt += 'Person ' + (scen.personas.length + 1) + ' (Child): 5–8 years old, Mexican appearance, light to medium skin tone. Hair: dark, naturally styled. Outfit: casual kids clothing in coordinated colors.\n';
     }
 
   } else {
     prompt += 'SCENE: ' + customVal + '.\n\n';
-    prompt += 'DIRECTION: All people are ' + dirText + '\n\n';
-    prompt += 'MOVEMENT: Everyone is ' + energia + '. Captured mid-stride. Clothing shows natural movement.\n\n';
+    prompt += 'MOVEMENT: All people are ' + moveText + '\n\n';
+    prompt += 'GAZE: ' + gazeText + '\n\n';
+    prompt += 'ENERGY: Everyone is ' + energia + '. Captured mid-motion. Clothing shows natural movement.\n\n';
     prompt += 'EXPRESSION: ' + expresion + '.\n\n';
-    prompt += 'PEOPLE: Each person ' + ageMin + '–' + ageMax + ' years old (unless the scenario specifies otherwise), Mexican appearance, urban middle-class. Each individual must look clearly distinct from the others — different build (lean vs athletic vs fuller), different skin tone within the Mexican range (light to olive), and different hair style and length.\n';
+    prompt += 'PEOPLE: Each person ' + ageMin + '–' + ageMax + ' years old (unless the scenario specifies otherwise), Mexican appearance, everyday urban middle-class. Each individual must look clearly distinct — different build, skin tone, hair style.\n';
   }
 
-  prompt += '\nCOLOR PALETTE for all outfits: ' + paleta + '. Coordinate looks — harmonious but individually distinct. No visible logos. Fabrics look premium.\n\n';
-  prompt += 'LIGHTING: Dramatic editorial lighting from slightly above and in front — sculpts all figures, cinematic quality. Not flat.\n\n';
-  prompt += 'SHADOW: A single natural ground shadow under each person, clearly defined, anchored at the feet. Essential for compositing.\n\n';
-  prompt += 'BACKGROUND: Absolute pure white (#FFFFFF). No texture, no gradient. Full body head to feet, generous negative space on both sides.';
+  if (esVariado) {
+    prompt += '\nOUTFIT COLORS: Each person wears a completely different base color — no two people share the same color family. All colors must be everyday street-level tones you would realistically see on any given day: muted blues (navy, mid-blue, dusty blue), whites, off-whites, greys, olive green, beige, sand, burgundy, terracotta, black, soft coral. Absolutely no bright, saturated, neon, or attention-grabbing colors. No matching or coordinating between people — each person dressed independently, as if they chose their outfit on their own that morning. No visible logos or brand marks.\n\n';
+  } else {
+    prompt += '\nCOLOR PALETTE for all outfits: ' + paleta + '. Looks are coordinated but individually distinct. No visible logos or brand marks. Fabrics look comfortable and real.\n\n';
+  }
+  prompt += camLightTexts[camLight] + '\n\n';
+  prompt += camAngleTexts[camAngle] + ' ' + camFrameTexts[camFrame] + '\n\n';
+  prompt += 'COMPOSITING NOTE: Consistent camera angle, focal length, and lighting direction across all figures — designed to be composited or placed side-by-side with other renders from this same session.\n\n';
+  prompt += 'SHADOW: A single natural ground shadow under each person, anchored at the feet. Essential for compositing.\n\n';
+  prompt += 'BACKGROUND: Absolute pure white (#FFFFFF). No texture, no gradient. Full body visible, generous negative space on both sides.';
 
   if (extra) prompt += '\n\nADDITIONAL NOTE: ' + extra;
 
@@ -1220,7 +1796,8 @@ function buildPrompt() {
     label: presetKey ? presetData[presetKey].label : customVal.slice(0, 30),
     paleta: paleta,
     ages: ageMin + '–' + ageMax,
-    dir: currentDir
+    moveLbl: moveLbl,
+    gazeLbl: gazeLbl
   };
 }
 
@@ -1241,15 +1818,114 @@ function renderPreview(result) {
 
   ch.innerHTML = [
     { key: 'escenario', val: result.label },
-    { key: 'paleta', val: result.paleta },
-    { key: 'edades', val: result.ages + ' años' },
-    { key: 'caminata', val: result.dir === 'left' ? '← izq' : 'der →' }
+    { key: 'paleta',    val: result.paleta },
+    { key: 'edades',    val: result.ages + ' años' },
+    { key: 'movimiento',val: result.moveLbl },
+    { key: 'mirada',    val: result.gazeLbl }
   ].map(function(c) {
     return '<span class="chip"><span class="chip-key">' + c.key + '</span>' + c.val + '</span>';
   }).join('');
 }
 
-// Eventos
+/* ── HISTORIAL — localStorage, max 5 entradas ── */
+var STORAGE_KEY = 'stampede_v7_jac4';
+
+function saveToHistory(text, label) {
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) {}
+  history.unshift({ text: text, label: label, ts: Date.now() });
+  if (history.length > 5) history = history.slice(0, 5);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) {}
+  var container = document.getElementById('historyList');
+  var card = document.getElementById('historialCard');
+
+  if (!history.length) {
+    card.style.display = 'none';
+    return;
+  }
+
+  card.style.display = 'block';
+  container.innerHTML = '';
+
+  history.forEach(function(item) {
+    var div = document.createElement('div');
+    div.className = 'history-item';
+
+    var previewText = item.label || item.text.slice(0, 60);
+
+    div.innerHTML =
+      '<span class="history-item-text">' + escapeHtml(previewText) + '</span>' +
+      '<svg class="history-item-copy" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+        '<rect x="4" y="4" width="8" height="8" rx="1.5"/>' +
+        '<path d="M9 4V2.5A1.5 1.5 0 0 0 7.5 1H2.5A1.5 1.5 0 0 0 1 2.5v5A1.5 1.5 0 0 0 2.5 9H4"/>' +
+      '</svg>';
+
+    div.addEventListener('click', function() {
+      navigator.clipboard.writeText(item.text).then(function() {
+        playSeal();
+        div.style.borderColor = 'rgba(52,39,95,0.4)';
+        setTimeout(function() { div.style.borderColor = ''; }, 1200);
+      });
+    });
+
+    container.appendChild(div);
+  });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── SONIDO AL COPIAR — Web Audio API ── */
+function playSeal() {
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    var osc1 = ctx.createOscillator();
+    var gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(880, ctx.currentTime);
+    osc1.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.18);
+    gain1.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+    osc1.connect(gain1); gain1.connect(ctx.destination);
+    osc1.start(ctx.currentTime); osc1.stop(ctx.currentTime + 0.22);
+
+    var osc2 = ctx.createOscillator();
+    var gain2 = ctx.createGain();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(1320, ctx.currentTime);
+    osc2.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.15);
+    gain2.gain.setValueAtTime(0.10, ctx.currentTime);
+    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+    osc2.connect(gain2); gain2.connect(ctx.destination);
+    osc2.start(ctx.currentTime); osc2.stop(ctx.currentTime + 0.18);
+
+    var bufferSize = ctx.sampleRate * 0.08;
+    var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    var data = buffer.getChannelData(0);
+    for (var i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+    var noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1200;
+    filter.Q.value = 0.8;
+    var gainN = ctx.createGain();
+    gainN.gain.setValueAtTime(0.08, ctx.currentTime);
+    gainN.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    noise.connect(filter); filter.connect(gainN); gainN.connect(ctx.destination);
+    noise.start(ctx.currentTime); noise.stop(ctx.currentTime + 0.08);
+  } catch(e) {}
+}
+
+/* ── BOTONES ── */
 document.getElementById('btnGen').addEventListener('click', function() {
   var result = buildPrompt();
   if (!result) {
@@ -1259,6 +1935,24 @@ document.getElementById('btnGen').addEventListener('click', function() {
     return;
   }
   renderPreview(result);
+  saveToHistory(result.prompt, result.label + ' · ' + result.ages + 'a · ' + result.moveLbl);
+  hasGenerated = true;
+  clearModified();
+});
+
+document.getElementById('btnRegen').addEventListener('click', function() {
+  var result = buildPrompt();
+  if (!result) {
+    this.classList.add('shake');
+    var s = this;
+    setTimeout(function() { s.classList.remove('shake'); }, 450);
+    return;
+  }
+  /* misma config, personas rerandomizadas — buildPrompt ya randomiza */
+  renderPreview(result);
+  saveToHistory(result.prompt, result.label + ' · ' + result.ages + 'a · ' + result.moveLbl);
+  hasGenerated = true;
+  clearModified();
 });
 
 document.getElementById('btnCopy').addEventListener('click', function() {
@@ -1270,6 +1964,7 @@ document.getElementById('btnCopy').addEventListener('click', function() {
   }
   var btn = this, orig = btn.innerHTML;
   navigator.clipboard.writeText(lastPrompt).then(function() {
+    playSeal();
     btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,7 5.5,10.5 12,4"/></svg> Copiado';
     btn.classList.add('copied');
     setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1600);
@@ -1283,20 +1978,24 @@ document.getElementById('btnClear').addEventListener('click', function() {
   document.getElementById('energia').value = 'a';
   document.getElementById('expresion').value = 'mix';
   document.getElementById('extra').value = '';
-  ageMinEl.value = 35; ageMaxEl.value = 44; updateAgeDisplay();
-  setDir('left');
+  document.getElementById('camAngle').value = 'eye';
+  document.getElementById('camFrame').value = 'full';
+  document.getElementById('camLight').value = 'studio';
+  ageMinEl.value = 28; ageMaxEl.value = 40; updateAgeDisplay();
+  movePx = PAD_S/2; movePy = PAD_S/2;
+  gazePx = PAD_S/2; gazePy = PAD_S/2;
+  drawPadMove(moveCanvas,movePx,movePy);
+  drawPadGaze(gazeCanvas,gazePx,gazePy);
+  document.getElementById('padResult').textContent = 'Arrastra en cualquiera de los pads — el texto del prompt aparece aquí.';
   lastPrompt = '';
+  hasGenerated = false;
+  clearModified();
   renderPreview(null);
 });
 
-// Dark mode
-var isDark = false;
-document.getElementById('darkToggle').addEventListener('click', function() {
-  isDark = !isDark;
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  document.getElementById('iconSun').style.display = isDark ? 'block' : 'none';
-  document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
-});
+/* Inicializar historial al cargar */
+renderHistory();
+
 </script>
 </body>
 </html>

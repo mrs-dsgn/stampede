@@ -76,55 +76,17 @@ body {
   z-index: 100;
   box-shadow: var(--shadow-sm);
 }
-
 .header-left { display: flex; align-items: center; gap: 14px; }
 .header-right { display: flex; align-items: center; gap: 8px; }
 
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.bc-link {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--purple);
-  text-decoration: none;
-  transition: opacity 0.15s;
-  line-height: 1;
-}
-
+.breadcrumb { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; }
+.bc-link { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: var(--purple); text-decoration: none; transition: opacity 0.15s; line-height: 1; }
 [data-theme="dark"] .bc-link { color: #c4a6f0; }
 .bc-link:hover { opacity: 0.7; }
-
-.bc-sep {
-  color: var(--text-tertiary);
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 1;
-}
-
-.bc-mid {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  color: var(--text-secondary);
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: opacity 0.15s;
-}
+.bc-sep { color: var(--text-tertiary); font-weight: 300; font-size: 15px; line-height: 1; }
+.bc-mid { font-size: 12px; font-weight: 400; letter-spacing: 0.06em; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: opacity 0.15s; }
 .bc-mid:hover { opacity: 0.7; }
-
-.bc-current {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-}
+.bc-current { font-size: 12px; font-weight: 400; letter-spacing: 0.06em; color: var(--text-tertiary); text-transform: uppercase; }
 
 .btn-icon {
   width: 34px; height: 34px;
@@ -134,46 +96,29 @@ body {
   color: var(--text-secondary);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.18s;
-  flex-shrink: 0;
+  transition: all 0.18s; flex-shrink: 0;
 }
 .btn-icon:hover { background: var(--surface-3); color: var(--text-primary); }
 
 /* ── PAGE ── */
-.page {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 2.5rem 1.5rem 5rem;
-}
+.page { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
 
 .page-eyebrow {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  color: var(--orange);
-  text-transform: uppercase;
-  margin-bottom: 10px;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.14em;
+  color: var(--orange); text-transform: uppercase; margin-bottom: 10px;
 }
-
 .page-intro { margin-bottom: 2rem; }
-
 .page-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-  line-height: 1.15;
+  font-size: 28px; font-weight: 700; letter-spacing: -0.03em;
+  color: var(--text-primary); line-height: 1.15;
 }
-
 .page-title span {
   display: inline-block;
   background: linear-gradient(135deg, var(--purple) 0%, #7b5ea7 50%, var(--orange) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; color: transparent;
 }
 
 /* ── CARDS ── */
@@ -186,525 +131,321 @@ body {
   box-shadow: var(--shadow-sm);
   transition: background 0.3s, border-color 0.3s;
 }
-
 .card-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13.75px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--orange);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 1.5rem;
+  font-size: 13.75px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--orange);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;
 }
-
 .card-title svg { color: var(--orange); flex-shrink: 0; }
-
-.card-title-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--orange);
-  flex-shrink: 0;
-}
+.card-title-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
 
 /* ── GRID ── */
-.fields-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.1rem 1.5rem;
-}
-
+.fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 1.5rem; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 .field.full { grid-column: 1 / -1; }
-
-.field-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
+.field-top { display: flex; align-items: center; justify-content: space-between; }
 .field-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+  color: var(--text-secondary); text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
 }
-
 .field-label svg { color: var(--text-tertiary); flex-shrink: 0; }
 
 /* ── INPUTS ── */
-input[type="text"],
-select,
-textarea {
+input[type="text"], select, textarea {
   width: 100%;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  outline: none;
+  font-size: 14px; color: var(--text-primary);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 14px; outline: none;
   transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
-  -webkit-appearance: none;
-  appearance: none;
+  -webkit-appearance: none; appearance: none;
 }
-
-input[type="text"]::placeholder,
-textarea::placeholder { color: var(--text-placeholder); font-style: italic; font-size: 13px; }
-
-input[type="text"]:focus,
-select:focus,
-textarea:focus {
+input[type="text"]::placeholder, textarea::placeholder { color: var(--text-placeholder); font-style: italic; font-size: 13px; }
+input[type="text"]:focus, select:focus, textarea:focus {
   border-color: var(--purple);
   box-shadow: 0 0 0 3px rgba(52,39,95,0.1);
   background: var(--surface);
 }
-
 [data-theme="dark"] input[type="text"]:focus,
 [data-theme="dark"] select:focus,
-[data-theme="dark"] textarea:focus {
-  box-shadow: 0 0 0 3px rgba(123,94,167,0.2);
-}
-
+[data-theme="dark"] textarea:focus { box-shadow: 0 0 0 3px rgba(123,94,167,0.2); }
 textarea { resize: vertical; min-height: 68px; line-height: 1.6; }
-
 .select-wrap { position: relative; }
 .select-wrap select { padding-right: 36px; cursor: pointer; }
-.select-arrow {
-  position: absolute;
-  right: 12px; top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: var(--text-tertiary);
-  display: flex;
-}
+.select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-tertiary); display: flex; }
 
-/* ── SLIDER DE EDAD ── */
-.slider-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
+/* ── SLIDER EDAD — thumb gradiente purple→orange ── */
+.slider-wrap { display: flex; flex-direction: column; gap: 10px; }
 .slider-display {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--text-primary);
+  display: flex; align-items: center; gap: 6px;
 }
-
-.slider-display-val {
-  color: var(--purple);
-  font-size: 15px;
-}
-
+.slider-display-val { color: var(--purple); font-size: 15px; }
 [data-theme="dark"] .slider-display-val { color: #c4a6f0; }
-
-.slider-display-sep {
-  color: var(--text-tertiary);
-  font-size: 11px;
-}
-
-.range-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.range-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--text-tertiary);
-  width: 22px;
-  flex-shrink: 0;
-  text-align: center;
-}
+.slider-display-sep { color: var(--text-tertiary); font-size: 11px; }
+.range-row { display: flex; align-items: center; gap: 10px; }
+.range-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-tertiary); width: 22px; flex-shrink: 0; text-align: center; }
 
 input[type="range"] {
-  flex: 1;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 4px;
+  flex: 1; -webkit-appearance: none; appearance: none;
+  height: 4px; border-radius: 2px; outline: none; border: none; padding: 0;
   background: var(--surface-3);
-  border-radius: 2px;
-  outline: none;
-  border: none;
-  padding: 0;
+  cursor: pointer;
 }
-
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: var(--purple);
-  cursor: pointer;
-  border: 2px solid var(--surface);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  transition: transform 0.12s;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: linear-gradient(135deg, #34275f 0%, #7b5ea7 50%, #df6f40 100%);
+  cursor: pointer; border: none;
+  box-shadow: 0 2px 6px rgba(52,39,95,0.35), 0 0 0 0 rgba(223,111,64,0);
+  transition: transform 0.12s, box-shadow 0.18s;
 }
-
-input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+  box-shadow: 0 2px 8px rgba(52,39,95,0.4), 0 0 0 5px rgba(223,111,64,0.15);
+}
 input[type="range"]::-moz-range-thumb {
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: var(--purple);
+  width: 20px; height: 20px; border-radius: 50%; border: none;
+  background: linear-gradient(135deg, #34275f 0%, #7b5ea7 50%, #df6f40 100%);
   cursor: pointer;
-  border: 2px solid var(--surface);
+  box-shadow: 0 2px 6px rgba(52,39,95,0.35);
 }
 
-[data-theme="dark"] input[type="range"]::-webkit-slider-thumb { background: #9a7fd4; }
-[data-theme="dark"] input[type="range"]::-moz-range-thumb { background: #9a7fd4; }
+/* ── ACTIVIDAD + INFLUENCIA ── */
+.actividad-custom { margin-top: 8px; }
 
-/* ── PRESET TAGS ── */
-.escenario-tags-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+.influencia-wrap { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+
+/* Tags de influencia — 5 niveles */
+.influencia-tags {
+  display: flex; gap: 6px; flex-wrap: wrap;
 }
 
-.escenario-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  background: var(--surface-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  padding: 6px 12px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-
-.escenario-tag:hover {
-  background: var(--surface-2);
-  border-color: var(--border-mid);
-  color: var(--text-primary);
-}
-
-.escenario-tag-wrap {
+.inf-tag-wrap {
   display: inline-block;
   border-radius: var(--radius-pill);
   padding: 1.5px;
   background: var(--surface-3);
   transition: background 0.2s;
+  flex: 1; min-width: 0;
 }
 
-.escenario-tag-wrap.active {
+.inf-tag-wrap.active {
   background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple));
   background-size: 300% 300%;
   animation: borderFlow 4s linear infinite;
 }
 
-.escenario-tag-wrap.active .escenario-tag {
-  color: var(--purple);
-  background: var(--surface);
-  border-color: transparent;
-  font-weight: 600;
+.inf-tag {
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 7px 4px;
+  color: var(--text-secondary); cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+  text-align: center;
 }
 
-[data-theme="dark"] .escenario-tag-wrap.active .escenario-tag {
-  color: #c4a6f0;
+.inf-tag:hover { background: var(--surface-2); border-color: var(--border-mid); color: var(--text-primary); }
+
+.inf-tag-wrap.active .inf-tag {
+  color: var(--purple); background: var(--surface);
+  border-color: transparent; font-weight: 700;
 }
+[data-theme="dark"] .inf-tag-wrap.active .inf-tag { color: #c4a6f0; }
+
+/* Neutro — visualmente más apagado para comunicar "apagado" */
+.inf-tag-neutro { opacity: 0.6; }
+.inf-tag-wrap.active .inf-tag-neutro { opacity: 1; }
+
+/* Full gear — acento naranja sutil */
+.inf-tag-max { color: var(--orange); }
+.inf-tag-wrap.active .inf-tag-max { color: var(--orange); }
+[data-theme="dark"] .inf-tag-wrap.active .inf-tag-max { color: var(--orange-light); }
+
+/* ── PRESET TAGS ── */
+.escenario-tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.escenario-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 6px 12px;
+  color: var(--text-secondary); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.escenario-tag:hover { background: var(--surface-2); border-color: var(--border-mid); color: var(--text-primary); }
+.escenario-tag-wrap { display: inline-block; border-radius: var(--radius-pill); padding: 1.5px; background: var(--surface-3); transition: background 0.2s; }
+.escenario-tag-wrap.active {
+  background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple));
+  background-size: 300% 300%; animation: borderFlow 4s linear infinite;
+}
+.escenario-tag-wrap.active .escenario-tag { color: var(--purple); background: var(--surface); border-color: transparent; font-weight: 600; }
+[data-theme="dark"] .escenario-tag-wrap.active .escenario-tag { color: #c4a6f0; }
 
 /* ── PAD 2D ── */
-.pads-row-centered {
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-
-.pad-col-v3 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.pad-sublabel {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-}
-
-.pad-canvas {
-  display: block;
-  cursor: crosshair;
-  touch-action: none;
-}
-
+.pads-row-centered { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; align-items: flex-start; margin-bottom: 1rem; }
+.pad-col-v3 { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.pad-sublabel { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); }
+.pad-canvas { display: block; cursor: crosshair; touch-action: none; }
 .pad-result {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--purple);
-  letter-spacing: 0.03em;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 9px 13px;
-  min-height: 44px;
-  line-height: 1.6;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  color: var(--purple); letter-spacing: 0.03em;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 9px 13px; min-height: 44px; line-height: 1.6;
 }
 [data-theme="dark"] .pad-result { color: #c4a6f0; }
 
 /* ── COMPOSICIÓN ── */
-.comp-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1.1rem 1.5rem;
-}
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.1rem 1.5rem; }
 
 /* ── PREVIEW CARD ── */
 .preview-card {
-  border-radius: var(--radius-lg);
-  padding: 2rem 2rem 1.75rem;
-  margin-bottom: 1rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg); padding: 2rem 2rem 1.75rem;
+  margin-bottom: 1rem; position: relative; overflow: hidden; box-shadow: var(--shadow-lg);
 }
-
 .preview-card-bg {
   position: absolute; inset: 0;
   background: linear-gradient(-45deg, #0f0c22, #34275f, #6b3070, #c0451e, #df6f40, #34275f, #0f0c22);
-  background-size: 400% 400%;
-  animation: auroraShift 14s ease infinite;
-  z-index: 0;
+  background-size: 400% 400%; animation: auroraShift 14s ease infinite; z-index: 0;
 }
-
 [data-theme="dark"] .preview-card-bg {
   background: linear-gradient(-45deg, #08060f, #1c1240, #3d1f55, #6a2010, #8b3520, #1c1240, #08060f);
   background-size: 400% 400%;
 }
-
 @keyframes auroraShift {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
 .preview-card-glow {
-  position: absolute;
-  width: 320px; height: 320px;
-  border-radius: 50%;
+  position: absolute; width: 320px; height: 320px; border-radius: 50%;
   background: radial-gradient(circle, rgba(223,111,64,0.38) 0%, transparent 68%);
-  top: -90px; right: -70px;
-  z-index: 0; pointer-events: none;
-  animation: orbeA 9s ease-in-out infinite;
+  top: -90px; right: -70px; z-index: 0; pointer-events: none; animation: orbeA 9s ease-in-out infinite;
 }
-
 .preview-card-glow2 {
-  position: absolute;
-  width: 240px; height: 240px;
-  border-radius: 50%;
+  position: absolute; width: 240px; height: 240px; border-radius: 50%;
   background: radial-gradient(circle, rgba(123,94,167,0.42) 0%, transparent 68%);
-  bottom: -80px; left: 20px;
-  z-index: 0; pointer-events: none;
-  animation: orbeB 11s ease-in-out infinite;
+  bottom: -80px; left: 20px; z-index: 0; pointer-events: none; animation: orbeB 11s ease-in-out infinite;
 }
-
-@keyframes orbeA {
-  0%, 100% { transform: translate(0,0); }
-  50%       { transform: translate(-24px,18px); }
-}
-@keyframes orbeB {
-  0%, 100% { transform: translate(0,0); }
-  50%       { transform: translate(18px,-22px); }
-}
-
+@keyframes orbeA { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-24px,18px);} }
+@keyframes orbeB { 0%,100%{transform:translate(0,0);} 50%{transform:translate(18px,-22px);} }
 .preview-inner { position: relative; z-index: 1; }
-
 .preview-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 400;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
 }
-
-.preview-eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 16px; height: 1px;
-  background: rgba(255,255,255,0.3);
-}
-
+.preview-eyebrow::before { content: ''; display: inline-block; width: 16px; height: 1px; background: rgba(255,255,255,0.3); }
 .preview-prompt {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12.5px;
-  font-weight: 300;
-  color: rgba(255,255,255,0.88);
-  line-height: 1.75;
-  min-height: 80px;
-  white-space: pre-wrap;
-  word-break: break-word;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12.5px; font-weight: 300;
+  color: rgba(255,255,255,0.88); line-height: 1.75; min-height: 80px;
+  white-space: pre-wrap; word-break: break-word;
 }
-
-.preview-prompt.empty {
-  color: rgba(255,255,255,0.25);
-  font-style: italic;
-}
-
+.preview-prompt.empty { color: rgba(255,255,255,0.25); font-style: italic; }
 .preview-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-
 .chip {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: var(--radius-pill);
-  padding: 4px 10px;
-  color: rgba(255,255,255,0.7);
-  display: flex; align-items: center; gap: 5px;
-  animation: chipIn 0.2s ease;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-pill); padding: 4px 10px; color: rgba(255,255,255,0.7);
+  display: flex; align-items: center; gap: 5px; animation: chipIn 0.2s ease;
 }
-
-@keyframes chipIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
+@keyframes chipIn { from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:translateY(0);} }
 .chip-key { color: rgba(255,255,255,0.3); font-size: 10px; }
 
 /* ── ACTIONS ── */
 .actions { display: flex; gap: 10px; margin-bottom: 1rem; align-items: stretch; }
 
-/* Botón generar — con soporte para punto naranja de "modificado" */
 .btn-gen-wrap { position: relative; flex-shrink: 0; }
-
 .btn-gen {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
   letter-spacing: 0.08em; text-transform: uppercase;
-  color: #fff;
-  background: var(--purple);
-  border: none;
-  border-radius: var(--radius-pill);
-  padding: 13px 24px;
-  cursor: pointer;
-  display: flex; align-items: center; gap: 8px;
-  transition: all 0.18s;
-  white-space: nowrap;
-  box-shadow: var(--shadow-sm);
+  color: #fff; background: var(--purple); border: none;
+  border-radius: var(--radius-pill); padding: 13px 24px; cursor: pointer;
+  display: flex; align-items: center; gap: 8px; transition: all 0.18s;
+  white-space: nowrap; box-shadow: var(--shadow-sm);
 }
-
 .btn-gen:hover { background: var(--purple-mid); transform: translateY(-1px); }
 .btn-gen:active { transform: scale(0.98); }
 .btn-gen.shake { animation: shake 0.4s ease; }
 
-/* Punto naranja — indica configuración modificada después de generar */
 .btn-modified-dot {
-  position: absolute;
-  top: -3px; right: -3px;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--orange);
-  border: 2px solid var(--bg);
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
+  position: absolute; top: -3px; right: -3px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--orange); border: 2px solid var(--bg);
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
 }
 .btn-modified-dot.visible { opacity: 1; }
 
-/* Botón regenerar variante */
 .btn-regen {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
   letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--text-secondary);
-  background: var(--surface-2);
-  border: 1px solid var(--border-mid);
-  border-radius: var(--radius-pill);
-  padding: 13px 16px;
-  cursor: pointer;
-  display: flex; align-items: center; gap: 7px;
-  transition: all 0.18s;
-  white-space: nowrap;
-  box-shadow: var(--shadow-sm);
-  flex-shrink: 0;
+  color: var(--text-secondary); background: var(--surface-2);
+  border: 1px solid var(--border-mid); border-radius: var(--radius-pill);
+  padding: 13px 16px; cursor: pointer;
+  display: flex; align-items: center; gap: 7px; transition: all 0.18s;
+  white-space: nowrap; box-shadow: var(--shadow-sm); flex-shrink: 0;
 }
-.btn-regen:hover { background: var(--surface-3); color: var(--text-primary); border-color: var(--border-mid); transform: translateY(-1px); }
+.btn-regen:hover { background: var(--surface-3); color: var(--text-primary); transform: translateY(-1px); }
 .btn-regen:active { transform: scale(0.98); }
 .btn-regen.shake { animation: shake 0.4s ease; }
+.btn-regen.disabled-copy { opacity: 0.3; pointer-events: none; }
 
+/* ── BTN COPY — fantasma hasta generar ── */
 .btn-copy-wrap {
-  flex: 1;
-  position: relative;
-  border-radius: var(--radius-pill);
-  padding: 1.5px;
+  flex: 1; position: relative; border-radius: var(--radius-pill); padding: 1.5px;
+  transition: opacity 0.3s;
+}
+/* Estado fantasma — sin animación, sin brillo */
+.btn-copy-wrap.copy-inactive {
+  background: var(--surface-3);
+  opacity: 0.32;
+  pointer-events: none;
+  box-shadow: none;
+  animation: none;
+}
+/* Estado activo — gradiente animado */
+.btn-copy-wrap.copy-active {
   background: linear-gradient(90deg, var(--purple), #8a5fc7, var(--orange), #e8845a, var(--purple));
   background-size: 300% 300%;
   animation: borderFlow 5s linear infinite;
   box-shadow: 0 2px 14px rgba(52,39,95,0.15);
+  opacity: 1;
+  pointer-events: all;
 }
-
 @keyframes borderFlow {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
 .btn-copy {
   width: 100%; height: 100%;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-primary);
-  background: var(--surface);
-  border: none;
-  border-radius: calc(var(--radius-pill) - 1.5px);
-  padding: 13px 24px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  gap: 9px;
-  transition: background 0.2s, color 0.2s, transform 0.12s;
-  white-space: nowrap;
+  color: var(--text-primary); background: var(--surface);
+  border: none; border-radius: calc(var(--radius-pill) - 1.5px);
+  padding: 13px 24px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  transition: background 0.2s, color 0.2s, transform 0.12s; white-space: nowrap;
 }
-
 .btn-copy:hover { background: var(--surface-2); color: var(--purple); }
 [data-theme="dark"] .btn-copy:hover { color: #c4a6f0; }
 .btn-copy:active { transform: scale(0.985); }
 .btn-copy.copied { color: #1c7a4a; }
 [data-theme="dark"] .btn-copy.copied { color: #4dd68c; }
-.btn-copy.shake { animation: shake 0.4s ease; }
 
 .btn-clear {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13px; font-weight: 500;
-  color: var(--text-secondary);
-  background: var(--surface);
-  border: 1px solid var(--border-mid);
-  border-radius: var(--radius-pill);
-  padding: 13px 18px;
-  cursor: pointer;
-  display: flex; align-items: center;
-  transition: all 0.18s;
-  box-shadow: var(--shadow-sm);
-  flex-shrink: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--text-secondary); background: var(--surface);
+  border: 1px solid var(--border-mid); border-radius: var(--radius-pill);
+  padding: 13px 18px; cursor: pointer;
+  display: flex; align-items: center; transition: all 0.18s;
+  box-shadow: var(--shadow-sm); flex-shrink: 0;
 }
-
 .btn-clear:hover { color: var(--text-primary); background: var(--surface-2); }
 
 @keyframes shake {
@@ -717,56 +458,28 @@ input[type="range"]::-moz-range-thumb {
 
 /* ── HISTORIAL ── */
 .history-list { display: flex; flex-direction: column; gap: 6px; }
-
 .history-item {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 400;
-  color: var(--text-secondary);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 9px 13px;
-  cursor: pointer;
-  transition: all 0.15s;
-  animation: chipIn 0.2s ease;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400;
+  color: var(--text-secondary); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 9px 13px; cursor: pointer; transition: all 0.15s; animation: chipIn 0.2s ease;
 }
 .history-item:hover { background: var(--surface-3); color: var(--text-primary); border-color: var(--border-mid); }
-
 .history-item-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.5; }
-
-.history-item-label {
-  font-size: 9px;
-  color: var(--text-tertiary);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.history-item-copy {
-  color: var(--text-tertiary); flex-shrink: 0;
-  transition: color 0.15s;
-}
+.history-item-copy { color: var(--text-tertiary); flex-shrink: 0; transition: color 0.15s; }
 .history-item:hover .history-item-copy { color: var(--purple); }
 [data-theme="dark"] .history-item:hover .history-item-copy { color: #c4a6f0; }
 
 /* ── FOOTER ── */
 .footer {
-  text-align: center;
-  padding: 2rem 0 0.5rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-tertiary);
-  letter-spacing: 0.06em;
-  line-height: 1.8;
+  text-align: center; padding: 2rem 0 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--text-tertiary); letter-spacing: 0.06em; line-height: 1.8;
 }
-
 .footer-mamut {
-  font-size: 12px;
-  color: var(--text-tertiary);
-  display: flex; align-items: center; justify-content: center;
-  gap: 6px; margin-top: 4px;
+  font-size: 12px; color: var(--text-tertiary);
+  display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px;
 }
 
 /* ── RESPONSIVE ── */
@@ -830,7 +543,6 @@ input[type="range"]::-moz-range-thumb {
       </svg>
       Escenario
     </div>
-
     <div class="field full" style="margin-bottom:0">
       <div class="field-top" style="margin-bottom:10px">
         <label class="field-label">
@@ -848,7 +560,6 @@ input[type="range"]::-moz-range-thumb {
         <span class="escenario-tag-wrap" data-preset="familia"><button class="escenario-tag" data-preset="familia">Familia</button></span>
         <span class="escenario-tag-wrap" data-preset="familia-nino"><button class="escenario-tag" data-preset="familia-nino">Familia con niño</button></span>
       </div>
-
       <div class="field-top" style="margin-bottom:8px">
         <label class="field-label">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
@@ -858,7 +569,12 @@ input[type="range"]::-moz-range-thumb {
           Caso específico
         </label>
       </div>
-      <input type="text" id="escenarioCustom" placeholder="Ej: abuela con nieto, 4 ejecutivos, mujer con carrito de bebé..." />
+      <div class="escenario-tags-wrap" style="margin-bottom:8px">
+        <span class="escenario-tag-wrap" id="customWrap">
+          <button class="escenario-tag" id="customToggle">+ Escribir caso específico</button>
+        </span>
+      </div>
+      <input type="text" id="escenarioCustom" placeholder="Ej: abuela con nieto, 4 ejecutivos, mujer con carrito de bebé..." disabled style="opacity:0.35;cursor:not-allowed;transition:opacity 0.2s;" />
     </div>
   </div>
 
@@ -874,7 +590,7 @@ input[type="range"]::-moz-range-thumb {
 
     <div class="fields-grid">
 
-      <!-- Pads v3 — movimiento y mirada centrados -->
+      <!-- Pads -->
       <div class="field full">
         <div class="pads-row-centered">
           <div class="pad-col-v3">
@@ -889,36 +605,64 @@ input[type="range"]::-moz-range-thumb {
         <div class="pad-result" id="padResult">Arrastra en cualquiera de los pads — el texto del prompt aparece aquí.</div>
       </div>
 
-      <!-- Paleta -->
-      <div class="field">
-        <div class="field-top">
+      <!-- ACTIVIDAD (reemplaza paleta) -->
+      <div class="field full">
+        <div class="field-top" style="margin-bottom:8px">
           <label class="field-label">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="6" cy="6" r="4.5"/>
-              <circle cx="4" cy="5" r="0.8" fill="currentColor" stroke="none"/>
-              <circle cx="8" cy="5" r="0.8" fill="currentColor" stroke="none"/>
-              <circle cx="6" cy="8" r="0.8" fill="currentColor" stroke="none"/>
+              <path d="M6 1l1.2 3.6H11L8.1 6.9l1.1 3.5L6 8.4l-3.2 2 1.1-3.5L1 4.6h3.8z"/>
             </svg>
-            Paleta del outfit
+            Actividad / contexto
           </label>
         </div>
         <div class="select-wrap">
-          <select id="paleta">
-            <option value="random">Aleatoria (recomendado)</option>
-            <option value="variado-calle">Variado — colores de calle</option>
-            <option value="negro + blanco roto">Negro + blanco roto</option>
-            <option value="terracota + crema">Terracota + crema</option>
-            <option value="azul cobalto + gris claro">Azul cobalto + gris</option>
-            <option value="verde olivo + camel">Verde olivo + camel</option>
-            <option value="borgoña + nude">Borgoña + nude</option>
-            <option value="blanco total">Blanco total</option>
-            <option value="gris + acento rojo">Gris + acento rojo</option>
-            <option value="mostaza + gris antracita">Mostaza + antracita</option>
-            <option value="azul marino + crema">Azul marino + crema</option>
-            <option value="rosa palo + beige">Rosa palo + beige</option>
-            <option value="verde botella + blanco">Verde botella + blanco</option>
+          <select id="actividad">
+            <option value="ciudad">Ciudad casual — día a día urbano</option>
+            <option value="trabajo">Trabajo casual — smart casual, sin formal</option>
+            <option value="hiking">Hiking / outdoor — naturaleza, funcional</option>
+            <option value="playa">Playa / alberca — sol, arena, agua</option>
+            <option value="vacaciones">Vacaciones / turismo — cómodo y colorido</option>
+            <option value="deporte">Deporte / gym — ropa técnica, activo</option>
+            <option value="fiesta">Fiesta / salida nocturna — arreglado casual</option>
+            <option value="viaje">Viaje / aeropuerto — layering, cómodo</option>
+            <option value="mercado">Mercado / tianguis — colores, casual mixto</option>
+            <option value="parque">Parque / picnic — relajado al aire libre</option>
+            <option value="escuela">Escuela / campus — casual joven</option>
+            <option value="familia-domingo">Familia dominguera — casual cálido</option>
+            <option value="custom">Otra actividad — escribir abajo...</option>
           </select>
           <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
+        </div>
+
+        <!-- Campo custom de actividad — solo activo cuando se elige "Otra actividad..." -->
+        <input type="text" id="actividadCustom" class="actividad-custom" placeholder="Describe el contexto — ej: primera comunión, concierto, camping..." disabled style="opacity:0.35;cursor:not-allowed;transition:opacity 0.2s;" />
+
+        <!-- Influencia en outfit — 5 niveles como tags -->
+        <div class="influencia-wrap">
+          <label class="field-label" style="margin-bottom:10px;">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="2" y1="6" x2="10" y2="6"/>
+              <circle cx="5" cy="6" r="1.8" fill="currentColor" stroke="none"/>
+            </svg>
+            Influencia en outfit
+          </label>
+          <div class="influencia-tags" id="influenciaTags">
+            <span class="inf-tag-wrap" data-nivel="0">
+              <button class="inf-tag inf-tag-neutro">Neutro</button>
+            </span>
+            <span class="inf-tag-wrap" data-nivel="1">
+              <button class="inf-tag">Toque</button>
+            </span>
+            <span class="inf-tag-wrap active" data-nivel="2">
+              <button class="inf-tag">Marcado</button>
+            </span>
+            <span class="inf-tag-wrap" data-nivel="3">
+              <button class="inf-tag">Temático</button>
+            </span>
+            <span class="inf-tag-wrap" data-nivel="4">
+              <button class="inf-tag inf-tag-max">Full gear</button>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -1026,7 +770,6 @@ input[type="range"]::-moz-range-thumb {
       Composición de cámara
     </div>
     <div class="comp-grid">
-
       <div class="field">
         <div class="field-top">
           <label class="field-label">
@@ -1047,7 +790,6 @@ input[type="range"]::-moz-range-thumb {
           <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
         </div>
       </div>
-
       <div class="field">
         <div class="field-top">
           <label class="field-label">
@@ -1068,7 +810,6 @@ input[type="range"]::-moz-range-thumb {
           <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
         </div>
       </div>
-
       <div class="field">
         <div class="field-top">
           <label class="field-label">
@@ -1089,7 +830,6 @@ input[type="range"]::-moz-range-thumb {
           <span class="select-arrow"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3.5 5.5,7.5 9,3.5"/></svg></span>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -1116,14 +856,14 @@ input[type="range"]::-moz-range-thumb {
       </button>
       <div class="btn-modified-dot" id="btnModifiedDot"></div>
     </div>
-    <button class="btn-regen" id="btnRegen" title="Misma config, personas nuevas">
+    <button class="btn-regen disabled-copy" id="btnRegen" title="Misma config, personas nuevas">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M10 2a5 5 0 1 0 1.5 4"/>
         <polyline points="10,0 10,3 7,3"/>
       </svg>
       Variante
     </button>
-    <div class="btn-copy-wrap">
+    <div class="btn-copy-wrap copy-inactive" id="btnCopyWrap">
       <button class="btn-copy" id="btnCopy">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <rect x="4" y="4" width="8.5" height="8.5" rx="1.5"/>
@@ -1152,7 +892,7 @@ input[type="range"]::-moz-range-thumb {
   </div>
 
   <div class="footer">
-    <div>Stampede · Frame · JAC4 · v2</div>
+    <div>Stampede · Frame · JAC4 · v4</div>
     <div class="footer-mamut">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-tertiary)">
         <ellipse cx="7" cy="8" rx="4.5" ry="3.5"/>
@@ -1169,7 +909,7 @@ input[type="range"]::-moz-range-thumb {
 
 <script>
 /* ══════════════════════════════════════════════════════
-   DARK MODE — inamovible
+   DARK MODE
    ══════════════════════════════════════════════════════ */
 var isDark = false;
 document.getElementById('darkToggle').addEventListener('click', function() {
@@ -1182,15 +922,14 @@ document.getElementById('darkToggle').addEventListener('click', function() {
 });
 
 /* ══════════════════════════════════════════════════════
-   PAD 2D v3 — movimiento y mirada
+   PAD 2D
    ══════════════════════════════════════════════════════ */
-
 var PAD_S = 220;
 var movePx = PAD_S/2, movePy = PAD_S/2;
 var gazePx = PAD_S/2, gazePy = PAD_S/2;
-var lastPadDragged = null; // 'move' | 'gaze'
+var lastPadDragged = null;
 
-function clampPad(v,a,b){return Math.max(a,Math.min(b,v));}
+function clampPad(v,a,b){ return Math.max(a,Math.min(b,v)); }
 
 function rrPad(ctx,x,y,w,h,r){
   ctx.beginPath();
@@ -1217,21 +956,31 @@ function getPadColors() {
   };
 }
 
+/* getMoveText — H invertido: arrastra derecha = persona va derecha EN LA FOTO */
 function getMoveText(px, py) {
   var h = px/PAD_S, v = py/PAD_S;
-  var hT = h<0.1  ? 'fully to the LEFT — pure lateral profile'
-    : h<0.27 ? 'mostly to the left, slight forward angle'
-    : h<0.42 ? 'diagonally toward the left'
-    : h<0.58 ? 'straight ahead toward the camera'
-    : h<0.73 ? 'diagonally toward the right'
-    : h<0.9  ? 'mostly to the right, slight forward angle'
-    :           'fully to the RIGHT — pure lateral profile';
+  var hi = 1 - h;
+  var hT = hi<0.1  ? 'fully to camera-LEFT — pure lateral profile, subject moving screen-left'
+    : hi<0.27 ? 'mostly to camera-left — subject moving toward screen-left, slight forward angle'
+    : hi<0.42 ? 'diagonally toward camera-left — subject angled screen-left'
+    : hi<0.58 ? 'straight toward the camera — frontal movement'
+    : hi<0.73 ? 'diagonally toward camera-right — subject angled screen-right'
+    : hi<0.9  ? 'mostly to camera-right — subject moving toward screen-right, slight forward angle'
+    :            'fully to camera-RIGHT — pure lateral profile, subject moving screen-right';
   var vT = v<0.18 ? 'moving TOWARD the camera — frontal composition'
     : v<0.38 ? 'slight angle toward camera — 3/4 view, face partially visible'
     : v<0.62 ? 'pure lateral — camera perpendicular to direction of movement'
     : v<0.82 ? 'slight angle away — rear 3/4, back partially visible'
     :           'moving AWAY from camera — backs to the lens';
-  return 'walking ' + hT + ', ' + vT + '. CRITICAL: every person faces this exact direction.';
+  return 'walking ' + hT + ', ' + vT + '. All figures share this general direction, but each person\'s exact stride phase, arm position, and body angle is naturally different — as it would be in a real photograph of people moving together.';
+}
+
+function getMoveLabel(px, py) {
+  var h = px/PAD_S, v = py/PAD_S;
+  var hi = 1 - h;
+  var hL = hi<0.1?'foto-izq total':hi<0.27?'foto-izq':hi<0.42?'diagonal foto-izq':hi<0.58?'hacia cámara':hi<0.73?'diagonal foto-der':hi<0.9?'foto-der':'foto-der total';
+  var vL = v<0.18?'frente':v<0.38?'3/4 frente':v<0.62?'lateral':v<0.82?'3/4 espalda':'espalda';
+  return hL + ' · ' + vL;
 }
 
 function getGazeText(px, py) {
@@ -1250,43 +999,13 @@ function getGazeText(px, py) {
     : v<0.68 ? 'gaze slightly below level — door handle or lower body'
     : v<0.85 ? 'gaze angled down — wheels or base of the vehicle'
     :           'gaze sharply down — ground or tires at the base';
-  return hT + '. ' + vT + '. All persons share this exact gaze direction.';
-}
-
-/* ── Etiquetas cortas para chips de preview ── */
-function getMoveLabel(px, py) {
-  var h = px/PAD_S, v = py/PAD_S;
-  var hL = h<0.1  ? 'perfil izq'
-    : h<0.27 ? 'izq leve'
-    : h<0.42 ? 'diagonal izq'
-    : h<0.58 ? 'hacia cámara'
-    : h<0.73 ? 'diagonal der'
-    : h<0.9  ? 'der leve'
-    :           'perfil der';
-  var vL = v<0.18 ? 'frente'
-    : v<0.38 ? '3/4 frente'
-    : v<0.62 ? 'lateral'
-    : v<0.82 ? '3/4 espalda'
-    :           'espalda';
-  return hL + ' · ' + vL;
+  return hT + '. ' + vT + '. Most persons share this general gaze, with slight individual variation in exact head position.';
 }
 
 function getGazeLabel(px, py) {
   var h = px/PAD_S, v = py/PAD_S;
-  var hL = h<0.12 ? 'izq total'
-    : h<0.3  ? 'izq'
-    : h<0.44 ? 'izq leve'
-    : h<0.56 ? 'al frente'
-    : h<0.7  ? 'der leve'
-    : h<0.88 ? 'der'
-    :           'der total';
-  var vL = v<0.15 ? 'muy arriba'
-    : v<0.32 ? 'arriba'
-    : v<0.46 ? 'leve arr'
-    : v<0.54 ? 'nivel'
-    : v<0.68 ? 'leve abj'
-    : v<0.85 ? 'abajo'
-    :           'muy abajo';
+  var hL = h<0.12?'izq total':h<0.3?'izq':h<0.44?'izq leve':h<0.56?'al frente':h<0.7?'der leve':h<0.88?'der':'der total';
+  var vL = v<0.15?'muy arriba':v<0.32?'arriba':v<0.46?'leve arr':v<0.54?'nivel':v<0.68?'leve abj':v<0.85?'abajo':'muy abajo';
   return hL + ' · ' + vL;
 }
 
@@ -1306,24 +1025,18 @@ function drawPadMove(canvas, px, py) {
   var S = PAD_S, ctx = canvas.getContext('2d'), c = getPadColors();
   var cx = S/2, cy = S/2;
   ctx.clearRect(0,0,S,S);
-
   ctx.fillStyle = c.bg; rrPad(ctx,0,0,S,S,12); ctx.fill();
 
-  /* suelo perspectiva */
   var vp = {x:cx, y:28};
   ctx.strokeStyle = c.line; ctx.lineWidth = 0.5;
   for (var xi=10; xi<=S-10; xi+=24) {
-    ctx.beginPath();
-    ctx.moveTo(vp.x+(xi-cx)*0.06, vp.y);
-    ctx.lineTo(xi, S-8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(vp.x+(xi-cx)*0.06, vp.y); ctx.lineTo(xi, S-8); ctx.stroke();
   }
   for (var yi=S-14; yi>S*0.45; yi-=20) {
     var sp = ((S-yi)/(S*0.55))*S*0.48;
-    ctx.beginPath();
-    ctx.moveTo(cx-sp,yi); ctx.lineTo(cx+sp,yi); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-sp,yi); ctx.lineTo(cx+sp,yi); ctx.stroke();
   }
 
-  /* marco de encuadre */
   var m=16;
   ctx.strokeStyle = c.borderM; ctx.lineWidth = 0.8;
   rrPad(ctx,m,m,S-m*2,S-m*2,4); ctx.stroke();
@@ -1331,12 +1044,9 @@ function drawPadMove(canvas, px, py) {
   ctx.strokeStyle = c.borderM; ctx.lineWidth = 2; ctx.lineCap = 'round';
   [[m,m],[S-m,m],[m,S-m],[S-m,S-m]].forEach(function(corner) {
     var bx=corner[0],by=corner[1],sx=bx===m?1:-1,sy=by===m?1:-1;
-    ctx.beginPath();
-    ctx.moveTo(bx+sx*cl,by); ctx.lineTo(bx,by); ctx.lineTo(bx,by+sy*cl);
-    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bx+sx*cl,by); ctx.lineTo(bx,by); ctx.lineTo(bx,by+sy*cl); ctx.stroke();
   });
 
-  /* tercios */
   ctx.strokeStyle = c.line; ctx.lineWidth = 0.4; ctx.setLineDash([2,5]);
   var tw=(S-m*2)/3;
   for (var ti=1;ti<=2;ti++) {
@@ -1345,22 +1055,20 @@ function drawPadMove(canvas, px, py) {
   }
   ctx.setLineDash([]);
 
-  /* etiquetas */
   ctx.font = '500 8px JetBrains Mono,monospace'; ctx.fillStyle = c.text;
-  ctx.textAlign='center'; ctx.textBaseline='top';    ctx.fillText('hacia cámara',cx,m+5);
-  ctx.textBaseline='bottom'; ctx.fillText('se aleja',cx,S-m-5);
-  ctx.textAlign='left'; ctx.textBaseline='middle';   ctx.fillText('izq',m+5,cy);
-  ctx.textAlign='right';                             ctx.fillText('der',S-m-5,cy);
+  ctx.textAlign='center'; ctx.textBaseline='top';    ctx.fillText('hacia cámara', cx, m+5);
+  ctx.textBaseline='bottom'; ctx.fillText('se aleja', cx, S-m-5);
+  ctx.textAlign='left'; ctx.textBaseline='middle';   ctx.fillText('← en foto', m+5, cy);
+  ctx.textAlign='right';                             ctx.fillText('en foto →', S-m-5, cy);
 
-  /* trail */
   var dx=px-cx, dy=py-cy, dist=Math.sqrt(dx*dx+dy*dy);
   if (dist>10) {
     for (var t=0.08;t<0.9;t+=0.07) {
       ctx.beginPath(); ctx.arc(cx+dx*t,cy+dy*t,2.2*(1-t),0,Math.PI*2);
       ctx.fillStyle='rgba(223,111,64,'+(0.2*(1-t))+')'; ctx.fill();
     }
-    var nx=dx/dist,ny=dy/dist,al=Math.min(dist-16,S*0.34);
-    var ex=cx+nx*al,ey=cy+ny*al;
+    var nx=dx/dist, ny=dy/dist, al=Math.min(dist-16,S*0.34);
+    var ex=cx+nx*al, ey=cy+ny*al;
     ctx.strokeStyle=c.orange; ctx.lineWidth=2; ctx.lineCap='round';
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(ex,ey); ctx.stroke();
     var ha=Math.atan2(dy,dx);
@@ -1372,7 +1080,6 @@ function drawPadMove(canvas, px, py) {
     ctx.stroke();
   }
 
-  /* figura pictograma señalética */
   var hPct=(px/S)*2-1, vPct=(py/S)*2-1;
   var tilt=hPct*0.22;
   ctx.save();
@@ -1380,17 +1087,14 @@ function drawPadMove(canvas, px, py) {
   var fc=c.figFill;
   ctx.beginPath(); ctx.ellipse(0,26,14,5,vPct*0.1,0,Math.PI*2);
   ctx.fillStyle=isDark?'rgba(0,0,0,0.35)':'rgba(0,0,0,0.09)'; ctx.fill();
-  ctx.beginPath(); ctx.arc(0,-26,8,0,Math.PI*2);
-  ctx.fillStyle=fc; ctx.fill();
-  rrPad(ctx,-7,-17,14,18,4);
-  ctx.fillStyle=fc; ctx.fill();
+  ctx.beginPath(); ctx.arc(0,-26,8,0,Math.PI*2); ctx.fillStyle=fc; ctx.fill();
+  rrPad(ctx,-7,-17,14,18,4); ctx.fillStyle=fc; ctx.fill();
   ctx.save(); ctx.translate(-4,2); ctx.rotate(-0.18);
   rrPad(ctx,-3.5,0,7,20,3.5); ctx.fillStyle=fc; ctx.fill(); ctx.restore();
   ctx.save(); ctx.translate(4,2); ctx.rotate(0.18);
   rrPad(ctx,-3.5,0,7,20,3.5); ctx.fillStyle=fc; ctx.fill(); ctx.restore();
   ctx.restore();
 
-  /* badge */
   ctx.fillStyle=isDark?'rgba(28,27,32,0.88)':'rgba(255,255,255,0.88)';
   rrPad(ctx,m+2,S-m-22,88,16,4); ctx.fill();
   ctx.font='500 8px JetBrains Mono,monospace'; ctx.fillStyle=c.text;
@@ -1472,14 +1176,14 @@ function padFromEvt(canvas,e,isMove){
     movePx=clampPad(cx*sx,4,PAD_S-4);
     movePy=clampPad(cy*sy,4,PAD_S-4);
     drawPadMove(moveCanvas,movePx,movePy);
-    document.getElementById('padResult').textContent='Movimiento: ' + getMoveText(movePx,movePy);
-    lastPadDragged = 'move';
+    document.getElementById('padResult').textContent='Movimiento: '+getMoveText(movePx,movePy);
+    lastPadDragged='move';
   } else {
     gazePx=clampPad(cx*sx,4,PAD_S-4);
     gazePy=clampPad(cy*sy,4,PAD_S-4);
     drawPadGaze(gazeCanvas,gazePx,gazePy);
-    document.getElementById('padResult').textContent='Mirada: ' + getGazeText(gazePx,gazePy);
-    lastPadDragged = 'gaze';
+    document.getElementById('padResult').textContent='Mirada: '+getGazeText(gazePx,gazePy);
+    lastPadDragged='gaze';
   }
   markModified();
 }
@@ -1496,18 +1200,31 @@ window.addEventListener('touchend',function(){padDragging=false;});
 drawPadMove(moveCanvas,movePx,movePy);
 drawPadGaze(gazeCanvas,gazePx,gazePy);
 
+/* ══════════════════════════════════════════════════════
+   INFLUENCIA — 5 niveles como tags
+   ══════════════════════════════════════════════════════ */
+var influenciaNivel = 2;
+
+document.querySelectorAll('.inf-tag-wrap').forEach(function(wrap) {
+  wrap.querySelector('.inf-tag').addEventListener('click', function() {
+    document.querySelectorAll('.inf-tag-wrap').forEach(function(w){ w.classList.remove('active'); });
+    wrap.classList.add('active');
+    influenciaNivel = parseInt(wrap.getAttribute('data-nivel'));
+    markModified();
+  });
+});
 
 /* ══════════════════════════════════════════════════════
-   DATOS — personas
+   DATOS
    ══════════════════════════════════════════════════════ */
 var lastPrompt = '';
 var activePreset = null;
-var hasGenerated = false; // para el punto de "modificado"
+var hasGenerated = false;
 
 var ageMinEl = document.getElementById('ageMin');
 var ageMaxEl = document.getElementById('ageMax');
 
-function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function rnd(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
 
 function updateAgeDisplay() {
   document.getElementById('ageMinVal').textContent = ageMinEl.value;
@@ -1516,142 +1233,230 @@ function updateAgeDisplay() {
 
 ageMinEl.addEventListener('input', function() {
   if (parseInt(ageMinEl.value) > parseInt(ageMaxEl.value)) ageMaxEl.value = ageMinEl.value;
-  updateAgeDisplay();
-  markModified();
+  updateAgeDisplay(); markModified();
 });
 ageMaxEl.addEventListener('input', function() {
   if (parseInt(ageMaxEl.value) < parseInt(ageMinEl.value)) ageMinEl.value = ageMaxEl.value;
-  updateAgeDisplay();
-  markModified();
+  updateAgeDisplay(); markModified();
 });
 
-/* ── Punto naranja de "configuración modificada" ── */
 function markModified() {
-  if (hasGenerated) {
-    document.getElementById('btnModifiedDot').classList.add('visible');
-  }
+  if (hasGenerated) document.getElementById('btnModifiedDot').classList.add('visible');
 }
-
 function clearModified() {
   document.getElementById('btnModifiedDot').classList.remove('visible');
 }
 
-/* Escuchar cambios en todos los campos de configuración */
-['paleta','energia','expresion','camAngle','camFrame','camLight'].forEach(function(id) {
+function activateCopyUI() {
+  document.getElementById('btnCopyWrap').classList.remove('copy-inactive');
+  document.getElementById('btnCopyWrap').classList.add('copy-active');
+  document.getElementById('btnRegen').classList.remove('disabled-copy');
+}
+function deactivateCopyUI() {
+  document.getElementById('btnCopyWrap').classList.remove('copy-active');
+  document.getElementById('btnCopyWrap').classList.add('copy-inactive');
+  document.getElementById('btnRegen').classList.add('disabled-copy');
+}
+
+['actividad','energia','expresion','camAngle','camFrame','camLight'].forEach(function(id){
   document.getElementById(id).addEventListener('change', markModified);
 });
 document.getElementById('extra').addEventListener('input', markModified);
 document.getElementById('escenarioCustom').addEventListener('input', markModified);
+document.getElementById('actividadCustom').addEventListener('input', markModified);
 
-/* Presets escenario */
+document.getElementById('actividad').addEventListener('change', function() {
+  var customField = document.getElementById('actividadCustom');
+  if (this.value === 'custom') {
+    customField.disabled = false; customField.style.opacity = '1'; customField.style.cursor = 'text'; customField.focus();
+  } else {
+    customField.disabled = true; customField.style.opacity = '0.35'; customField.style.cursor = 'not-allowed'; customField.value = '';
+  }
+  markModified();
+});
+
+var customWrap = document.getElementById('customWrap');
+var customToggle = document.getElementById('customToggle');
+var escenarioCustomEl = document.getElementById('escenarioCustom');
+var customActive = false;
+
+customToggle.addEventListener('click', function() {
+  customActive = !customActive;
+  if (customActive) {
+    customWrap.classList.add('active');
+    escenarioCustomEl.disabled = false; escenarioCustomEl.style.opacity = '1'; escenarioCustomEl.style.cursor = 'text'; escenarioCustomEl.focus();
+    if (activePreset) { activePreset.classList.remove('active'); activePreset = null; }
+  } else {
+    customWrap.classList.remove('active');
+    escenarioCustomEl.disabled = true; escenarioCustomEl.style.opacity = '0.35'; escenarioCustomEl.style.cursor = 'not-allowed'; escenarioCustomEl.value = '';
+  }
+  markModified();
+});
+
 var presetData = {
-  'solo':        { personas: [{ g: null }], hasKid: false, label: '1 persona' },
-  'dos':         { personas: [{ g: null }, { g: null }], hasKid: false, label: '2 personas' },
-  'pareja':      { personas: [{ g: 'mujer' }, { g: 'hombre' }], hasKid: false, label: 'pareja' },
-  'amigos':      { personas: [{ g: 'mujer' }, { g: 'hombre' }, { g: null }], hasKid: false, label: 'grupo de amigos' },
-  'amigas':      { personas: [{ g: 'mujer' }, { g: 'mujer' }, { g: 'mujer' }], hasKid: false, label: 'grupo de amigas' },
-  'familia':     { personas: [{ g: 'mujer' }, { g: 'hombre' }, { g: null }, { g: null }], hasKid: false, label: 'familia' },
-  'familia-nino':{ personas: [{ g: 'mujer' }, { g: 'hombre' }], hasKid: true, label: 'familia con niño' },
-  'dos-hombres': { personas: [{ g: 'hombre' }, { g: 'hombre' }], hasKid: false, label: '2 hombres' },
-  'dos-mujeres': { personas: [{ g: 'mujer' }, { g: 'mujer' }], hasKid: false, label: '2 mujeres' }
+  'solo':        { personas: [{g:null}], hasKid: false, label: '1 persona' },
+  'pareja':      { personas: [{g:'mujer'},{g:'hombre'}], hasKid: false, label: 'pareja' },
+  'amigos':      { personas: [{g:'mujer'},{g:'hombre'},{g:null}], hasKid: false, label: 'grupo de amigos' },
+  'amigas':      { personas: [{g:'mujer'},{g:'mujer'},{g:'mujer'}], hasKid: false, label: 'grupo de amigas' },
+  'familia':     { personas: [{g:'mujer'},{g:'hombre'},{g:null},{g:null}], hasKid: false, label: 'familia' },
+  'familia-nino':{ personas: [{g:'mujer'},{g:'hombre'}], hasKid: true, label: 'familia con niño' }
 };
 
-document.querySelectorAll('.escenario-tag-wrap').forEach(function(wrap) {
+document.querySelectorAll('.escenario-tag-wrap[data-preset]').forEach(function(wrap) {
   wrap.querySelector('.escenario-tag').addEventListener('click', function() {
     if (activePreset === wrap) {
-      wrap.classList.remove('active');
-      activePreset = null;
+      wrap.classList.remove('active'); activePreset = null;
     } else {
       if (activePreset) activePreset.classList.remove('active');
-      wrap.classList.add('active');
-      activePreset = wrap;
-      document.getElementById('escenarioCustom').value = '';
+      wrap.classList.add('active'); activePreset = wrap;
+      if (customActive) {
+        customActive = false; customWrap.classList.remove('active');
+        escenarioCustomEl.disabled = true; escenarioCustomEl.style.opacity = '0.35'; escenarioCustomEl.style.cursor = 'not-allowed'; escenarioCustomEl.value = '';
+      }
     }
     markModified();
   });
 });
 
-var builds = [
-  'lean and athletic build',
-  'average build, slightly athletic',
-  'fuller figure, confident and natural',
-  'slim build',
-  'compact and energetic build'
-];
-
-var tones = [
-  'light skin tone',
-  'light-medium skin tone',
-  'medium olive skin tone',
-  'warm medium skin tone',
-  'medium-dark skin tone'
-];
-
+var builds = ['lean and athletic build','average build, slightly athletic','fuller figure, confident and natural','slim build','compact and energetic build'];
+var tones = ['light skin tone','light-medium skin tone','medium olive skin tone','warm medium skin tone','medium-dark skin tone'];
 var cabellos = {
-  mujer: [
-    'dark straight hair, shoulder length, naturally smooth',
-    'dark wavy hair, mid-length, loose and natural',
-    'dark hair in a casual ponytail',
-    'short dark bob, clean cut',
-    'dark curly hair, medium length, voluminous',
-    'straight dark hair, long, worn loose'
-  ],
-  hombre: [
-    'short dark hair, clean fade cut',
-    'medium dark hair, slightly tousled, natural texture',
-    'short dark hair, neatly combed to the side',
-    'dark hair, short on sides, slightly longer on top',
-    'short dark hair, low fade, clean look'
-  ]
+  mujer: ['dark straight hair, shoulder length, naturally smooth','dark wavy hair, mid-length, loose and natural','dark hair in a casual ponytail','short dark bob, clean cut','dark curly hair, medium length, voluminous','straight dark hair, long, worn loose'],
+  hombre: ['short dark hair, clean fade cut','medium dark hair, slightly tousled, natural texture','short dark hair, neatly combed to the side','dark hair, short on sides, slightly longer on top','short dark hair, low fade, clean look']
 };
-
-var outfits = {
-  mujer: [
-    'high-waisted jeans + fitted plain t-shirt + clean white sneakers',
-    'casual midi skirt + tucked-in basic tee + flat sandals',
-    'straight-leg jeans + fitted sweatshirt + clean sneakers',
-    'relaxed cotton pants + simple blouse + loafers',
-    'jeans + lightweight zip-up hoodie + white sneakers',
-    'casual dress, knee-length, simple cut + sandals',
-    'leggings + oversized but fitted tee + sporty sneakers',
-    'wide-leg pants + plain fitted top + slip-on shoes'
-  ],
-  hombre: [
-    'clean dark jeans + plain crew-neck tee + white sneakers',
-    'chinos + simple button-down shirt, untucked + casual sneakers',
-    'jogger pants + basic polo shirt + clean trainers',
-    'straight jeans + plain hoodie + canvas sneakers',
-    'dark jeans + graphic-free sweatshirt + clean sneakers',
-    'chinos + tucked-in tee + loafers',
-    'casual shorts + plain t-shirt + sporty sneakers — if scenario fits'
-  ]
-};
-
-var accesorios = {
-  mujer: [
-    'a simple everyday watch',
-    'small stud earrings',
-    'a crossbody bag, casual style',
-    'a reusable tote bag',
-    'a baseball cap',
-    'no visible accessories — clean everyday look'
-  ],
-  hombre: [
-    'a casual everyday watch',
-    'a snapback or baseball cap',
-    'a simple backpack',
-    'earbuds or headphones around the neck',
-    'no visible accessories — simple clean look'
-  ]
-};
-
-var paletas = [
-  'negro + blanco roto','terracota + crema','azul cobalto + gris claro',
-  'verde olivo + camel','borgoña + nude','blanco total',
-  'gris + acento rojo','mostaza + gris antracita','azul marino + crema',
-  'rosa palo + beige','verde botella + blanco','lavanda + beige',
-  'chocolate + naranja quemado'
+var stridePhasesPool = [
+  'weight on left foot, right foot pushing off the ground, left arm swinging forward',
+  'mid-stride with right foot forward, torso slightly rotated, arms in natural opposing swing',
+  'both feet briefly near ground, slight forward lean, arms relaxed at sides',
+  'right leg extended forward landing on heel, left arm raised naturally in swing',
+  'quick step, weight shifting forward, slight upward bounce in movement',
+  'left knee lifted mid-step, torso upright, right arm raised in forward swing',
+  'walking with relaxed hip sway, arms loose and easy, slight head tilt',
+  'long confident stride, weight fully committed forward, chest open'
 ];
+
+var actividadData = {
+  ciudad: {
+    label: 'ciudad casual',
+    niveles: [
+      'Outfit: completely neutral everyday clothes — jeans, plain t-shirt, any sneakers. Zero activity coding.',
+      'Outfit: casual urban with one practical touch — clean sneakers suited for walking, or a light layer. Still mostly neutral.',
+      'Outfit: urban casual with city-practical elements — comfortable walking shoes, a light jacket, a practical crossbody bag. Functional for a day out.',
+      'Outfit: clearly city-dressed — technical walking shoes, windbreaker, crossbody bag, earbuds. Looks optimized for urban navigation.',
+      'Outfit: full urban explorer kit — technical walking shoes, crossbody bag, light windbreaker, earbuds in, transit card visible, phone mount or holder, reusable cup. Every detail chosen for maximum urban efficiency.'
+    ]
+  },
+  trabajo: {
+    label: 'trabajo casual',
+    niveles: [
+      'Outfit: completely casual — jeans, plain t-shirt, sneakers. No office coding at all.',
+      'Outfit: slightly put-together casual — clean jeans, a neat shirt or blouse. Could be work, could not be.',
+      'Outfit: smart casual with a work-ready feel — chinos or tailored pants, fitted shirt or blouse, clean leather or suede shoes.',
+      'Outfit: clearly smart casual office — structured chinos, fitted button-down or blouse, leather shoes, small work bag or tote visible.',
+      'Outfit: full smart casual professional — structured blazer over fitted tee, tailored trousers, leather dress shoes, leather bag with laptop sleeve visible, lanyard or badge peeking out. Every detail says "casual professional".'
+    ]
+  },
+  hiking: {
+    label: 'hiking / outdoor',
+    niveles: [
+      'Outfit: completely casual — jeans, plain t-shirt, regular sneakers. No hiking gear whatsoever.',
+      'Outfit: comfortable clothes that could work outdoors — joggers or cargo pants, plain t-shirt, clean sneakers.',
+      'Outfit: outdoor-ready — hiking pants or cargo shorts, moisture-wicking shirt, trail sneakers or light boots. Light layer tied around the waist.',
+      'Outfit: clearly hiking-dressed — technical trail pants, moisture-wicking long-sleeve, light boots, small daypack, sunglasses. Looks ready for a trail.',
+      'Outfit: full hiking kit — technical trail pants, moisture-wicking base layer, softshell jacket, proper hiking boots, trekking poles, hydration pack with tube visible, sun hat, UV sunglasses, trekking gloves, GPS watch.'
+    ]
+  },
+  playa: {
+    label: 'playa / alberca',
+    niveles: [
+      'Outfit: completely casual summer clothes — t-shirt, shorts, any sandals. No beach coding.',
+      'Outfit: light warm-weather clothes — shorts, a breezy top, sandals. Could be beach, could be just summer.',
+      'Outfit: beach-ready casual — linen shirt or breezy top, board shorts or light dress, flip-flops, sunglasses.',
+      'Outfit: clearly beach-going — swimsuit or bikini partially visible under open linen shirt, board shorts, flip-flops, sunglasses, small tote.',
+      'Outfit: full beach mode — swimsuit fully visible under open linen shirt, board shorts, flip-flops, sunglasses, sunscreen in hand, wide-brim straw hat, beach bag with towel rolled up, reusable water bottle.'
+    ]
+  },
+  vacaciones: {
+    label: 'vacaciones / turismo',
+    niveles: [
+      'Outfit: neutral comfortable casual — t-shirt, light pants or shorts, sneakers. No vacation coding.',
+      'Outfit: comfortable warm-weather casual — colorful or printed shirt, light pants, sneakers. A bit more relaxed than usual.',
+      'Outfit: tourist casual — printed or colorful shirt, comfortable shorts or light pants, walking sneakers or sandals. Camera or phone visible.',
+      'Outfit: clearly tourist-dressed — bright printed shirt, cargo shorts, walking sandals, small backpack, sunglasses, camera around neck.',
+      'Outfit: full tourist kit — tropical print shirt, cargo shorts with many pockets, sandals with socks, fanny pack around waist, DSLR camera around neck, sunglasses, city map or guidebook visible, wide-brim hat.'
+    ]
+  },
+  deporte: {
+    label: 'deporte / gym',
+    niveles: [
+      'Outfit: neutral casual — basic joggers or jeans, plain t-shirt, any sneakers. Could be gym, could not be.',
+      'Outfit: comfortable clothes that read slightly sporty — joggers or leggings, plain t-shirt, clean sneakers.',
+      'Outfit: athletic wear — fitted workout leggings or shorts, moisture-wicking sports top, running shoes. Looks actively sporty.',
+      'Outfit: clearly gym or sport-dressed — compression leggings or shorts, sports top, performance sneakers, water bottle in hand, gym bag.',
+      'Outfit: full performance athletic gear — compression tights, sport-specific ventilated top, high-performance running shoes, GPS sports watch, wireless earbuds, gym bag over shoulder, water bottle in hand, sweatband visible.'
+    ]
+  },
+  fiesta: {
+    label: 'fiesta / salida nocturna',
+    niveles: [
+      'Outfit: completely casual — jeans, plain t-shirt, sneakers. No night-out coding.',
+      'Outfit: slightly elevated casual — clean jeans, a neat shirt. A bit more put-together than usual.',
+      'Outfit: smart casual night-out — dark jeans or trousers, fitted shirt or stylish blouse, clean leather shoes or fashionable sneakers.',
+      'Outfit: clearly going out — stylish dark pants, statement shirt or blouse, fashionable shoes, small bag or clutch, jewelry visible.',
+      'Outfit: full going-out look — stylish dark pants, statement blouse or shirt with interesting texture, fashion shoes, evening bag or clutch, jewelry layered, hair styled, jacket or blazer over the outfit, perfume visible.'
+    ]
+  },
+  viaje: {
+    label: 'viaje / aeropuerto',
+    niveles: [
+      'Outfit: neutral comfortable casual — joggers or jeans, light top, sneakers. No travel coding.',
+      'Outfit: comfortable clothes good for sitting — soft pants or jeans, a light top, sneakers. Slightly practical.',
+      'Outfit: travel-ready layered look — comfortable dark pants, fitted t-shirt with open shirt over it, clean sneakers, small backpack.',
+      'Outfit: clearly travel-dressed — comfortable travel pants, fitted tee, packable layer, slip-on sneakers, carry-on bag, neck pillow attached.',
+      'Outfit: full airport traveler — compression socks, travel pants, merino wool t-shirt, packable puffer vest, slip-on sneakers, large rolling carry-on, passport holder visible, noise-cancelling headphones around neck, travel pillow clipped to bag.'
+    ]
+  },
+  mercado: {
+    label: 'mercado / tianguis',
+    niveles: [
+      'Outfit: neutral casual — jeans, plain t-shirt, flat shoes. No market coding.',
+      'Outfit: comfortable practical casual — jeans or comfortable pants, casual top, flat shoes or sneakers.',
+      'Outfit: colorful market-day casual — printed or bright top, comfortable pants or skirt, flat sandals or sneakers, a cloth bag or basket.',
+      'Outfit: clearly market-going — vibrant printed outfit, flat sandals, sun hat, large cloth tote or basket with items inside.',
+      'Outfit: full market enthusiast — vibrant printed outfit, a woven basket overflowing with produce, flat sandals, sun hat, fresh flowers or herbs visible, small coin purse in hand, colorful accessories layered.'
+    ]
+  },
+  parque: {
+    label: 'parque / picnic',
+    niveles: [
+      'Outfit: neutral casual — jeans or comfortable pants, t-shirt, sneakers. No park coding.',
+      'Outfit: relaxed comfortable clothes — light pants or jeans, casual top, comfortable shoes.',
+      'Outfit: relaxed outdoor casual — light cotton pants or flowy skirt, casual top, comfortable sandals or shoes. Sunglasses. Sweater tied around waist.',
+      'Outfit: clearly park or picnic-dressed — linen pants or sundress, espadrilles, sun hat, a tote bag with a rolled blanket visible.',
+      'Outfit: full picnic day — linen pants or sundress, espadrilles, wide-brim sun hat, blanket rolled under arm, wicker picnic basket, reusable cups and plates visible, wildflowers in hand.'
+    ]
+  },
+  escuela: {
+    label: 'escuela / campus',
+    niveles: [
+      'Outfit: neutral casual — jeans, plain t-shirt, sneakers. No campus coding.',
+      'Outfit: casual comfortable — jeans or chinos, basic t-shirt or hoodie, clean sneakers.',
+      'Outfit: student casual — jeans or chinos, graphic tee or hoodie, clean sneakers, school backpack over one shoulder.',
+      'Outfit: clearly campus-dressed — fitted jeans, university hoodie or varsity jacket, sneakers, large backpack loaded with books, travel coffee cup in hand.',
+      'Outfit: full campus look — jeans, university hoodie or varsity jacket, sneakers, backpack clearly loaded with books and laptop sleeve visible, travel coffee cup in hand, earbuds in, lanyard with student ID clipped to bag zipper.'
+    ]
+  },
+  'familia-domingo': {
+    label: 'familia dominguera',
+    niveles: [
+      'Outfit: neutral casual — jeans, casual tops, sneakers. No Sunday-outing coding.',
+      'Outfit: comfortable everyday casual — jeans or comfortable pants, warm-toned tops, sneakers.',
+      'Outfit: relaxed Sunday-casual — comfortable pants or jeans, warm-toned casual top, sneakers or loafers. Light jacket. Looks like a family day out.',
+      'Outfit: clearly dressed for a family outing — coordinated but not matching colors across the group, clean casual wear, light jackets, tote bag with snacks visible.',
+      'Outfit: full Sunday family outing — coordinated family color palette across everyone, clean pressed casual wear, light jackets, one person carrying a tote with water bottles and snacks, another with a kid\'s toy or jacket folded over arm.'
+    ]
+  }
+};
 
 var energias = {
   a: 'walking with a natural, confident stride — mid-step, weight shifted forward, arms swinging naturally, clothing relaxed and at ease',
@@ -1674,67 +1479,81 @@ var camAngleTexts = {
   low: 'Camera angle: slight low angle — camera at approximately 100cm height, subjects appear empowered and confident.',
   high: 'Camera angle: slight high angle — camera at approximately 200cm height, subjects appear in context and approachable.'
 };
-
 var camFrameTexts = {
   full: 'Framing: full body head-to-feet with generous negative space on all sides. Feet and top of head fully visible.',
   '34': 'Framing: three-quarter shot from mid-thigh upward. Generous negative space on sides and above.',
   med: 'Framing: medium shot from waist upward. Upper body, arms, and face fully visible.'
 };
-
 var camLightTexts = {
   studio: 'Lighting: soft studio light — diffused, even illumination from slightly above and in front. No harsh shadows. Clean and compositable.',
   natural: 'Lighting: natural outdoor light — soft daylight from above, warm tones, slight shadow under chin and arms. Consistent across all figures.',
   dramatic: 'Lighting: dramatic side light — strong directional source from one side, sculpts figures, cinematic quality. Consistent direction across all figures.'
 };
 
+/* ── ACTIVIDAD → texto de outfit según nivel (0-4) ── */
+var nivelesLabel = ['neutro', 'toque', 'marcado', 'temático', 'full gear'];
+
+function getActividadOutfitText() {
+  var actKey = document.getElementById('actividad').value;
+  var customAct = document.getElementById('actividadCustom').value.trim();
+  var data = actividadData[actKey];
+  var nivel = influenciaNivel;
+
+  var outfitText;
+  if (actKey === 'custom' || !data) {
+    var fallbacks = [
+      'Outfit: completely neutral everyday clothes — no activity reference whatsoever. Generic casual.',
+      'Outfit: casual clothes with one or two subtle hints of the activity context. Mostly neutral.',
+      'Outfit: clearly oriented toward the described activity — recognizable but not over the top.',
+      'Outfit: fully themed for the activity, with multiple specific accessories and activity-coded garments.',
+      'Outfit: maximum activity gear — every single detail screams the activity. Catalogue-level overdressed for context.'
+    ];
+    outfitText = fallbacks[nivel];
+  } else {
+    outfitText = data.niveles[nivel];
+  }
+
+  var actLabel = (actKey === 'custom' && customAct) ? customAct : (data ? data.label : actKey);
+  return { outfitText: outfitText, actLabel: actLabel, influenciaNivel: nivel, influenciaLabel: nivelesLabel[nivel] };
+}
+
 /* ── BUILD PERSONAS ── */
-function buildPersonaDesc(p, index, usedBuilds, usedTones, usedHairs, usedOutfits, usedAccs, ageMin, ageMax) {
+function buildPersonaDesc(p, index, usedBuilds, usedTones, usedHairs, usedStrides, ageMin, ageMax, outfitText) {
   var g = p.g || rnd(['mujer', 'hombre']);
 
-  var availBuilds = builds.filter(function(b) { return usedBuilds.indexOf(b) === -1; });
+  var availBuilds = builds.filter(function(b){ return usedBuilds.indexOf(b)===-1; });
   if (!availBuilds.length) availBuilds = builds.slice();
-  var build = rnd(availBuilds);
-  usedBuilds.push(build);
+  var build = rnd(availBuilds); usedBuilds.push(build);
 
-  var availTones = tones.filter(function(t) { return usedTones.indexOf(t) === -1; });
+  var availTones = tones.filter(function(t){ return usedTones.indexOf(t)===-1; });
   if (!availTones.length) availTones = tones.slice();
-  var tone = rnd(availTones);
-  usedTones.push(tone);
+  var tone = rnd(availTones); usedTones.push(tone);
 
-  var pool = cabellos[g].filter(function(h) { return usedHairs.indexOf(h) === -1; });
+  var pool = cabellos[g].filter(function(h){ return usedHairs.indexOf(h)===-1; });
   if (!pool.length) pool = cabellos[g].slice();
-  var cabello = rnd(pool);
-  usedHairs.push(cabello);
+  var cabello = rnd(pool); usedHairs.push(cabello);
 
-  var oPool = outfits[g].filter(function(o) { return usedOutfits.indexOf(o) === -1; });
-  if (!oPool.length) oPool = outfits[g].slice();
-  var outfit = rnd(oPool);
-  usedOutfits.push(outfit);
-
-  var aPool = accesorios[g].filter(function(a) { return usedAccs.indexOf(a) === -1; });
-  if (!aPool.length) aPool = accesorios[g].slice();
-  var acc = rnd(aPool);
-  usedAccs.push(acc);
+  var sPool = stridePhasesPool.filter(function(s){ return usedStrides.indexOf(s)===-1; });
+  if (!sPool.length) sPool = stridePhasesPool.slice();
+  var stride = rnd(sPool); usedStrides.push(stride);
 
   var sujeto = g === 'mujer' ? 'Woman' : 'Man';
   var label = 'Person ' + (index + 1);
 
-  return label + ' (' + sujeto + '): ' + ageMin + '–' + ageMax + ' years old, Mexican appearance, everyday urban middle-class style. ' + tone + ', ' + build + '. Hair: ' + cabello + '. Outfit: ' + outfit + '. Accessory: ' + acc + '.';
+  return label + ' (' + sujeto + '): ' + ageMin + '–' + ageMax + ' years old, Mexican appearance. ' + tone + ', ' + build + '. Hair: ' + cabello + '. ' + outfitText + ' Pose/stride: ' + stride + '.';
 }
 
 function buildPrompt() {
   var presetKey = activePreset ? activePreset.getAttribute('data-preset') : null;
   var customVal = document.getElementById('escenarioCustom').value.trim();
-
   if (!presetKey && !customVal) return null;
 
   var ageMin = parseInt(ageMinEl.value);
   var ageMax = parseInt(ageMaxEl.value);
   if (ageMin > ageMax) ageMax = ageMin;
 
-  var p_sel = document.getElementById('paleta').value;
-  var esVariado = p_sel === 'variado-calle';
-  var paleta = (p_sel === 'random') ? rnd(paletas) : (esVariado ? 'variado — colores de calle' : p_sel);
+  var actInfo = getActividadOutfitText();
+  var customAct = document.getElementById('actividadCustom').value.trim();
   var energia = energias[document.getElementById('energia').value];
   var expresion = expresiones[document.getElementById('expresion').value];
   var extra = document.getElementById('extra').value.trim();
@@ -1748,44 +1567,54 @@ function buildPrompt() {
   var camFrame = document.getElementById('camFrame').value;
   var camLight = document.getElementById('camLight').value;
 
-  var prompt = 'Photorealistic high-resolution image, print-ready 300 DPI, square 1:1 aspect ratio. Lifestyle editorial — natural and authentic, not luxury. Real people, approachable. Not stock photography.\n\n';
+  /* ── INSTRUCCIÓN DE ESCENA UNIFICADA (cambio 5A) ── */
+  var prompt = 'Single photograph. All subjects exist in the same real physical space, sharing a consistent ground plane, natural parallax, and unified depth of field. Shot in one take — not a composite of separate figures. Photorealistic, high-resolution, print-ready 300 DPI, square 1:1 aspect ratio. Lifestyle editorial — natural and authentic, not luxury. Real people, approachable. Not stock photography.\n\n';
+
+  if (customAct) {
+    prompt += 'CONTEXT / ACTIVITY: ' + customAct + '. Outfit influence level: ' + actInfo.influenciaLabel + ' — ' + actInfo.outfitText + '\n\n';
+  } else {
+    prompt += 'CONTEXT / ACTIVITY: ' + actInfo.actLabel + '. Outfit influence level: ' + actInfo.influenciaLabel + ' — ' + actInfo.outfitText + '\n\n';
+  }
 
   if (presetKey) {
     var scen = presetData[presetKey];
-    var usedBuilds = [], usedTones = [], usedHairs = [], usedOutfits = [], usedAccs = [];
+    var usedBuilds=[], usedTones=[], usedHairs=[], usedStrides=[];
 
-    prompt += 'SCENE: ' + scen.label.charAt(0).toUpperCase() + scen.label.slice(1) + '. ' + scen.personas.length + (scen.hasKid ? '+1' : '') + ' people total.\n\n';
-    prompt += 'MOVEMENT: All people are ' + moveText + '\n\n';
+    prompt += 'SCENE: ' + scen.label.charAt(0).toUpperCase() + scen.label.slice(1) + '. ' + scen.personas.length + (scen.hasKid?'+1':'') + ' people total.\n\n';
+
+    /* cambio 5B — dirección sin instrucción clónica */
+    prompt += 'MOVEMENT: All figures share the general direction of ' + moveText + '\n\n';
     prompt += 'GAZE: ' + gazeText + '\n\n';
-    prompt += 'ENERGY: Everyone is ' + energia + '. Captured mid-motion. Clothing shows natural movement.\n\n';
-    prompt += 'EXPRESSION: All expressions are ' + expresion + '.\n\n';
-    prompt += 'PEOPLE — each person must look visually distinct from the others (different build, skin tone, hair, facial features):\n';
+    prompt += 'ENERGY: Everyone is ' + energia + '. Clothing shows natural movement.\n\n';
+    prompt += 'EXPRESSION: ' + expresion + '.\n\n';
+    prompt += 'PEOPLE — each person must look visually distinct (different build, skin tone, hair, facial features). Each person has a unique stride phase and body position, as in a real photograph:\n';
 
     scen.personas.forEach(function(p, i) {
-      prompt += buildPersonaDesc(p, i, usedBuilds, usedTones, usedHairs, usedOutfits, usedAccs, ageMin, ageMax) + '\n';
+      prompt += buildPersonaDesc(p, i, usedBuilds, usedTones, usedHairs, usedStrides, ageMin, ageMax, actInfo.outfitText) + '\n';
     });
 
     if (scen.hasKid) {
-      prompt += 'Person ' + (scen.personas.length + 1) + ' (Child): 5–8 years old, Mexican appearance, light to medium skin tone. Hair: dark, naturally styled. Outfit: casual kids clothing in coordinated colors.\n';
+      var kidStride = rnd(stridePhasesPool.filter(function(s){ return usedStrides.indexOf(s)===-1; }) || stridePhasesPool);
+      prompt += 'Person ' + (scen.personas.length+1) + ' (Child): 5–8 years old, Mexican appearance, light to medium skin tone. Dark hair, naturally styled. Casual kids clothing. Pose: ' + kidStride + '\n';
     }
 
   } else {
+    var usedBuilds2=[], usedTones2=[], usedHairs2=[], usedStrides2=[];
     prompt += 'SCENE: ' + customVal + '.\n\n';
-    prompt += 'MOVEMENT: All people are ' + moveText + '\n\n';
+    prompt += 'MOVEMENT: All figures share the general direction of ' + moveText + '\n\n';
     prompt += 'GAZE: ' + gazeText + '\n\n';
-    prompt += 'ENERGY: Everyone is ' + energia + '. Captured mid-motion. Clothing shows natural movement.\n\n';
+    prompt += 'ENERGY: Everyone is ' + energia + '. Clothing shows natural movement.\n\n';
     prompt += 'EXPRESSION: ' + expresion + '.\n\n';
-    prompt += 'PEOPLE: Each person ' + ageMin + '–' + ageMax + ' years old (unless the scenario specifies otherwise), Mexican appearance, everyday urban middle-class. Each individual must look clearly distinct — different build, skin tone, hair style.\n';
+    prompt += 'PEOPLE: Each person ' + ageMin + '–' + ageMax + ' years old, Mexican appearance, everyday urban middle-class. Each individual must look clearly distinct — different build, skin tone, hair style, and unique stride phase:\n';
+    /* para custom sin número definido, generamos 3 personas por default */
+    for (var ci=0; ci<3; ci++) {
+      prompt += buildPersonaDesc({g:null}, ci, usedBuilds2, usedTones2, usedHairs2, usedStrides2, ageMin, ageMax, actInfo.outfitText) + '\n';
+    }
   }
 
-  if (esVariado) {
-    prompt += '\nOUTFIT COLORS: Each person wears a completely different base color — no two people share the same color family. All colors must be everyday street-level tones you would realistically see on any given day: muted blues (navy, mid-blue, dusty blue), whites, off-whites, greys, olive green, beige, sand, burgundy, terracotta, black, soft coral. Absolutely no bright, saturated, neon, or attention-grabbing colors. No matching or coordinating between people — each person dressed independently, as if they chose their outfit on their own that morning. No visible logos or brand marks.\n\n';
-  } else {
-    prompt += '\nCOLOR PALETTE for all outfits: ' + paleta + '. Looks are coordinated but individually distinct. No visible logos or brand marks. Fabrics look comfortable and real.\n\n';
-  }
-  prompt += camLightTexts[camLight] + '\n\n';
+  prompt += '\n' + camLightTexts[camLight] + '\n\n';
   prompt += camAngleTexts[camAngle] + ' ' + camFrameTexts[camFrame] + '\n\n';
-  prompt += 'COMPOSITING NOTE: Consistent camera angle, focal length, and lighting direction across all figures — designed to be composited or placed side-by-side with other renders from this same session.\n\n';
+  prompt += 'COMPOSITING: Consistent camera angle, focal length (85mm equivalent), and lighting direction across all figures.\n\n';
   prompt += 'SHADOW: A single natural ground shadow under each person, anchored at the feet. Essential for compositing.\n\n';
   prompt += 'BACKGROUND: Absolute pure white (#FFFFFF). No texture, no gradient. Full body visible, generous negative space on both sides.';
 
@@ -1794,7 +1623,8 @@ function buildPrompt() {
   return {
     prompt: prompt,
     label: presetKey ? presetData[presetKey].label : customVal.slice(0, 30),
-    paleta: paleta,
+    actividad: actInfo.actLabel,
+    influenciaLabel: actInfo.influenciaLabel,
     ages: ageMin + '–' + ageMax,
     moveLbl: moveLbl,
     gazeLbl: gazeLbl
@@ -1804,30 +1634,26 @@ function buildPrompt() {
 function renderPreview(result) {
   var el = document.getElementById('previewPrompt');
   var ch = document.getElementById('previewChips');
-
   if (!result) {
     el.textContent = 'Elige un escenario y presiona Generar...';
-    el.classList.add('empty');
-    ch.innerHTML = '';
-    return;
+    el.classList.add('empty'); ch.innerHTML = ''; return;
   }
-
   el.textContent = result.prompt;
   el.classList.remove('empty');
   lastPrompt = result.prompt;
-
   ch.innerHTML = [
-    { key: 'escenario', val: result.label },
-    { key: 'paleta',    val: result.paleta },
-    { key: 'edades',    val: result.ages + ' años' },
-    { key: 'movimiento',val: result.moveLbl },
-    { key: 'mirada',    val: result.gazeLbl }
+    { key: 'escenario',  val: result.label },
+    { key: 'actividad',  val: result.actividad },
+    { key: 'influencia', val: result.influenciaLabel },
+    { key: 'edades',     val: result.ages + ' años' },
+    { key: 'movimiento', val: result.moveLbl },
+    { key: 'mirada',     val: result.gazeLbl }
   ].map(function(c) {
     return '<span class="chip"><span class="chip-key">' + c.key + '</span>' + c.val + '</span>';
   }).join('');
 }
 
-/* ── HISTORIAL — localStorage, max 5 entradas ── */
+/* ── HISTORIAL ── */
 var STORAGE_KEY = 'stampede_v7_jac4';
 
 function saveToHistory(text, label) {
@@ -1844,36 +1670,23 @@ function renderHistory() {
   try { history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) {}
   var container = document.getElementById('historyList');
   var card = document.getElementById('historialCard');
-
-  if (!history.length) {
-    card.style.display = 'none';
-    return;
-  }
-
+  if (!history.length) { card.style.display = 'none'; return; }
   card.style.display = 'block';
   container.innerHTML = '';
-
   history.forEach(function(item) {
     var div = document.createElement('div');
     div.className = 'history-item';
-
     var previewText = item.label || item.text.slice(0, 60);
-
     div.innerHTML =
       '<span class="history-item-text">' + escapeHtml(previewText) + '</span>' +
-      '<svg class="history-item-copy" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
-        '<rect x="4" y="4" width="8" height="8" rx="1.5"/>' +
-        '<path d="M9 4V2.5A1.5 1.5 0 0 0 7.5 1H2.5A1.5 1.5 0 0 0 1 2.5v5A1.5 1.5 0 0 0 2.5 9H4"/>' +
-      '</svg>';
-
+      '<svg class="history-item-copy" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M9 4V2.5A1.5 1.5 0 0 0 7.5 1H2.5A1.5 1.5 0 0 0 1 2.5v5A1.5 1.5 0 0 0 2.5 9H4"/></svg>';
     div.addEventListener('click', function() {
       navigator.clipboard.writeText(item.text).then(function() {
         playSeal();
         div.style.borderColor = 'rgba(52,39,95,0.4)';
-        setTimeout(function() { div.style.borderColor = ''; }, 1200);
+        setTimeout(function(){ div.style.borderColor=''; }, 1200);
       });
     });
-
     container.appendChild(div);
   });
 }
@@ -1882,46 +1695,24 @@ function escapeHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ── SONIDO AL COPIAR — Web Audio API ── */
+/* ── SONIDO ── */
 function playSeal() {
   try {
     var ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-    var osc1 = ctx.createOscillator();
-    var gain1 = ctx.createGain();
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(880, ctx.currentTime);
-    osc1.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.18);
-    gain1.gain.setValueAtTime(0.18, ctx.currentTime);
-    gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
-    osc1.connect(gain1); gain1.connect(ctx.destination);
-    osc1.start(ctx.currentTime); osc1.stop(ctx.currentTime + 0.22);
-
-    var osc2 = ctx.createOscillator();
-    var gain2 = ctx.createGain();
-    osc2.type = 'triangle';
-    osc2.frequency.setValueAtTime(1320, ctx.currentTime);
-    osc2.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.15);
-    gain2.gain.setValueAtTime(0.10, ctx.currentTime);
-    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
-    osc2.connect(gain2); gain2.connect(ctx.destination);
-    osc2.start(ctx.currentTime); osc2.stop(ctx.currentTime + 0.18);
-
-    var bufferSize = ctx.sampleRate * 0.08;
-    var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    var data = buffer.getChannelData(0);
-    for (var i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-    var noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-    var filter = ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 1200;
-    filter.Q.value = 0.8;
-    var gainN = ctx.createGain();
-    gainN.gain.setValueAtTime(0.08, ctx.currentTime);
-    gainN.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-    noise.connect(filter); filter.connect(gainN); gainN.connect(ctx.destination);
-    noise.start(ctx.currentTime); noise.stop(ctx.currentTime + 0.08);
+    var osc1=ctx.createOscillator(), gain1=ctx.createGain();
+    osc1.type='sine'; osc1.frequency.setValueAtTime(880,ctx.currentTime); osc1.frequency.exponentialRampToValueAtTime(440,ctx.currentTime+0.18);
+    gain1.gain.setValueAtTime(0.18,ctx.currentTime); gain1.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.22);
+    osc1.connect(gain1); gain1.connect(ctx.destination); osc1.start(ctx.currentTime); osc1.stop(ctx.currentTime+0.22);
+    var osc2=ctx.createOscillator(), gain2=ctx.createGain();
+    osc2.type='triangle'; osc2.frequency.setValueAtTime(1320,ctx.currentTime); osc2.frequency.exponentialRampToValueAtTime(660,ctx.currentTime+0.15);
+    gain2.gain.setValueAtTime(0.10,ctx.currentTime); gain2.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.18);
+    osc2.connect(gain2); gain2.connect(ctx.destination); osc2.start(ctx.currentTime); osc2.stop(ctx.currentTime+0.18);
+    var bufferSize=ctx.sampleRate*0.08, buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate), data=buffer.getChannelData(0);
+    for(var i=0;i<bufferSize;i++) data[i]=Math.random()*2-1;
+    var noise=ctx.createBufferSource(); noise.buffer=buffer;
+    var filter=ctx.createBiquadFilter(); filter.type='bandpass'; filter.frequency.value=1200; filter.Q.value=0.8;
+    var gainN=ctx.createGain(); gainN.gain.setValueAtTime(0.08,ctx.currentTime); gainN.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.08);
+    noise.connect(filter); filter.connect(gainN); gainN.connect(ctx.destination); noise.start(ctx.currentTime); noise.stop(ctx.currentTime+0.08);
   } catch(e) {}
 }
 
@@ -1930,72 +1721,73 @@ document.getElementById('btnGen').addEventListener('click', function() {
   var result = buildPrompt();
   if (!result) {
     this.classList.add('shake');
-    var s = this;
-    setTimeout(function() { s.classList.remove('shake'); }, 450);
+    var s=this; setTimeout(function(){ s.classList.remove('shake'); }, 450);
     return;
   }
   renderPreview(result);
-  saveToHistory(result.prompt, result.label + ' · ' + result.ages + 'a · ' + result.moveLbl);
+  saveToHistory(result.prompt, result.label + ' · ' + result.actividad + ' · ' + result.influenciaLabel + ' · ' + result.ages + 'a');
   hasGenerated = true;
   clearModified();
+  activateCopyUI();
 });
 
 document.getElementById('btnRegen').addEventListener('click', function() {
   var result = buildPrompt();
-  if (!result) {
-    this.classList.add('shake');
-    var s = this;
-    setTimeout(function() { s.classList.remove('shake'); }, 450);
-    return;
-  }
-  /* misma config, personas rerandomizadas — buildPrompt ya randomiza */
+  if (!result) return;
   renderPreview(result);
-  saveToHistory(result.prompt, result.label + ' · ' + result.ages + 'a · ' + result.moveLbl);
+  saveToHistory(result.prompt, result.label + ' · ' + result.actividad + ' · ' + result.influenciaLabel + ' · ' + result.ages + 'a');
   hasGenerated = true;
   clearModified();
 });
 
 document.getElementById('btnCopy').addEventListener('click', function() {
-  if (!lastPrompt) {
-    this.classList.add('shake');
-    var s = this;
-    setTimeout(function() { s.classList.remove('shake'); }, 450);
-    return;
-  }
-  var btn = this, orig = btn.innerHTML;
+  if (!lastPrompt) return;
+  var btn=this, orig=btn.innerHTML;
   navigator.clipboard.writeText(lastPrompt).then(function() {
     playSeal();
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,7 5.5,10.5 12,4"/></svg> Copiado';
+    btn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,7 5.5,10.5 12,4"/></svg> Copiado';
     btn.classList.add('copied');
-    setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1600);
+    setTimeout(function(){ btn.innerHTML=orig; btn.classList.remove('copied'); }, 1600);
   });
 });
 
 document.getElementById('btnClear').addEventListener('click', function() {
-  if (activePreset) { activePreset.classList.remove('active'); activePreset = null; }
-  document.getElementById('escenarioCustom').value = '';
-  document.getElementById('paleta').value = 'random';
+  /* presets escenario */
+  if (activePreset) { activePreset.classList.remove('active'); activePreset=null; }
+  /* custom escenario */
+  customActive = false;
+  customWrap.classList.remove('active');
+  escenarioCustomEl.disabled = true;
+  escenarioCustomEl.style.opacity = '0.35';
+  escenarioCustomEl.style.cursor = 'not-allowed';
+  escenarioCustomEl.value = '';
+  /* actividad */
+  document.getElementById('actividad').value = 'ciudad';
+  var actCustom = document.getElementById('actividadCustom');
+  actCustom.disabled = true; actCustom.style.opacity = '0.35'; actCustom.style.cursor = 'not-allowed'; actCustom.value = '';
+  /* influencia — reset a Marcado (nivel 2) */
+  influenciaNivel = 2;
+  document.querySelectorAll('.inf-tag-wrap').forEach(function(w) { w.classList.remove('active'); });
+  document.querySelector('.inf-tag-wrap[data-nivel="2"]').classList.add('active');
+  /* resto */
   document.getElementById('energia').value = 'a';
   document.getElementById('expresion').value = 'mix';
   document.getElementById('extra').value = '';
   document.getElementById('camAngle').value = 'eye';
   document.getElementById('camFrame').value = 'full';
   document.getElementById('camLight').value = 'studio';
-  ageMinEl.value = 28; ageMaxEl.value = 40; updateAgeDisplay();
-  movePx = PAD_S/2; movePy = PAD_S/2;
-  gazePx = PAD_S/2; gazePy = PAD_S/2;
+  ageMinEl.value=28; ageMaxEl.value=40; updateAgeDisplay();
+  movePx=PAD_S/2; movePy=PAD_S/2; gazePx=PAD_S/2; gazePy=PAD_S/2;
   drawPadMove(moveCanvas,movePx,movePy);
   drawPadGaze(gazeCanvas,gazePx,gazePy);
-  document.getElementById('padResult').textContent = 'Arrastra en cualquiera de los pads — el texto del prompt aparece aquí.';
-  lastPrompt = '';
-  hasGenerated = false;
-  clearModified();
+  document.getElementById('padResult').textContent='Arrastra en cualquiera de los pads — el texto del prompt aparece aquí.';
+  lastPrompt=''; hasGenerated=false;
+  clearModified(); deactivateCopyUI();
   renderPreview(null);
 });
 
-/* Inicializar historial al cargar */
 renderHistory();
-
 </script>
+
 </body>
 </html>
